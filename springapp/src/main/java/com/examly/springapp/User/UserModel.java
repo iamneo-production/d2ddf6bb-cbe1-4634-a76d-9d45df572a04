@@ -1,4 +1,4 @@
-// package com.examly.springapp.User;
+package com.examly.springapp.User;
 
 // import javax.persistence.Entity;
 // import javax.persistence.GeneratedValue;
