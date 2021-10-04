@@ -1,3 +1,3 @@
-public class ProductController {
+public class ProductService {
     
 }

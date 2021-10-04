@@ -1,3 +1,3 @@
-public class OrderController {
+public class OrderRepository {
     
 }

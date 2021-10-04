@@ -1,3 +1,3 @@
-public class LoginController {
+public class LoginRepository {
     
 }

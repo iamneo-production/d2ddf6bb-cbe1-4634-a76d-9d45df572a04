@@ -1,3 +1,3 @@
-public class SignupController {
+public class SignupService {
     
 }
