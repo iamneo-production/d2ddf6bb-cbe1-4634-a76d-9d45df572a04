@@ -1,10 +1,13 @@
 package com.examly.springapp.model;
 
 import java.util.Objects;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 @Table(name = "userModel")
@@ -16,6 +19,9 @@ public class UserModel {
     private String mobileNumber;
     private Boolean active;
     private String role;
+	//private CartModel cart;
+	@OneToMany(mappedBy = "userId")
+	private List<OrderModel> orderList;
     
 	public String getEmail() {
 		return email;
@@ -53,6 +59,12 @@ public class UserModel {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	public List<OrderModel> getOrderList() {
+		return orderList;
+	}
+	public void setOrderList(List<OrderModel> orderList) {
+		this.orderList = orderList;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(active, email, mobileNumber, password, role, username);
@@ -70,6 +82,8 @@ public class UserModel {
 				&& Objects.equals(mobileNumber, other.mobileNumber) && Objects.equals(password, other.password)
 				&& Objects.equals(role, other.role) && Objects.equals(username, other.username);
 	}
+	
+	
 	
     
 }

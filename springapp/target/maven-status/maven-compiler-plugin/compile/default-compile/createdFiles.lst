@@ -11,7 +11,7 @@ CartController.class
 OrderRepository.class
 CartRepository.class
 LoginModel.class
-CartModel.class
+com/examly/springapp/model/CartModel.class
 com/examly/springapp/model/ProductModel.class
 OrderController.class
 SignupController.class

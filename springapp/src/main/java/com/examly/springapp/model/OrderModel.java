@@ -1,17 +1,21 @@
 package com.examly.springapp.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Table(name = "orderModel")
-public class OrderModel {
+public class OrderModel implements Serializable{
     
     @Id
     private String orderId;
+
+	@ManyToOne(targetEntity = UserModel.class)
     private String userId;
     private String productName;
     private int quantity;
