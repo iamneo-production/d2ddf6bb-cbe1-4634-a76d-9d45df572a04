@@ -13,6 +13,8 @@ import AddProduct from './pages/admin/AddProduct';
 import AdminHome from './pages/admin/AdminHome';
 import AllOrders from './pages/admin/AllOrders';
 import EditProduct from './pages/admin/EditProduct';
+import Product from './pages/user/Product';
+import SidebarDemo from './pages/SideBarDemo';
 
 function App() {
 
@@ -52,6 +54,9 @@ function App() {
             userType === 'user' ? (
               <>
                 <Switch>
+                  <Route path="/sidebar">
+                    <SidebarDemo />
+                  </Route>
                   <Route path="/cart">
                     <Cart/>
                   </Route>
@@ -60,6 +65,9 @@ function App() {
                   </Route>
                   <Route path="/orders">
                     <Orders/>
+                  </Route>
+                  <Route path="/product/:productId">
+                    <Product />
                   </Route>
                   <Route path="/home">
                     <UserHome/>
