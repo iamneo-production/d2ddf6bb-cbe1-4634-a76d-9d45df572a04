@@ -1,8 +1,8 @@
-ProductController.class
 LoginService.class
 com/examly/springapp/ProductRepository.class
-com/examly/springapp/model/OrderModel.class
 com/examly/springapp/SpringappApplication.class
+com/examly/springapp/model/OrderModel.class
+com/examly/springapp/ProductController.class
 ProductService.class
 OrderService.class
 SignupService.class
