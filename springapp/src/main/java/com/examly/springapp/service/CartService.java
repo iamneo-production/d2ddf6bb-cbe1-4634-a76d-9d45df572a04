@@ -1,10 +1,12 @@
-package com.examply.springapp.service;
+package com.examly.springapp.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.examly.springapp.repository.CartRepository;
-import com.examly.springapp.serivce.ProductService;
+import com.examly.springapp.model.CartModel;
+import com.examly.springapp.model.ProductModel;
+import java.util.List;
 
 @Service
 public class CartService {
@@ -17,15 +19,15 @@ public class CartService {
     public void addToCart(String quantity, String id) {
         // functional requirement last point.
         if (numberOfProducts == 5) return;
-        ProductMode product = productEditData(id);
-        int available = Integer.parseInt(product.quantity), asked = Integer.parseInt(quantity);
-        // do not have enough items
-        if (available < asked) return;
+        // ProductModel product = productEditData(id);
+        // int available = Integer.parseInt(product.getQuantity()), asked = Integer.parseInt(quantity);
+        // // do not have enough items
+        // if (available < asked) return;
         CartModel cartItem = new CartModel();
-        cartItem.setProductName(product.getProductName());
-        cartItem.setQuantity(asked);
-        cartItem.setPrice(Integer.parseInt(product.price()));
-        cartRepository.save(cartItem);
+        // cartItem.setProductName(product.getProductName());
+        // cartItem.setQuantity(asked);
+        // cartItem.setPrice(Integer.parseInt(product.getPrice()));
+        // cartRepository.save(cartItem);
     }
 
     /* 
@@ -39,6 +41,6 @@ public class CartService {
     }
 
     public void deleteCartItem(String id) {
-        cartRepository.delete(id);
+        cartRepository.deleteById(id);
     }
 }
