@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './App.css';
 import { useStateValue } from './utils/StateProvider';
 import { actionTypes } from "./utils/Reducer";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Login from './pages/Login';
 import Cart from './pages/user/Cart';
