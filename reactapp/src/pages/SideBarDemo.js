@@ -1,15 +1,16 @@
 import { useStateValue } from '../utils/StateProvider';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
+import ProductCard from '../components/ProductCard';
 import { actionTypes, SortBy } from '../utils/Reducer';
-import { Box, Stack, Grid, Card, CardMedia, CardActions, CardContent, Typography, Button, Fab } from '@mui/material';
+import { Box, Stack, Grid, Typography, Fab } from '@mui/material';
 import { Icon } from '@iconify/react';
+import { useHistory } from 'react-router-dom';
 
 function SidebarDemo() {
     // get filter state and products
     let [{ filter, products }, dispatch] = useStateValue();
-    console.log(filter)
-    console.log(products)
+    
     products = products.filter(product => {
         if (filter.productName !== '' && product.productName.indexOf(filter.productName) === -1) {
             return false;
@@ -57,6 +58,8 @@ function SidebarDemo() {
         }
     });
 
+    const history = useHistory();
+
     return (
         <Box sx={{ textAlign: 'left' }}>
             <Navbar />
@@ -66,27 +69,7 @@ function SidebarDemo() {
                     <Grid container spacing={3}>
                         {products.map((product, i) => {
                             return <Grid item xs={6} sm={4} lg={4} xl={3} key={i}>
-                                <Card raised elevation={3}>
-                                    <CardMedia
-                                        component="img"
-                                        height="160"
-                                        image={product.imageUrl}
-                                        alt={product.productName}
-                                        sx={{ objectFit: 'contain', pt: '1rem' }}
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="body1" component="div">
-                                            {product.productName}
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            ₹{product.price}
-                                        </Typography>                                 
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button size="small">View</Button>
-                                        <Button size="small">Add to Cart</Button>
-                                    </CardActions>
-                                </Card>
+                                <ProductCard product={product} />
                             </Grid>
                         })}                        
                     </Grid>
