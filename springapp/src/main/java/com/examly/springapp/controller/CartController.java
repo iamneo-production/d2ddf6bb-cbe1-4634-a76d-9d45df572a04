@@ -1,6 +1,7 @@
 package com.examly.springapp.controller;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.examly.springapp.service.CartService;
 import com.examly.springapp.model.CartModel;
@@ -25,8 +26,8 @@ public class CartController {
         should only add if that much available
      */
     @RequestMapping(method=RequestMethod.POST, value="/home/{id}")
-    public void addToCart(String quantity, @PathVariable String id) {
-        cartService.addToCart(quantity, id);
+    public ResponseEntity<String> addToCart(String quantity, @PathVariable String id) {
+        return cartService.addToCart(quantity, id);
     }
 
     /*
@@ -43,7 +44,7 @@ public class CartController {
         could be passed as request body
     */
     @RequestMapping(method=RequestMethod.DELETE, value="/cart/delete")
-    public void deleteCartItem(@RequestBody String id) {
-        cartService.deleteCartItem(id);
+    public ResponseEntity<String> deleteCartItem(@RequestBody String id) {
+        return cartService.deleteCartItem(id);
     }
 }
