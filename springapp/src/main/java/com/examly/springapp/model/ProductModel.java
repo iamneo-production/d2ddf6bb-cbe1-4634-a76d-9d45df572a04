@@ -17,7 +17,20 @@ public class ProductModel {
     private String price;
     private String description;
     private String quantity;
+
+	public ProductModel(){
+		
+	}
     
+	public ProductModel(String productId, String imageUrl, String productName, String price, String description, String quantity) {
+		super();
+		this.productId = productId;
+		this.imageUrl = imageUrl;
+		this.productName = productName;
+		this.price = price;
+		this.description = description;
+		this.quantity = quantity;
+	}
 	public String getProductId() {
 		return productId;
 	}
