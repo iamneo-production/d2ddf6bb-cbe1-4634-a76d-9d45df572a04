@@ -39,7 +39,7 @@ public class CartService {
         //      badRequest().
         //      body(String.format("Cannot add more than %s %s in the cart", product.getQuantity(), product.getName()));
         // }
-        CartModel cartItem = new CartModel();
+        // CartModel cartItem = new CartModel();
         // cartItem.setProductName(product.getProductName());
         // cartItem.setQuantity(asked);
         // cartItem.setPrice(Integer.parseInt(product.getPrice()));
@@ -48,7 +48,7 @@ public class CartService {
         // product.setQuantity(new String (available - asked));
         // productEditSave(product);
         // return ResponseEntity.ok(String.format("%s %s added to cart", quantity, product.getName()));
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok("To be implemented");
     }
 
     /* 
@@ -64,7 +64,7 @@ public class CartService {
         id is of CartModel
      */
     public ResponseEntity<String> deleteCartItem(String id) {
-        if (!cartRepository.existsById(id)) return ResponseEntity.badRequest().body("Cart Item does not exist.")
+        if (!cartRepository.existsById(id)) return ResponseEntity.badRequest().body("Cart Item does not exist.");
         cartRepository.deleteById(id);
         return ResponseEntity.ok("Cart Item deleted.");
     }
