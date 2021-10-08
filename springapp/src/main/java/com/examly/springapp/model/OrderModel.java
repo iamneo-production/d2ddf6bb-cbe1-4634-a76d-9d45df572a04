@@ -1,6 +1,5 @@
 package com.examly.springapp.model;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -10,7 +9,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Table(name = "orderModel")
-public class OrderModel implements Serializable{
+public class OrderModel{
     
     @Id
     private String orderId;
@@ -22,8 +21,22 @@ public class OrderModel implements Serializable{
     private String totalPrice;
     private String status;
     private String price;
+
+	public OrderModel(){
+
+	}
     
-    public String getOrderId() {
+    public OrderModel(String orderId, String userId, String productName, int quantity, String totalPrice, String status, String price) {
+		super();
+		this.orderId = orderId;
+		this.userId = userId;
+		this.productName = productName;
+		this.quantity = quantity;
+		this.totalPrice = totalPrice;
+		this.status = status;
+		this.price = price;
+	}
+	public String getOrderId() {
 		return orderId;
 	}
 	public void setOrderId(String orderId) {
