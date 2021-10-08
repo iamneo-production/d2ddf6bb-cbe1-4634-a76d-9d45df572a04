@@ -14,9 +14,7 @@ public class CartModel{
 
     @Id
     private String cartItemId;
-
-	@OneToOne()
-    private UserModel userId;
+    private String userEmail;
     private String productName;
     private int quantity;
     private String price;
@@ -25,10 +23,10 @@ public class CartModel{
         
     }
 
-	public CartModel(String cartItemId, UserModel userId, String productName, int quantity, String price) {
+	public CartModel(String cartItemId, String userEmail, String productName, int quantity, String price) {
 		super();
 		this.cartItemId = cartItemId;
-		this.userId = userId;
+		this.userEmail = userEmail;
 		this.productName = productName;
 		this.quantity = quantity;
 		this.price = price;
@@ -40,11 +38,11 @@ public class CartModel{
 	public void setCartItemId(String cartItemId) {
 		this.cartItemId = cartItemId;
 	}
-	public UserModel getUserId() {
-		return userId;
+	public String getUserEmail() {
+		return userEmail;
 	}
-	public void setUserId(UserModel userId) {
-		this.userId = userId;
+	public void setUserId(String userEmail) {
+		this.userEmail = userEmail;
 	}
 	public String getProductName() {
 		return productName;

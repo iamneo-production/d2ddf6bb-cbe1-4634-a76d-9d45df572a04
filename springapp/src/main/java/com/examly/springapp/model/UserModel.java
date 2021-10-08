@@ -24,9 +24,9 @@ public class UserModel {
     private String mobileNumber;
     private Boolean active;
     private String role;
-	@OneToOne()
-	@JoinColumn(name = "email", referencedColumnName = "userId")
-	private CartModel cart;
+	@OneToMany(mappedBy = "userEmail")
+	private List<CartModel> cart;
+	
 	@OneToMany(mappedBy = "userId")
 	private List<OrderModel> orderList;
 
@@ -34,9 +34,8 @@ public class UserModel {
 		
 	}
 	
-	public UserModel(String email, String password, String username, String mobileNumber, Boolean active, String role, CartModel cart, List<OrderModel> orderList) {
+	public UserModel(String email, String password, String username, String mobileNumber, Boolean active, String role, List<CartModel> cart, List<OrderModel> orderList) {
 		super();
-		this.email = email;
 		this.password = password;
 		this.username = username;
 		this.mobileNumber = mobileNumber;
@@ -82,10 +81,10 @@ public class UserModel {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public CartModel getCart() {
+	public List<CartModel> getCart() {
 		return cart;
 	}
-	public void setCart(CartModel cart) {
+	public void setCart(List<CartModel> cart) {
 		this.cart = cart;
 	}
 	public List<OrderModel> getOrderList() {
