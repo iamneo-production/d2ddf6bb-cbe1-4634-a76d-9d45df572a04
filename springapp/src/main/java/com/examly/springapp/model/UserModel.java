@@ -3,15 +3,16 @@ package com.examly.springapp.model;
 import java.util.Objects;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import com.examly.springapp.model.CartModel;
 import com.examly.springapp.model.OrderModel;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+
 
 @Entity
 @Table(name = "userModel")
@@ -23,7 +24,8 @@ public class UserModel {
     private String mobileNumber;
     private Boolean active;
     private String role;
-	@OneToMany(mappedBy = "userId")
+	@OneToOne()
+	@JoinColumn(name = "email", referencedColumnName = "userId")
 	private CartModel cart;
 	@OneToMany(mappedBy = "userId")
 	private List<OrderModel> orderList;

@@ -4,11 +4,9 @@ import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import com.examly.springapp.model.UserModel;
-
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 @Table(name = "cartModel")
@@ -16,8 +14,8 @@ public class CartModel{
 
     @Id
     private String cartItemId;
-    
-    @ManyToOne(targetEntity=UserModel.class)
+
+	@OneToOne()
     private UserModel userId;
     private String productName;
     private int quantity;

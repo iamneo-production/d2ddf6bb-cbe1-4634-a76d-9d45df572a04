@@ -2,7 +2,13 @@ package com.examly.springapp.model;
 
 import java.util.Objects;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
+
+
 @Entity
 @Table(name = "loginModel")
 public class LoginModel {
