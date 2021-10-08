@@ -2,14 +2,19 @@ package com.examly.springapp.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import java.util.List;
 import com.examly.springapp.model.OrderModel;
+import com.examly.springapp.model.CartModel;
+import com.examly.springapp.repository.OrderRepository;
 
 @Service
 public class OrderService {
     
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private CartService cartService;
 
     /*
     i. List<OrderTemp> getUserProducts(String id): This method helps to
@@ -30,7 +35,7 @@ public class OrderService {
         Assuming the id is userId
      */
     public ResponseEntity<String> saveProduct(String id) {
-        List<CartModel> cartItems = showCart(id);
+        List<CartModel> cartItems = cartService.showCart(id);
         for (CartModel cartItem : cartItems) {
             OrderModel order = getOrderAndRemoveFromCart(cartItem, id);
             placeOrder(order);
@@ -49,14 +54,14 @@ public class OrderService {
 
     private OrderModel getOrderAndRemoveFromCart(CartModel cartItem, String id) {
         OrderModel order = new OrderModel();
-        order.setUserId(id);
-        order.setProductName(cartItem.getProductName());
-        order.setQuantity(cartItem.getQuantity());
-        int price = cartItem.getPrice(), quantity = cartItem.getQuantity();
-        order.setTotalPrice(new String(price*quantity));
-        order.setStatus();
-        order.setPrice(cartItem.getPrice());
-        deleteCartItem(cartItem.getId());
+        // order.setUserId(id);
+        // order.setProductName(cartItem.getProductName());
+        // order.setQuantity(cartItem.getQuantity());
+        // int price = cartItem.getPrice(), quantity = cartItem.getQuantity();
+        // order.setTotalPrice(Integer.toString(price*quantity));
+        // order.setStatus("Ordered");
+        // order.setPrice(cartItem.getPrice());
+        // deleteCartItem(cartItem.getId());
         return order;
     }
 }
