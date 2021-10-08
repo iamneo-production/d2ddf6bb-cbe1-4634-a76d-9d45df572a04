@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useStateValue } from "../utils/StateProvider";
 import { actionTypes } from "../utils/Reducer";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
