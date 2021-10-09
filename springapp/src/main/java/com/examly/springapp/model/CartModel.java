@@ -14,7 +14,7 @@ public class CartModel{
 
     @Id
     private String cartItemId;
-    private String userEmail;
+    private String userId;
     private String productName;
     private int quantity;
     private String price;
@@ -23,10 +23,10 @@ public class CartModel{
         
     }
 
-	public CartModel(String cartItemId, String userEmail, String productName, int quantity, String price) {
+	public CartModel(String cartItemId, String userId, String productName, int quantity, String price) {
 		super();
 		this.cartItemId = cartItemId;
-		this.userEmail = userEmail;
+		this.userId = userId;
 		this.productName = productName;
 		this.quantity = quantity;
 		this.price = price;
@@ -38,11 +38,11 @@ public class CartModel{
 	public void setCartItemId(String cartItemId) {
 		this.cartItemId = cartItemId;
 	}
-	public String getUserEmail() {
-		return userEmail;
+	public String getuserId() {
+		return userId;
 	}
-	public void setUserId(String userEmail) {
-		this.userEmail = userEmail;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getProductName() {
 		return productName;
