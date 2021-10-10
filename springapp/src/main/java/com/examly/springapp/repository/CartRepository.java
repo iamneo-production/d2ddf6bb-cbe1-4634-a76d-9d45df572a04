@@ -10,6 +10,6 @@ public interface CartRepository extends CrudRepository<CartModel, String> {
     /*
     userId : UserModel is attribute in CartMode, email is id of UserModel
      */
-    List<CartModel> findAllByUserIdEmail(String id);
+    List<CartModel> findAllByUserId_Email(String id);
 
 }
