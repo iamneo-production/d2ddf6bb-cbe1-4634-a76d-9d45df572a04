@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './App.css';
 import { useStateValue } from './utils/StateProvider';
 import { actionTypes } from "./utils/Reducer";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Login from './pages/Login';
 import Cart from './pages/user/Cart';
@@ -13,6 +13,8 @@ import AddProduct from './pages/admin/AddProduct';
 import AdminHome from './pages/admin/AdminHome';
 import AllOrders from './pages/admin/AllOrders';
 import EditProduct from './pages/admin/EditProduct';
+import Product from './pages/user/Product';
+import SidebarDemo from './pages/SideBarDemo';
 
 function App() {
 
@@ -52,6 +54,9 @@ function App() {
             userType === 'user' ? (
               <>
                 <Switch>
+                  <Route path="/sidebar">
+                    <SidebarDemo />
+                  </Route>
                   <Route path="/cart">
                     <Cart/>
                   </Route>
@@ -60,6 +65,9 @@ function App() {
                   </Route>
                   <Route path="/orders">
                     <Orders/>
+                  </Route>
+                  <Route path="/product/:productId">
+                    <Product />
                   </Route>
                   <Route path="/home">
                     <UserHome/>
