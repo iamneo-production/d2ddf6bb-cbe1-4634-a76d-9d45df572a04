@@ -33,10 +33,10 @@ function Login() {
         <div style={{display : 'flex' , justifyContent : 'center' , alignItems : 'center' , height : '100vh'}}>
             <div style={{display : 'flex' , flexDirection : 'column' , marginRight : '40px'}}>
                 <h1 style = {{marginBottom : '10px'}} >LOGIN</h1>
-                <Input placeholder = "Email" type = "email" value = {email} onChange = {(e)=>setEmail(e.target.value)} style ={{margin : '10px'}} />
-                <Input placeholder = "Password" type = "password" value = {password} onChange = {(e) => setPassword(e.target.value)} style = {{margin : '10px'}}/>
-                <Button variant = 'contained' onClick = {onSubmit} style = {{margin : '10px'}} >LOGIN</Button>
-                <div>New to Bookstore? <a href='/signup'>Click here</a></div>
+                <Input id = 'email' placeholder = "Email" type = "email" value = {email} onChange = {(e)=>setEmail(e.target.value)} style ={{margin : '10px'}} />
+                <Input id = 'password' placeholder = "Password" type = "password" value = {password} onChange = {(e) => setPassword(e.target.value)} style = {{margin : '10px'}}/>
+                <Button id = 'submitButton' variant = 'contained' onClick = {onSubmit} style = {{margin : '10px'}} >LOGIN</Button>
+                <div>New to Bookstore? <a id="signupLink" href='/signup'>Click here</a></div>
             </div>
             <div style = {{marginLeft : '40px'}}>
               <img src = {loginImage}/>
