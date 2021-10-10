@@ -1,10 +1,18 @@
 import Navbar from "../../components/Navbar";
+import Datatable from "../../components/Datatable";
+import styled from 'styled-components';
+
+const Title = styled.h2`
+    margin-top: 10px;
+`
 
 function Cart() {
     return (
         <div>
             <Navbar/>
-            <h2>Cart</h2>
+            <Title>Cart</Title>
+            <br/>
+            <Datatable type="cart" id="mobileCartBody" />
         </div>
     )
 }

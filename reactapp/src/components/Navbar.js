@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useStateValue } from "../utils/StateProvider";
 import { actionTypes } from "../utils/Reducer";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  padding: 10px 20px;
+  padding: 5px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
