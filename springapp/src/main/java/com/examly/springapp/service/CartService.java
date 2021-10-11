@@ -56,7 +56,8 @@ public class CartService {
       thus updating numberOfProducts to its correct value.
      */
     public List<CartModel> showCart(String id) {
-        List<CartModel> cart = cartRepository.findAllByUserId_Email(id);
+        List<CartModel> cart = cartRepository.findAllByUserId(id);
+
         return cart;
     }
 
