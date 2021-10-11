@@ -1,4 +1,4 @@
-package com.examly.springapp;
+package com.examly.springapp.controller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,12 +27,16 @@ public class ProductController {
     @RequestMapping("/product/{id}")
     public ProductModel getProduct(@PathVariable String id)
     {
-        return productService.getProduct();
+        
+        return productService.getProduct(id);
+
     }
 
     @PostMapping("/addProduct")
     public ProductModel addProduct(@RequestBody ProductModel newProduct)
-    {
+
+    {   System.out.println(newProduct);
+
         return productService.addProduct(newProduct);
     }
 
