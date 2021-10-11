@@ -12,4 +12,5 @@ public interface CartRepository extends CrudRepository<CartModel, String> {
      */
     List<CartModel> findAllByUserId(String id);
 
+
 }
