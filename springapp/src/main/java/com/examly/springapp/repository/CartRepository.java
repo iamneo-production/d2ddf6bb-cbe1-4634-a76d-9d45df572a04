@@ -1,11 +1,8 @@
 package com.examly.springapp.repository;
 
 import org.springframework.data.repository.CrudRepository;
-<<<<<<< HEAD
 import com.examly.springapp.model.CartModel;
 import java.util.List;
-=======
->>>>>>> a2ceb76 (Implement CartController, CartRepository and CartService.)
 
 public interface CartRepository extends CrudRepository<CartModel, String> {
 
@@ -13,10 +10,6 @@ public interface CartRepository extends CrudRepository<CartModel, String> {
     /*
     userId : UserModel is attribute in CartMode, email is id of UserModel
      */
-    List<CartModel> findAllByUserIdEmail(String id);
+    List<CartModel> findAllByUserId_Email(String id);
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a2ceb76 (Implement CartController, CartRepository and CartService.)
