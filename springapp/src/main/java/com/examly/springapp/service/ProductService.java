@@ -46,7 +46,7 @@ public class ProductService {
 
        
         
-        productRepository.save(new ProductModel("1234","abcd","vivo","!200","xyz","1"));
+        productRepository.save(product);
         return product;      
 
         //Dbwork;
