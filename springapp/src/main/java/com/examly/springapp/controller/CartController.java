@@ -5,7 +5,7 @@ import org.springframework.http.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.examly.springapp.service.CartService;
 import com.examly.springapp.model.CartModel;
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class CartController {

@@ -1,13 +1,11 @@
 package com.examly.springapp.service;
-
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-
 import com.examly.springapp.repository.CartRepository;
 import com.examly.springapp.model.CartModel;
 import com.examly.springapp.model.ProductModel;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CartService {
