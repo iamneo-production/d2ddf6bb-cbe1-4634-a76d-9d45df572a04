@@ -1,3 +1,4 @@
+
 package com.examly.springapp.service;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -5,13 +6,26 @@ import org.springframework.http.*;
 import com.examly.springapp.repository.CartRepository;
 import com.examly.springapp.model.CartModel;
 import com.examly.springapp.model.ProductModel;
+
 import java.util.*;
+
+import java.util.List;
+
+package com.examply.springapp.service;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.examly.springapp.repository.CartRepository;
+import com.examly.springapp.serivce.ProductService;
+
 
 @Service
 public class CartService {
 
     @Autowired
     private CartRepository cartRepository;
+
 
     /*
     i. addToCart(String Quantity, String id): This method helps the customer
@@ -47,6 +61,22 @@ public class CartService {
         // productEditSave(product);
         // return ResponseEntity.ok(String.format("%s %s added to cart", quantity, product.getName()));
         return ResponseEntity.ok("To be implemented");
+
+    private int numberOfProducts = 0;
+    
+    public void addToCart(String quantity, String id) {
+        // functional requirement last point.
+        if (numberOfProducts == 5) return;
+        ProductMode product = productEditData(id);
+        int available = Integer.parseInt(product.quantity), asked = Integer.parseInt(quantity);
+        // do not have enough items
+        if (available < asked) return;
+        CartModel cartItem = new CartModel();
+        cartItem.setProductName(product.getProductName());
+        cartItem.setQuantity(asked);
+        cartItem.setPrice(Integer.parseInt(product.price()));
+        cartRepository.save(cartItem);
+
     }
 
     /* 
@@ -55,6 +85,7 @@ public class CartService {
      */
     public List<CartModel> showCart(String id) {
         List<CartModel> cart = cartRepository.findAllByUserIdEmail(id);
+
         return cart;
     }
 
@@ -67,3 +98,13 @@ public class CartService {
         return ResponseEntity.ok("Cart Item deleted.");
     }
 }
+
+        numberOfProducts = cart.size();
+        return cart;
+    }
+
+    public void deleteCartItem(String id) {
+        cartRepository.delete(id);
+    }
+}
+

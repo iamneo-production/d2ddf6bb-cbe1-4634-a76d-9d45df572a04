@@ -29,11 +29,14 @@ public class ProductController {
     {
         
         return productService.getProduct(id);
+
     }
 
     @PostMapping("/addProduct")
     public ProductModel addProduct(@RequestBody ProductModel newProduct)
+
     {   System.out.println(newProduct);
+
         return productService.addProduct(newProduct);
     }
 

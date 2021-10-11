@@ -1,7 +1,8 @@
 import {default as Table} from 'react-data-table-component';
 import styled from 'styled-components';
 import { useStateValue } from "../utils/StateProvider";
-import { MdRemove, MdAdd, MdDelete, MdDone } from "react-icons/md";
+import { MdRemove, MdAdd, MdDelete, MdDone, MdBolt } from "react-icons/md";
+import { FaBolt } from "react-icons/fa";
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button'
 import { createTheme } from '@mui/material/styles';
@@ -376,17 +377,18 @@ const ComponentImg = styled.img`
 `
 
 const ButtonContainer = styled.div`
-    margin: 10px;
+    margin: 2px;
 `
 
 const theme = createTheme({
     palette: {
       primary: {
-        main: '#24e7cd',
+        main: '#B1D8B7',
         darker: '#00BFA6',
       },
     },
-  });
+});
+
 
 const OrderDetails = ({ data }) => 
     <pre>
@@ -429,15 +431,26 @@ const CartDetails = ({ data }) =>
                         </IconButton>
                     </Detail>
                     <Detail>Total Price: &#8377; {parseInt(data.price.replace(/[^0-9]/g, '')) * parseInt(data.quantity) + 100}</Detail>
-
-                    <Button 
-                        style={{"margin-top":"10px", "padding": "10px 5px", "width": "fit-content"}} 
-                        color="error" 
-                        startIcon={<MdDelete />}
-                        onClick={() => removeItem(data.id)}
-                    >
-                        Remove Item
-                    </Button>
+                    <ButtonContainer>
+                        <Button 
+                            style={{"margin-top":"10px", "margin-right":"10px", "padding": "7px 15px", "width": "fit-content"}} 
+                            color="primary" 
+                            variant="contained"
+                            startIcon={<FaBolt />}
+                            onClick={() => placeOrder()}
+                        >
+                            Buy Now
+                        </Button>
+                        <Button 
+                            style={{"margin-top":"10px", "padding": "7px 15px", "width": "fit-content"}} 
+                            color="error" 
+                            variant="outlined"
+                            startIcon={<MdDelete />}
+                            onClick={() => removeItem(data.id)}
+                        >
+                            Remove Item
+                        </Button>
+                    </ButtonContainer>
                 </Wrapper>
             </Right>
             
@@ -445,7 +458,7 @@ const CartDetails = ({ data }) =>
     </pre>;
 
 function handleClick (type) {
-    if(type == 'add'){
+    if(type === 'add'){
         alert('Item added.')
     }else{
         alert('Item removed.')
