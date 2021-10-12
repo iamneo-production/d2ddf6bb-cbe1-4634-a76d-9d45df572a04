@@ -57,6 +57,7 @@ public class CartService {
      */
     public List<CartModel> showCart(String id) {
         List<CartModel> cart = cartRepository.findAllByUserId(id);
+
         return cart;
     }
 

@@ -5,6 +5,7 @@ import { actionTypes } from "./utils/Reducer";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Login from './pages/Login';
+import Signup from './pages/Signup'
 import Cart from './pages/user/Cart';
 import OrderPreview from './pages/user/OrderPreview';
 import Orders from './pages/user/Orders'
@@ -45,9 +46,14 @@ function App() {
     <div className="App">
       <Router>
         {!user ? (
-          <Route path="/">
-            <Login/>
-          </Route>
+          <Switch>
+            <Route exact path = "/signup">
+              <Signup/>
+            </Route>
+            <Route path="/">
+              <Login/>
+            </Route>
+          </Switch>
         ):(
           <>
           {
