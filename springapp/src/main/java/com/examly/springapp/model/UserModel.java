@@ -12,13 +12,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.JoinColumn;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 
 @Entity
 @Table(name = "userModel")
 public class UserModel {
     @Id
-	private String userId;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long userId;
     private String email;
     private String password;
     private String username;
@@ -35,7 +38,7 @@ public class UserModel {
 		
 	}
 
-	public UserModel(String userId, String email, String password, String username, String mobileNumber, Boolean active,
+	public UserModel(Long userId, String email, String password, String username, String mobileNumber, Boolean active,
 			String role, List<CartModel> cart, List<OrderModel> orderList) {
 		super();
 		this.userId = userId;
@@ -49,11 +52,23 @@ public class UserModel {
 		this.orderList = orderList;
 	}
 
-	public String getId() {
+	public UserModel(Long userId, String email, String password, String username, String mobileNumber, Boolean active,
+			String role) {
+		super();
+		this.userId = userId;
+		this.email = email;
+		this.password = password;
+		this.username = username;
+		this.mobileNumber = mobileNumber;
+		this.active = active;
+		this.role = role;
+	}
+
+	public Long getId() {
 		return userId;
 	}
 
-	public void setId(String userId) {
+	public void setId(Long userId){
 		this.userId = userId;
 	}
 
@@ -123,7 +138,7 @@ public class UserModel {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(active, email, userId, mobileNumber, password, role, username);
+		return Objects.hash(active, email, mobileNumber, password, role, username);
 	}
 
 	@Override
@@ -135,9 +150,11 @@ public class UserModel {
 		if (getClass() != obj.getClass())
 			return false;
 		UserModel other = (UserModel) obj;
-		return Objects.equals(active, other.active) && Objects.equals(email, other.email)
-				&& Objects.equals(userId, other.userId) && Objects.equals(mobileNumber, other.mobileNumber)
-				&& Objects.equals(password, other.password) && Objects.equals(role, other.role)
+		return Objects.equals(active, other.active) 
+				&& Objects.equals(email, other.email)
+				&& Objects.equals(mobileNumber, other.mobileNumber) 
+				&& Objects.equals(password, other.password) 
+				&& Objects.equals(role, other.role)
 				&& Objects.equals(username, other.username);
 	}
 	

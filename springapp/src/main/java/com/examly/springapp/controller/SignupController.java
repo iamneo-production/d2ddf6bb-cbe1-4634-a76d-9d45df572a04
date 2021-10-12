@@ -17,8 +17,16 @@ public class SignupController {
     private SignupService signupService;
 
     @PostMapping("/signup")
-    public void saveUser(@RequestBody UserModel user){
-        if(!signupService.isUserPresent(user.getEmail()));
+    public boolean saveUser(@RequestBody UserModel user){
+        if(!signupService.isUserPresent(user.getEmail())){
             signupService.saveUser(user);
+            return true;
+        }
+        return false;
     }
+
+    /*@RequestMapping("/getsignup")
+    public List<UserModel> getUsers(){
+        return signupService.getUsers();
+    }*/
 }

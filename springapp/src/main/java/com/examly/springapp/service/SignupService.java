@@ -20,4 +20,13 @@ public class SignupService {
     public void saveUser(UserModel user){
         signupRepository.save(user);
     }
+
+    /*public List<UserModel> getUsers(){
+        var it = signupRepository.findAll();
+
+        var users = new ArrayList<UserModel>();
+        it.forEach(e -> users.add(e));
+
+        return users;
+    }*/
 }

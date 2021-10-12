@@ -15,7 +15,7 @@ public class OrderModel{
     private String orderId;
 
 	@ManyToOne(targetEntity = UserModel.class)
-    private String userId;
+    private Long userId;
     private String productName;
     private int quantity;
     private String totalPrice;
@@ -27,7 +27,7 @@ public class OrderModel{
 
 	}
 
-	public OrderModel(String orderId, String userId, String productName, int quantity, String totalPrice, String status,
+	public OrderModel(String orderId, Long userId, String productName, int quantity, String totalPrice, String status,
 			String price, String orderedDate) {
 		super();
 		this.orderId = orderId;
@@ -48,11 +48,11 @@ public class OrderModel{
 		this.orderId = orderId;
 	}
 
-	public String getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
