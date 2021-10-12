@@ -9,13 +9,12 @@ import Signup from './pages/Signup'
 import Cart from './pages/user/Cart';
 import OrderPreview from './pages/user/OrderPreview';
 import Orders from './pages/user/Orders'
-import UserHome from './pages/user/UserHome';
 import AddProduct from './pages/admin/AddProduct';
 import AdminHome from './pages/admin/AdminHome';
 import AllOrders from './pages/admin/AllOrders';
 import EditProduct from './pages/admin/EditProduct';
 import Product from './pages/user/Product';
-import SidebarDemo from './pages/SideBarDemo';
+import DashBoard from './pages/user/DashBoard';
 
 function App() {
 
@@ -60,9 +59,6 @@ function App() {
             userType === 'user' ? (
               <>
                 <Switch>
-                  <Route path="/sidebar">
-                    <SidebarDemo />
-                  </Route>
                   <Route path="/cart">
                     <Cart/>
                   </Route>
@@ -76,7 +72,7 @@ function App() {
                     <Product />
                   </Route>
                   <Route path="/home">
-                    <UserHome/>
+                    <DashBoard/>
                   </Route>
                   <Route exact path="/">
                     <Redirect to="/home" />
