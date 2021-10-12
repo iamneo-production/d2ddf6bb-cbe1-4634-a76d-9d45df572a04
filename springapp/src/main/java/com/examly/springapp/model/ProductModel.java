@@ -1,6 +1,7 @@
 package com.examly.springapp.model;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -12,7 +13,7 @@ import javax.persistence.Id;
 public class ProductModel {
     
     @Id
-    private String productId;
+    private String productId = UUID.randomUUID().toString();
     private String imageUrl;
     private String productName;
     private String price;
@@ -25,10 +26,9 @@ public class ProductModel {
 	}
 	
 
-	public ProductModel(String productId, String imageUrl, String productName, String price, String description,
+	public ProductModel(String imageUrl, String productName, String price, String description,
 			String quantity, String manufacturedDate) {
 		super();
-		this.productId = productId;
 		this.imageUrl = imageUrl;
 		this.productName = productName;
 		this.price = price;
