@@ -15,6 +15,7 @@ public class CartModel{
     @Id
     private String cartItemId;
     private Long userId;
+	private String productId;
     private String productName;
     private int quantity;
     private String price;
@@ -23,10 +24,11 @@ public class CartModel{
         
     }
 
-	public CartModel(String cartItemId, Long userId, String productName, int quantity, String price) {
+	public CartModel(String cartItemId, Long userId, String productId, String productName, int quantity, String price) {
 		super();
 		this.cartItemId = cartItemId;
 		this.userId = userId;
+		this.productId = productId;
 		this.productName = productName;
 		this.quantity = quantity;
 		this.price = price;
@@ -43,6 +45,12 @@ public class CartModel{
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	public String getProductId(){
+		return productId;
+	}
+	public void setProductId(String productId){
+		this.productId = productId;
 	}
 	public String getProductName() {
 		return productName;
