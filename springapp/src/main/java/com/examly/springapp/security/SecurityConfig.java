@@ -15,15 +15,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import com.examly.springapp.model.UserModel;
+import org.springframework.http.HttpMethod;
+import com.examly.springapp.service.AuthService;
+import com.examly.springapp.repository.UserRepository;
+import java.util.Arrays;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserModel userModel;
+    private final UserRepository userRepository;
     private final JwtTokenFilter jwtTokenFilter;
 
-    public SecurityConfig(UserModel userModel, JwtTokenFilter jwtTokenFilter) {
-        this.userModel = userModel;
+    public SecurityConfig(UserRepository userRepository, JwtTokenFilter jwtTokenFilter) {
+        this.userRepository = userRepository;
         this.jwtTokenFilter = jwtTokenFilter;
     }
 
@@ -40,13 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(email -> this.userModel
-            .findByEmail(email)
-            .orElseThrow(
-                () -> new UsernameNotFoundException(
-                    String.format("User: %s, not found", email)
-                )
-            ));
+        auth.userDetailsService(email -> this.userRepository.findByEmail(email));
     }
 
     @Override
@@ -75,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Set permissions on endpoints
         http.authorizeRequests()
-            //.antMatchers(HttpMethod.GET, "/api/book/**").permitAll()
+            .antMatchers(HttpMethod.POST, "/login").permitAll()
             //.antMatchers(HttpMethod.POST, "/api/book/search").permitAll()
             // Our private endpoints
             .anyRequest().authenticated();
@@ -93,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
+        config.setAllowedOriginPatterns(Arrays.asList("*"));
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);

@@ -22,7 +22,7 @@ public class LoginController {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginModel request) {
         try {
             Authentication authenticate = authenticationManager
@@ -31,9 +31,7 @@ public class LoginController {
                         request.getEmail(), request.getPassword()
                     )
                 );
-
             UserModel user = (UserModel) authenticate.getPrincipal();
-
             return ResponseEntity.ok()
                 .header(
                     HttpHeaders.AUTHORIZATION,
@@ -41,7 +39,11 @@ public class LoginController {
                 )
                 .body("true");
         } catch (BadCredentialsException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("false");
+            return new ResponseEntity<String>("false", HttpStatus.UNAUTHORIZED);
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<String>("false", HttpStatus.UNAUTHORIZED);
         }
     }
 
