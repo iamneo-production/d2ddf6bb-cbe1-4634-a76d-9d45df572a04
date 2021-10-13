@@ -8,12 +8,15 @@ import com.examly.springapp.repository.CartRepository;
 import com.examly.springapp.model.CartModel;
 import com.examly.springapp.model.ProductModel;
 import java.util.List;
+import java.util.concurrent.atomic.LongAccumulator;
 
 @Service
 public class CartService {
 
     @Autowired
     private CartRepository cartRepository;
+    @Autowired
+    private ProductService productService;
 
     /*
     i. addToCart(String Quantity, String id): This method helps the customer
@@ -29,33 +32,41 @@ public class CartService {
         should only add if that much available
      */
     public ResponseEntity<String> addToCart(String quantity, String id) {
-        // functional requirement last point needs explaination, not implemented.
+        /*
+        ProductModel product = productService.getProduct(id);
+        int available = Integer.parseInt(product.getQuantity());
+        int asked = Integer.parseInt(quantity);
+        
+        if (available < asked) { // do not have enough items
+             return ResponseEntity.
+             badRequest().
+             body(String.format("Only %d %s left", available, product.getProductName()));
+        }
 
-        // ProductModel product = productEditData(id);
-        // int available = Integer.parseInt(product.getQuantity()), asked = Integer.parseInt(quantity);
-        // // do not have enough items
-        // if (available < asked) {
-        //      return ResponseEntity.
-        //      badRequest().
-        //      body(String.format("Cannot add more than %s %s in the cart", product.getQuantity(), product.getName()));
-        // }
-        // CartModel cartItem = new CartModel();
-        // cartItem.setProductName(product.getProductName());
-        // cartItem.setQuantity(asked);
-        // cartItem.setPrice(Integer.parseInt(product.getPrice()));
-        // cartRepository.save(cartItem);
-        // // decrease quantity available
-        // product.setQuantity(new String (available - asked));
-        // productEditSave(product);
-        // return ResponseEntity.ok(String.format("%s %s added to cart", quantity, product.getName()));
-        return ResponseEntity.ok("To be implemented");
+        Long userId = 100;// get current userId here
+        int totalCartItems = 0, LIMIT = 5;
+        for (CartModel cm : showCart(userId)) { // There should be a maximum of 5 products per cart.
+            totalCartItems += cm.getQuantity();
+        }
+        if (totalCartItems + asked > LIMIT) {
+            return ResponseEntity.
+             badRequest().
+             body(String.format("Cannot have more than %d items in Cart, You can add %d more items.", LIMIT, LIMIT-totalCartItems));
+        }
+        
+        // public CartModel(String cartItemId, Long userId, String productName, int quantity, String price)
+        CartModel cartItem = new CartModel(id, userId, product.getProductName(), asked, product.getPrice());
+        cartRepository.save(cartItem);
+        return ResponseEntity.ok(String.format("%s %s added to cart", quantity, product.getName()));
+        */
+        return ResponseEntity.ok("Need access to current UserId");
     }
 
     /* 
       After adding product to cart, this method would be called to show user cart.
       thus updating numberOfProducts to its correct value.
      */
-    public List<CartModel> showCart(String id) {
+    public List<CartModel> showCart(Long id) {
         List<CartModel> cart = cartRepository.findAllByUserId(id);
 
         return cart;
