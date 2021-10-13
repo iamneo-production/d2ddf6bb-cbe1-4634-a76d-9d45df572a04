@@ -27,7 +27,6 @@ public class ProductController {
     @RequestMapping("/product/{id}")
     public ProductModel getProduct(@PathVariable String id)
     {
-        
         return productService.getProduct(id);
 
     }
@@ -44,6 +43,15 @@ public class ProductController {
     public String deleteProduct(@PathVariable String id)
     {
         return productService.deleteProduct(id);
+    }
+
+    @PostMapping("/admin/editProduct/{id}")
+    public ProductModel editProduct(@RequestBody ProductModel editedProduct,@PathVariable String id)
+    {
+        ProductModel product = productService.getProduct(id);
+        return productService.editProduct(product,editedProduct);
+        
+        
     }
 
 }
