@@ -26,7 +26,7 @@ public class CartController {
         should only add if that much available
      */
     @RequestMapping(method=RequestMethod.POST, value="/home/{id}")
-    public ResponseEntity<String> addToCart(String quantity, @PathVariable String id) {
+    public ResponseEntity<String> addToCart(@RequestBody String quantity, @PathVariable String id) {
         return cartService.addToCart(quantity, id);
     }
 
@@ -35,16 +35,16 @@ public class CartController {
      might need to match with current user id, for security reasons.
     */
     @RequestMapping(method=RequestMethod.GET, value="/cart/{id}")
-    public List<CartModel> showCart(@PathVariable String id) {
+    public List<CartModel> showCart(@PathVariable Long id) {
         return cartService.showCart(id);
     }
 
     /* 
-        srs just mention /cart/delete, but function definition has id, probably cart id
-        could be passed as request body
+        srs has
+         /cart/delete
     */
-    @RequestMapping(method=RequestMethod.DELETE, value="/cart/delete")
-    public ResponseEntity<String> deleteCartItem(@RequestBody String id) {
+    @RequestMapping(method=RequestMethod.DELETE, value="/cart/{id}")
+    public ResponseEntity<String> deleteCartItem(@PathVariable String id) {
         return cartService.deleteCartItem(id);
     }
 }
