@@ -7,10 +7,7 @@ import java.util.List;
 public interface CartRepository extends CrudRepository<CartModel, String> {
 
     //findBy__
-    /*
-    userId : UserModel is attribute in CartMode, email is id of UserModel
-     */
-    List<CartModel> findAllByUserId(String id);
+    List<CartModel> findAllByUserId(Long userId);
 
 
 }
