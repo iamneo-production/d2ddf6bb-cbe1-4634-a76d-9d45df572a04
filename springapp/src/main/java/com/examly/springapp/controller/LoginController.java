@@ -23,7 +23,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginModel request) {
+    public ResponseEntity<String> checkUser(@RequestBody LoginModel request) {
         try {
             Authentication authenticate = authenticationManager
                 .authenticate(

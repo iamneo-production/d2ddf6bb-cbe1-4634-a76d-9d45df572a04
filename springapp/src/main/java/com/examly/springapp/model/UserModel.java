@@ -55,16 +55,14 @@ public class UserModel implements UserDetails {
 		this.orderList = orderList;
 	}
 
-	public UserModel(Long userId, String email, String password, String username, String mobileNumber, Boolean active,
-			String role) {
+	public UserModel(String email, String password, String username, String mobileNumber) {
 		super();
-		this.userId = userId;
 		this.email = email;
 		this.password = password;
 		this.username = username;
 		this.mobileNumber = mobileNumber;
-		this.active = active;
-		this.role = role;
+		this.active = true;
+		this.role = "User";
 	}
 
 	public Long getId() {
