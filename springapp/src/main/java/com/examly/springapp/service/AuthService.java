@@ -7,11 +7,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.examly.springapp.model.UserModel;
 import com.examly.springapp.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class AuthService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -27,7 +30,11 @@ public class AuthService implements UserDetailsService {
         return userRepository.existsByEmail(email);
     }
 
-    public void saveUser(UserModel user){
-        userRepository.save(user);
+    public UserModel saveUser(UserModel rawUser){
+        // encrypt password
+        UserModel user = new UserModel(rawUser.getEmail(), this.passwordEncoder.encode(rawUser.getPassword()),
+            rawUser.getUsername(), rawUser.getMobileNumber());
+                    
+        return userRepository.save(user);
     }
 }

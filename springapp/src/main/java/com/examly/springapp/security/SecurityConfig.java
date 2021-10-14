@@ -77,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Set permissions on endpoints
         http.authorizeRequests()
             .antMatchers(HttpMethod.POST, "/login").permitAll()
+            .antMatchers(HttpMethod.POST, "/signup").permitAll()
             //.antMatchers(HttpMethod.POST, "/api/book/search").permitAll()
             // Our private endpoints
             .anyRequest().authenticated();
