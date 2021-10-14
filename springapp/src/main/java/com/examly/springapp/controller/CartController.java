@@ -44,7 +44,7 @@ public class CartController {
          /cart/delete
     */
     @RequestMapping(method=RequestMethod.DELETE, value="/cart/{id}")
-    public ResponseEntity<String> deleteCartItem(@PathVariable String id) {
+    public ResponseEntity<String> deleteCartItem(@PathVariable Long id) {
         return cartService.deleteCartItem(id);
     }
 }

@@ -4,8 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import java.util.*;
-import com.examly.springapp.model.OrderModel;
-import com.examly.springapp.model.CartModel;
+import com.examly.springapp.model.*;
 import com.examly.springapp.repository.OrderRepository;
 
 // @Service
@@ -57,14 +56,14 @@ public class OrderService {
     }
 
     private OrderModel getOrder(CartModel cartItem) {
-        ProductMode product = productService.getProduct(cartItem.getProductId());
+        ProductModel product = productService.getProduct(cartItem.getProductId());
         OrderModel order = new OrderModel();
         order.setUserId(cartItem.gerUserId());
         order.setProductName(cartItem.getProductName());
         order.setQuantity(cartItem.getQuantity());
         order.setPrice(product.getPrice());
         order.setTotalPrice(Integer.toString(order.getQuantity()*Integer.parseInt(order.getPrice())));
-        order.setStaus("Ordered");
+        order.setStatus("Ordered");
         order.setOrderedDate(Calendar.getInstance().toString());
         return order;
     }

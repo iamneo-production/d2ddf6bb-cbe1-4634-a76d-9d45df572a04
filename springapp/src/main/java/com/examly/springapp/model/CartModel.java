@@ -13,7 +13,9 @@ import javax.persistence.OneToOne;
 public class CartModel{
 
     @Id
-    private String cartItemId;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long cartItemId;
+	
     private Long userId;
 	private String productId;
     private String productName;
@@ -40,7 +42,7 @@ public class CartModel{
 	public void setCartItemId(String cartItemId) {
 		this.cartItemId = cartItemId;
 	}
-	public Long getuserId() {
+	public Long getUserId() {
 		return userId;
 	}
 	public void setUserId(Long userId) {
