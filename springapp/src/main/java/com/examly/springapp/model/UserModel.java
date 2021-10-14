@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 
 
+
 @Entity
 @Table(name = "userModel")
 public class UserModel implements UserDetails {
