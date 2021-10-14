@@ -14,11 +14,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
 
 
 @Entity
 @Table(name = "userModel")
-public class UserModel {
+public class UserModel implements UserDetails {
     @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long userId;
@@ -28,6 +30,7 @@ public class UserModel {
     private String mobileNumber;
     private Boolean active;
     private String role;
+	private boolean enabled = true;
 	@OneToMany(mappedBy = "userId")
 	private List<CartModel> cart;
 	
@@ -52,16 +55,14 @@ public class UserModel {
 		this.orderList = orderList;
 	}
 
-	public UserModel(Long userId, String email, String password, String username, String mobileNumber, Boolean active,
-			String role) {
+	public UserModel(String email, String password, String username, String mobileNumber) {
 		super();
-		this.userId = userId;
 		this.email = email;
 		this.password = password;
 		this.username = username;
 		this.mobileNumber = mobileNumber;
-		this.active = active;
-		this.role = role;
+		this.active = true;
+		this.role = "User";
 	}
 
 	public Long getId() {
@@ -134,6 +135,31 @@ public class UserModel {
 
 	public void setOrderList(List<OrderModel> orderList) {
 		this.orderList = orderList;
+	}
+
+	@Override
+    public boolean isAccountNonExpired() {
+        return enabled;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return enabled;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return enabled;
+    }
+
+	@Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+	@Override
+	public List<GrantedAuthority> getAuthorities() {
+		return List.of();
 	}
 
 	@Override

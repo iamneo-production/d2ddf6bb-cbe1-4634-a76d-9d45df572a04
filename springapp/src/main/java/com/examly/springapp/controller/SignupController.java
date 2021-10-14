@@ -6,27 +6,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import com.examly.springapp.service.SignupService;
+import org.springframework.http.*;
+import com.examly.springapp.service.AuthService;
 import com.examly.springapp.model.UserModel;
+import com.examly.springapp.security.JwtTokenUtil;
 import java.util.List;
 
 @RestController
 public class SignupController {
-    
     @Autowired
-    private SignupService signupService;
+    private AuthService authService;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/signup")
-    public boolean saveUser(@RequestBody UserModel user){
-        if(!signupService.isUserPresent(user.getEmail())){
-            signupService.saveUser(user);
+    public Boolean saveUser(@RequestBody UserModel user){
+        // TODO send email verification to email
+
+
+        if (!authService.doesUserExist(user.getEmail())){
+            authService.saveUser(user);
+
             return true;
         }
-        return false;
+        else {
+            return false;
+        }        
     }
-
-    /*@RequestMapping("/getsignup")
-    public List<UserModel> getUsers(){
-        return signupService.getUsers();
-    }*/
 }
