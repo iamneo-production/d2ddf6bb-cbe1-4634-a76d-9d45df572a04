@@ -38,21 +38,29 @@ public class ProductService {
     }
     public String deleteProduct(String id)
     {
-        //db -work;
+        productRepository.deleteById(id);
         return "deleted";
     }
+
     public ProductModel addProduct(ProductModel product)
     {
 
-       
-        
         productRepository.save(product);
-        return product;      
+        return product;    
+    }
 
-        //Dbwork;
-        
+    public ProductModel editProduct(ProductModel product, ProductModel editedProduct)
+    {
+        product.setDescription(editedProduct.getDescription());
+        product.setPrice(editedProduct.getPrice());
+        product.setQuantity(editedProduct.getQuantity());
+        product.setImageUrl(editedProduct.getImageUrl());
+        product.setProductName(editedProduct.getProductName());
+        productRepository.save(product);
+        return product;
 
     }
+
 
 
 }

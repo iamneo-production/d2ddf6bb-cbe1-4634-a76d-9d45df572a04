@@ -6,13 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 @Entity
 @Table(name = "orderModel")
 public class OrderModel{
     
     @Id
-    private String orderId;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long orderId;
 
 	@ManyToOne(targetEntity = UserModel.class)
     private Long userId;
@@ -27,7 +30,7 @@ public class OrderModel{
 
 	}
 
-	public OrderModel(String orderId, Long userId, String productName, int quantity, String totalPrice, String status,
+	public OrderModel(Long orderId, Long userId, String productName, int quantity, String totalPrice, String status,
 			String price, String orderedDate) {
 		super();
 		this.orderId = orderId;
@@ -40,11 +43,11 @@ public class OrderModel{
 		this.orderedDate = orderedDate;
 	}
 
-	public String getOrderId() {
+	public Long getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(String orderId) {
+	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
 	}
 
