@@ -41,10 +41,6 @@ public class LoginController {
         } catch (BadCredentialsException ex) {
             return new ResponseEntity<String>("false", HttpStatus.UNAUTHORIZED);
         }
-        catch (Exception e) {
-            System.out.println(e);
-            return new ResponseEntity<String>("false", HttpStatus.UNAUTHORIZED);
-        }
     }
 
 }
