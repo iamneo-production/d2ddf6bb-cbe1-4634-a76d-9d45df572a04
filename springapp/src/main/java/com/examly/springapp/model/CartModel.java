@@ -5,6 +5,8 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -13,8 +15,11 @@ import javax.persistence.OneToOne;
 public class CartModel{
 
     @Id
-    private String cartItemId;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long cartItemId;
+
     private Long userId;
+	private String productId;
     private String productName;
     private int quantity;
     private String price;
@@ -23,26 +28,33 @@ public class CartModel{
         
     }
 
-	public CartModel(String cartItemId, Long userId, String productName, int quantity, String price) {
+	public CartModel(Long cartItemId, Long userId, String productId, String productName, int quantity, String price) {
 		super();
 		this.cartItemId = cartItemId;
 		this.userId = userId;
+		this.productId = productId;
 		this.productName = productName;
 		this.quantity = quantity;
 		this.price = price;
 	}
 	
-	public String getCartItemId() {
+	public Long getCartItemId() {
 		return cartItemId;
 	}
-	public void setCartItemId(String cartItemId) {
+	public void setCartItemId(Long cartItemId) {
 		this.cartItemId = cartItemId;
 	}
-	public Long getuserId() {
+	public Long getUserId() {
 		return userId;
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	public String getProductId(){
+		return productId;
+	}
+	public void setProductId(String productId){
+		this.productId = productId;
 	}
 	public String getProductName() {
 		return productName;

@@ -10,35 +10,32 @@ import com.examly.springapp.service.OrderService;
 // @RestController
 public class OrderController {
 
-    // @Autowired
-    // private OrderService orderService;
-    // /*
-    // i. List<OrderTemp> getUserProducts(String id): This method helps to
-    // list the orders based on the user id.
-    // ii. saveProduct(String id): This method helps to save the cart items as an
-    // order.
-    // iii. placeOrder(OrderModel order): This method helps to place an order
-    // by the customer.
-    //  */
+    @Autowired
+    private OrderService orderService;
+    /*
+    i. List<OrderTemp> getUserProducts(String id): This method helps to
+    list the orders based on the user id.
+    ii. saveProduct(String id): This method helps to save the cart items as an
+    order.
+    iii. placeOrder(OrderModel order): This method helps to place an order
+    by the customer.
+     */
 
-    // @RequestMapping(method=RequestMethod.GET, value="/orders")
-    // public List<OrderModel> getUserProducts(@RequestBody String id) {
-    //     return orderService.getUserProducts(id);
-    // }
+    @RequestMapping(method=RequestMethod.GET, value="/orders/{id}")
+    public List<OrderModel> getUserProducts(@PathVariable Long id) {
+        return orderService.getUserProducts(id);
+    }
 
-    // /*
-    //     Assuming the id is userId
-    //  */
-    // @RequestMapping(method=RequestMethod.POST, value="/saveOrder")
-    // public ResponseEntity<String> saveProduct(@RequestBody String id) {
-    //     return orderService.saveProduct(id);
-    // }
+    /*
+        Assuming the id is userId
+     */
+    @RequestMapping(method=RequestMethod.POST, value="/saveOrder/{id}")
+    public ResponseEntity<String> saveProduct(@RequestBody Long id) {
+        return orderService.saveProduct(id);
+    }
     
-    // /*
-    //     need product id, to update quantity, maybe pass by PathVariable
-    //  */
-    // @RequestMapping(method=RequestMethod.POST, value="/placeOrder")
-    // public ResponseEntity<String> placeOrder(@RequestBody OrderModel order) {
-    //     return orderService.placeOrder(order);
-    // }
+    @RequestMapping(method=RequestMethod.POST, value="/placeOrder/{id}")
+    public ResponseEntity<String> placeOrder(@RequestBody OrderModel order, @PathVariable String id) {
+        return orderService.placeOrder(order, id);
+    }
 }
