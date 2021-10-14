@@ -16,10 +16,13 @@ import AllOrders from './pages/admin/AllOrders';
 import EditProduct from './pages/admin/EditProduct';
 import Product from './pages/user/Product';
 import SidebarDemo from './pages/SideBarDemo';
+import { loadAuthorizationHeaderFromStorage } from './utils/ApiClient';
 
 function App() {
 
   const [{user, userType}, dispatch] = useStateValue();
+  
+  loadAuthorizationHeaderFromStorage();
 
   useEffect(() => {
     if (user) {
