@@ -54,9 +54,14 @@ public class CartService {
              body(String.format("Cannot have more than %d items in Cart, You can add %d more items.", LIMIT, LIMIT-totalCartItems));
         }
         
-        // public CartModel(String cartItemId, Long userId, String productName, int quantity, String price)
-        CartModel cartItem = new CartModel(id, userId, product.getProductName(), asked, product.getPrice());
+        CartModel cartItem = new CartModel();
+        cartItem.setUserId(userId);
+        cartItem.setProductId(id);
+        cartItem.setProductName(product.getProductName());
+        cartItem.setQuantity(asked);
+        cartItem.setPrice(product.getPrice());
         cartRepository.save(cartItem);
+        
         return ResponseEntity.ok(String.format("%s %s added to cart", quantity, product.getName()));
         */
         return ResponseEntity.ok("Need access to current UserId");
