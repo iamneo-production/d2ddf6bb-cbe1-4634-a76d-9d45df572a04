@@ -18,7 +18,9 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping("/products")
+    //----------------- user- routes ---------------------;
+
+    @RequestMapping("/home")
     public List<ProductModel>  getAllProducts()
     {
         return productService.getAllProducts();
@@ -27,23 +29,35 @@ public class ProductController {
     @RequestMapping("/product/{id}")
     public ProductModel getProduct(@PathVariable String id)
     {
-        
         return productService.getProduct(id);
 
     }
+    //-------------------  admin-routes ---------------------
 
-    @PostMapping("/addProduct")
+    @PostMapping("/admin/addProduct")
     public ProductModel addProduct(@RequestBody ProductModel newProduct)
-
-    {   System.out.println(newProduct);
-
+    {  
         return productService.addProduct(newProduct);
     }
 
-    @RequestMapping("/product/delete/{id}")
+    @RequestMapping("/admin/delete/{id}")
     public String deleteProduct(@PathVariable String id)
     {
         return productService.deleteProduct(id);
+    }
+
+    @PostMapping("/admin/productEdit/{id}")
+    public ProductModel editProduct(@RequestBody ProductModel editedProduct,@PathVariable String id)
+    {
+        ProductModel product = productService.getProduct(id);
+        return productService.editProduct(product,editedProduct); 
+        
+    }
+
+    @RequestMapping("/admin/productEdit/{id}")
+    public ProductModel productEditSave(@PathVariable String id)
+    {
+        return productService.getProduct(id);
     }
 
 }
