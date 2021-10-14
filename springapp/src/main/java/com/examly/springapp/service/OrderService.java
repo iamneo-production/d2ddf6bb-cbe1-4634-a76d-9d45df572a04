@@ -51,7 +51,7 @@ public class OrderService {
         int newQuantity = quantity - asked;
         product.setQuantity(Integer.toString(newQuantity));
         orderRepository.save(order);
-        productService.save(product);
+        productService.addProduct(product);
         return ResponseEntity.ok(String.format("Placed %s to order directly.", order.getProductName()));
     }
 

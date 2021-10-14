@@ -15,7 +15,7 @@ public class CartModel{
     @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long cartItemId;
-	
+
     private Long userId;
 	private String productId;
     private String productName;
@@ -26,7 +26,7 @@ public class CartModel{
         
     }
 
-	public CartModel(String cartItemId, Long userId, String productId, String productName, int quantity, String price) {
+	public CartModel(Long cartItemId, Long userId, String productId, String productName, int quantity, String price) {
 		super();
 		this.cartItemId = cartItemId;
 		this.userId = userId;
@@ -36,10 +36,10 @@ public class CartModel{
 		this.price = price;
 	}
 	
-	public String getCartItemId() {
+	public Long getCartItemId() {
 		return cartItemId;
 	}
-	public void setCartItemId(String cartItemId) {
+	public void setCartItemId(Long cartItemId) {
 		this.cartItemId = cartItemId;
 	}
 	public Long getUserId() {
