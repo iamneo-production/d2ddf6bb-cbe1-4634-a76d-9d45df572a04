@@ -80,7 +80,7 @@ public class CartService {
     /*
         id is of CartModel
      */
-    public ResponseEntity<String> deleteCartItem(String id) {
+    public ResponseEntity<String> deleteCartItem(Long id) {
         if (!cartRepository.existsById(id)) return ResponseEntity.badRequest().body("Cart Item does not exist.");
         cartRepository.deleteById(id);
         return ResponseEntity.ok("Cart Item deleted.");
