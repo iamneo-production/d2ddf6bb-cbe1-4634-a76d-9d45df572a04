@@ -58,7 +58,7 @@ public class OrderService {
     private OrderModel getOrder(CartModel cartItem) {
         ProductModel product = productService.getProduct(cartItem.getProductId());
         OrderModel order = new OrderModel();
-        order.setUserId(cartItem.gerUserId());
+        order.setUserId(cartItem.getUserId());
         order.setProductName(cartItem.getProductName());
         order.setQuantity(cartItem.getQuantity());
         order.setPrice(product.getPrice());
