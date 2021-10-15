@@ -1,6 +1,7 @@
 package com.examly.springapp.controller;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.http.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.examly.springapp.service.CartService;
@@ -26,17 +27,17 @@ public class CartController {
         should only add if that much available
      */
     @RequestMapping(method=RequestMethod.POST, value="/home/{id}")
-    public ResponseEntity<String> addToCart(@RequestBody String quantity, @PathVariable String id) {
-        return cartService.addToCart(quantity, id);
+    public ResponseEntity<String> addToCart(@RequestBody String quantity, @PathVariable String id, @AuthenticationPrincipal UserModel user) {
+        return cartService.addToCart(quantity, id, user.getId());
     }
 
     /*
      probably user id, will send all the cart having that id
      might need to match with current user id, for security reasons.
     */
-    @RequestMapping(method=RequestMethod.GET, value="/cart/{id}")
-    public List<CartModel> showCart(@PathVariable Long id) {
-        return cartService.showCart(id);
+    @RequestMapping(method=RequestMethod.GET, value="/cart")
+    public List<CartModel> showCart(@AuthenticationPrincipal UserModel user) {
+        return cartService.showCart(user.getId());
     }
 
     /* 
