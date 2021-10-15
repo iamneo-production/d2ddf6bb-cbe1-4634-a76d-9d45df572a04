@@ -31,8 +31,7 @@ public class CartService {
         id is probably product id, quantity as requested by user, 
         should only add if that much available
      */
-    public ResponseEntity<String> addToCart(String quantity, String id) {
-        /*
+    public ResponseEntity<String> addToCart(String quantity, String id, Long userId) {
         ProductModel product = productService.getProduct(id);
         int available = Integer.parseInt(product.getQuantity());
         int asked = Integer.parseInt(quantity);
@@ -43,7 +42,6 @@ public class CartService {
              body(String.format("Only %d %s left", available, product.getProductName()));
         }
 
-        Long userId = 100;// get current userId here
         int totalCartItems = 0, LIMIT = 5;
         for (CartModel cm : showCart(userId)) { // There should be a maximum of 5 products per cart.
             totalCartItems += cm.getQuantity();
@@ -51,7 +49,7 @@ public class CartService {
         if (totalCartItems + asked > LIMIT) {
             return ResponseEntity.
              badRequest().
-             body(String.format("Cannot have more than %d items in Cart, You can add %d more items.", LIMIT, LIMIT-totalCartItems));
+             body(String.format("Cannot have more than %d items in Cart, You can add %d more items.", LIMIT, (LIMIT-totalCartItems)));
         }
         
         CartModel cartItem = new CartModel();
@@ -62,14 +60,11 @@ public class CartService {
         cartItem.setPrice(product.getPrice());
         cartRepository.save(cartItem);
         
-        return ResponseEntity.ok(String.format("%s %s added to cart", quantity, product.getName()));
-        */
-        return ResponseEntity.ok("Need access to current UserId");
+        return ResponseEntity.ok(String.format("%s %s added to cart", quantity, product.getProductName()));
     }
 
     /* 
-      After adding product to cart, this method would be called to show user cart.
-      thus updating numberOfProducts to its correct value.
+      id is User Id.
      */
     public List<CartModel> showCart(Long id) {
         List<CartModel> cart = cartRepository.findAllByUserId(id);
