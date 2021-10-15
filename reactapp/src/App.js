@@ -16,14 +16,38 @@ import AllOrders from './pages/admin/AllOrders';
 import EditProduct from './pages/admin/EditProduct';
 import Product from './pages/user/Product';
 import SidebarDemo from './pages/SideBarDemo';
-import { loadAuthorizationHeaderFromStorage } from './utils/ApiClient';
+import { loadAuthorizationHeaderFromStorage, ApiClient } from './utils/ApiClient';
+import { Snackbar, Alert } from '@mui/material';
 
 function App() {
 
-  const [{user, userType}, dispatch] = useStateValue();
+  const [{user, userType, snackbar}, dispatch] = useStateValue();
   
-  loadAuthorizationHeaderFromStorage();
+  // run only during mount
+  useEffect(() => {
+    loadAuthorizationHeaderFromStorage();
+    // http error handler
+    ApiClient.interceptors.response.use((response) => response, (error) => {
+      let message = 'There seems to be some internet connectivity issues!';
+      
+      if (error.response) {
+        if (error.response.headers['error-message']) {
+          message = error.response.headers['error-message'];
+        }
+        else {
+          message = 'There was some unknown internal error. Please try again later.';
+        }
+      }
 
+      dispatch({
+        type: actionTypes.SET_SNACKBAR,
+        snackbar: { open: true, type: 'error', message: message }
+      });
+
+      throw error;
+    });
+  }, []);
+  
   useEffect(() => {
     if (user) {
       AsyncStorage.setItem('USER', JSON.stringify({
@@ -44,6 +68,17 @@ function App() {
       });
     }
   }, [user]);
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    dispatch({
+      type: actionTypes.SET_SNACKBAR,
+      snackbar: { ...snackbar, open: false }
+    });
+  }
 
   return (
     <div className="App">
@@ -111,6 +146,17 @@ function App() {
           </>        
         )}    
       </Router>
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        open={snackbar.open}
+        onClose={handleSnackbarClose}
+        autoHideDuration={6000}
+        key={'bottomright'}
+      >
+        <Alert onClose={handleSnackbarClose} severity={snackbar.type} variant="filled" elevation={6} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

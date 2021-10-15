@@ -16,9 +16,6 @@ function Login() {
     const history = useHistory();
 
     const onSubmit = () =>{
-      console.log(email , password)
-
-
       ApiClient.post('/login', { email, password }).then(response => {
         if (response.data) {
           // success
@@ -30,11 +27,6 @@ function Login() {
             userType : 'user'
           });
         }
-        else {
-          alert('Invalid Email / Password!');  
-        }
-      }).catch(() => {
-        alert('Invalid Email / Password!');
       });
       /*
 

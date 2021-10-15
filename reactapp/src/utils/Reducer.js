@@ -43,13 +43,19 @@ export const initialState = {
     }
   ],
   filter: { ...defaultFilterState },
-  filterToggle: false
+  filterToggle: false,
+  snackbar: {
+    open: false,
+    message: '',
+    type: 'error'
+  }
 };
 
 export const actionTypes = {
   SET_USER: "SET_USER",
   SET_FILTERS: 'SET_FILTERS',
-  SET_FILTER_TOGGLE: 'SET_FILTER_TOGGLE'
+  SET_FILTER_TOGGLE: 'SET_FILTER_TOGGLE',
+  SET_SNACKBAR: 'SET_SNACKBAR'
 };
 
 
@@ -73,6 +79,11 @@ const reducer = (state, action) => {
               ...state,
               filterToggle: action.filterToggle
           };
+      case actionTypes.SET_SNACKBAR:
+          return {
+            ...state,
+            snackbar: action.snackbar
+          }
       default: 
           return state;
   }
