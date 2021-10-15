@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.examly.springapp.service.ProductService;
 import com.examly.springapp.model.ProductModel;
+import com.examly.springapp.model.UserModel;
 import java.util.List;
 
 
