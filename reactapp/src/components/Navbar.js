@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useStateValue } from "../utils/StateProvider";
 import { actionTypes } from "../utils/Reducer";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { resetAuthorizationHeader } from '../utils/ApiClient';
 import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
@@ -67,6 +68,8 @@ function Navbar(){
         </Left>
         <Right>
           <MenuItem onClick={() => {
+              resetAuthorizationHeader();
+              
                 if(userType === 'user'){
                   dispatch({
                     type: actionTypes.SET_USER,
