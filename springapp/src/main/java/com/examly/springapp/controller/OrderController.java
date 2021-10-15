@@ -8,7 +8,7 @@ import java.util.*;
 import com.examly.springapp.model.OrderModel;
 import com.examly.springapp.service.OrderService;
 
-// @RestController
+@RestController
 public class OrderController {
 
     @Autowired
