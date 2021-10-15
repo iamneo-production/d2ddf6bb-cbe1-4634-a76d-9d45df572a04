@@ -56,6 +56,11 @@ public class OrderService {
         int quantity = Integer.parseInt(product.getQuantity());
         int asked = order.getQuantity();
         int newQuantity = quantity - asked;
+        if (newQuantity < 0) {
+            return ResponseEntity
+            .badRequest()
+            .body(String.format("Only %d %s left.", quantity, product.getProductName()));
+        }
         product.setQuantity(Integer.toString(newQuantity));
         orderRepository.save(order);
         productService.addProduct(product);
