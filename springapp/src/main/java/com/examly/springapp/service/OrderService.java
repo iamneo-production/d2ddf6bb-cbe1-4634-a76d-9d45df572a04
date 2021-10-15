@@ -9,7 +9,7 @@ import com.examly.springapp.model.OrderModel;
 import com.examly.springapp.model.ProductModel;
 import com.examly.springapp.repository.OrderRepository;
 
-// @Service
+@Service
 public class OrderService {
     
     @Autowired
@@ -39,18 +39,28 @@ public class OrderService {
      */
     public ResponseEntity<String> saveProduct(Long id) {
         List<CartModel> cartItems = cartService.showCart(id);
+        List<Long> removeId = new ArrayList<>(cartItems.size());
         for (CartModel cartItem : cartItems) {
             OrderModel order = getOrder(cartItem);
             placeOrder(order, cartItem.getProductId());
+            removeId.add(cartItem.getCartItemId());
+        }
+        for (Long cartItemId : removeId) {
+            cartService.deleteCartItem(cartItemId);
         }
         return ResponseEntity.ok("Cart items added to the Orders list.");
     }
     
-    public ResponseEntity<String> placeOrder(OrderModel order, String id) {
-        ProductModel product = productService.getProduct(id);
+    public ResponseEntity<String> placeOrder(OrderModel order, String productId) {
+        ProductModel product = productService.getProduct(productId);
         int quantity = Integer.parseInt(product.getQuantity());
         int asked = order.getQuantity();
         int newQuantity = quantity - asked;
+        if (newQuantity < 0) {
+            return ResponseEntity
+            .badRequest()
+            .body(String.format("Only %d %s left.", quantity, product.getProductName()));
+        }
         product.setQuantity(Integer.toString(newQuantity));
         orderRepository.save(order);
         productService.addProduct(product);
