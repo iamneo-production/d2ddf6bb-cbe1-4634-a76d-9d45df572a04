@@ -23,7 +23,6 @@ function Login() {
       ApiClient.post('/login', { email, password }).then(response => {
         if (response.data) {
           // success
-          console.log(response);
           setAuthorizationHeader(response.headers.authorization);
           dispatch({
             type: actionTypes.SET_USER,

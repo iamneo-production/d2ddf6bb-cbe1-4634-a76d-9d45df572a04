@@ -68,7 +68,8 @@ export const actionTypes = {
   SET_USER: "SET_USER",
   SET_FILTERS: 'SET_FILTERS',
   SET_FILTER_TOGGLE: 'SET_FILTER_TOGGLE',
-  SET_SNACKBAR: 'SET_SNACKBAR'
+  SET_SNACKBAR: 'SET_SNACKBAR',
+  SET_PRODUCTS: 'SET_PRODUCTS'
 };
 
 export function openSnackbar(message, type = 'error') {
@@ -106,6 +107,11 @@ const reducer = (state, action) => {
           return {
             ...state,
             snackbar: action.snackbar
+          }
+      case actionTypes.SET_PRODUCTS:
+          return {
+            ...state,
+            products: action.products
           }
       default: 
           return state;
