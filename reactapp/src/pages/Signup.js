@@ -1,10 +1,11 @@
 import React , {useState} from 'react'
 import { useStateValue } from "../utils/StateProvider";
-import { actionTypes } from "../utils/Reducer";
-import { Button ,Input } from '@mui/material'
+import { openSnackbar } from "../utils/Reducer";
+import { Input } from '@mui/material'
 import singupImage from '../assets/signup_image.png'
 import { useHistory } from 'react-router-dom';
 import { ApiClient } from '../utils/ApiClient';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 function validateEmail(email) {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -26,6 +27,8 @@ function Login() {
     const [mobError , setMobError] = useState(false);
     const [passwordError , setPasswordError] = useState(false);
     const [confirmPasswordError , setConfirmPasswordError] = useState(false);
+    const [loading, setLoading] = useState(false);
+    
     const history = useHistory();
 
     const onSubmit = () =>{
@@ -37,47 +40,44 @@ function Login() {
 
       if(!validateEmail(email)){
         setEmailError(true);
-        alert("Invalid Email")
+        dispatch(openSnackbar('Invalid Email.', 'error'));
         return;
       }
 
       if(username.trim() === ''){
-        setusernameError(true)
-        alert("Username cannot be empty")
-        return
+        setusernameError(true);
+        dispatch(openSnackbar('Username cannot be empty.', 'error'));
+        return;
       }
 
       if(!(/^\d{10}$/.test(mobile))){
-        setMobError(true)
-        alert("Invalid mobile number")
-        return
+        setMobError(true);
+        dispatch(openSnackbar('Invalid mobile number.', 'error'));
+        return;
       }
 
       if(password.length < 6){
-        setPasswordError(true)
-        alert("Length of password should be atleast 6")
-        return
+        setPasswordError(true);
+        dispatch(openSnackbar('Length of password should be at least 6.', 'error'));
+        return;
       }
 
       if(password !== confirmPassword){
-        setConfirmPasswordError(true)
-        alert("confirm password doesn't match with password")
-        return
+        setConfirmPasswordError(true);
+        dispatch(openSnackbar('Confirm password does not match entered password.', 'error'));
+        return;
       }
 
+      setLoading(true);
       ApiClient.post('/signup', {
         email, username, password, mobileNumber: mobile
       }).then(response => {
         if (response.data) {
           // success
-          alert('Created!');
+          dispatch(openSnackbar('Welcome to STORE. Please login using your new credentials.', 'success'));
           history.push('/');
         }
-        else {
-          // email already existed
-          alert('Email already exists!');
-        }
-      });
+      }).finally(() => setLoading(false));;
 
     }
 
@@ -90,7 +90,15 @@ function Login() {
                 <Input id = 'mobilenumber' placeholder = "Enter Mobile Number" error = {mobError} type = "text" value = {mobile} onChange = {(e) => setMobile(e.target.value)} style = {{margin : '10px'}}/>
                 <Input id = 'password' placeholder = "Enter Password" error = {passwordError} type = "password" value = {password} onChange = {(e) => setPassword(e.target.value)} style = {{margin : '10px'}}/>
                 <Input id = 'confirmpassword' placeholder = "Confirm Password" error = {confirmPasswordError} type = "password" value = {confirmPassword} onChange = {(e) => setConfirmPassword(e.target.value)} style = {{margin : '10px'}}/>
-                <Button id = 'submitButton' variant = 'contained' onClick = {onSubmit} style = {{margin : '10px'}} >SIGN UP</Button>
+                <LoadingButton 
+                  id = 'submitButton' 
+                  variant = 'contained' 
+                  onClick = {onSubmit} 
+                  style = {{margin : '10px'}} 
+                  loading={loading}
+                  loadingIndicator="Signing up...">
+                  SIGN UP
+                </LoadingButton>
                 <div>Already a member? <a id='signinLink'  href="#" onClick={() => history.push('/') }>Click here</a></div>
             </div>
             <div style = {{marginLeft : '40px'}}>

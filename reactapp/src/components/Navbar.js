@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useStateValue } from "../utils/StateProvider";
-import { actionTypes } from "../utils/Reducer";
+import { actionTypes, openSnackbar } from "../utils/Reducer";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { resetAuthorizationHeader } from '../utils/ApiClient';
 import { useHistory } from 'react-router-dom';
@@ -78,7 +78,8 @@ function Navbar(){
                   })
                   AsyncStorage.clear()
                   history.push('/')
-                }else{
+                }
+                else{
                   dispatch({
                     type: actionTypes.SET_USER,
                     user: null,
@@ -86,7 +87,9 @@ function Navbar(){
                   })
                   AsyncStorage.clear()
                   history.push('/')
-                }      
+                }
+
+                dispatch(openSnackbar('Thank you for visiting!', 'success'));
             }}>Logout</MenuItem>
         </Right>
       </Wrapper>
