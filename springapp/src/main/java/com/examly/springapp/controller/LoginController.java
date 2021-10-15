@@ -39,7 +39,10 @@ public class LoginController {
                 )
                 .body("true");
         } catch (BadCredentialsException ex) {
-            return new ResponseEntity<String>("false", HttpStatus.UNAUTHORIZED);
+            return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .header("Error-Message", "Invalid Email / Password.")
+                .body("false");
         }
     }
 
