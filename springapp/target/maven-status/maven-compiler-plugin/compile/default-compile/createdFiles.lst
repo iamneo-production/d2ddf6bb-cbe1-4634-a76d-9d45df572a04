@@ -4,6 +4,8 @@ com/examly/springapp/service/EmailSenderService.class
 com/examly/springapp/SpringappApplication.class
 com/examly/springapp/security/SecurityConfig.class
 com/examly/springapp/model/OrderModel.class
+com/examly/springapp/model/AuditModel.class
+com/examly/springapp/service/AuditService.class
 com/examly/springapp/controller/EmailController.class
 com/examly/springapp/model/ProductModel.class
 com/examly/springapp/model/LoginModel.class
@@ -13,6 +15,7 @@ com/examly/springapp/repository/OrderRepository.class
 com/examly/springapp/security/JwtTokenUtil.class
 com/examly/springapp/repository/UserRepository.class
 com/examly/springapp/service/OrderService.class
+com/examly/springapp/repository/AuditRepository.class
 com/examly/springapp/controller/SignupController.class
 com/examly/springapp/repository/ProductRepository.class
 com/examly/springapp/model/CartModel.class
