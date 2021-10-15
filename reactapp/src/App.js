@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import { useStateValue } from './utils/StateProvider';
-import { actionTypes } from "./utils/Reducer";
+import { actionTypes, openSnackbar } from "./utils/Reducer";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Login from './pages/Login';
@@ -39,11 +39,8 @@ function App() {
         }
       }
 
-      dispatch({
-        type: actionTypes.SET_SNACKBAR,
-        snackbar: { open: true, type: 'error', message: message }
-      });
-
+      dispatch(openSnackbar(message, 'error'));
+      
       throw error;
     });
   }, []);

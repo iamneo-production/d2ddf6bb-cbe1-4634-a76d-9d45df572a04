@@ -20,17 +20,20 @@ public class SignupController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/signup")
-    public Boolean saveUser(@RequestBody UserModel user){
+    public ResponseEntity<String> saveUser(@RequestBody UserModel user){
         // TODO send email verification to email
 
 
         if (!authService.doesUserExist(user.getEmail())){
             authService.saveUser(user);
 
-            return true;
+            return ResponseEntity.ok().body("true");
         }
         else {
-            return false;
+            return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .header("Error-Message", "This email is already in use.")
+            .body("false");
         }        
     }
 }

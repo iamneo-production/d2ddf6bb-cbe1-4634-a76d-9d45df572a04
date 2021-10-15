@@ -58,6 +58,16 @@ export const actionTypes = {
   SET_SNACKBAR: 'SET_SNACKBAR'
 };
 
+export function openSnackbar(message, type = 'error') {
+  return {
+    type: actionTypes.SET_SNACKBAR,
+    snackbar: {
+      open: true,
+      type,
+      message
+    }
+  }
+}
 
 const reducer = (state, action) => {
   console.log(action);
