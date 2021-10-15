@@ -1,5 +1,6 @@
 package com.examly.springapp.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -21,21 +22,21 @@ public class OrderController {
     by the customer.
      */
 
-    @RequestMapping(method=RequestMethod.GET, value="/orders/{id}")
-    public List<OrderModel> getUserProducts(@PathVariable Long id) {
-        return orderService.getUserProducts(id);
+    @RequestMapping(method=RequestMethod.GET, value="/orders")
+    public List<OrderModel> getUserProducts(@AuthenticationPrincipal UserModel user) {
+        return orderService.getUserProducts(user.getId());
     }
 
     /*
         Assuming the id is userId
      */
-    @RequestMapping(method=RequestMethod.POST, value="/saveOrder/{id}")
-    public ResponseEntity<String> saveProduct(@RequestBody Long id) {
-        return orderService.saveProduct(id);
+    @RequestMapping(method=RequestMethod.POST, value="/saveOrder")
+    public ResponseEntity<String> saveProduct(@AuthenticationPrincipal UserModel user) {
+        return orderService.saveProduct(user.getId());
     }
     
-    @RequestMapping(method=RequestMethod.POST, value="/placeOrder/{id}")
-    public ResponseEntity<String> placeOrder(@RequestBody OrderModel order, @PathVariable String id) {
-        return orderService.placeOrder(order, id);
+    @RequestMapping(method=RequestMethod.POST, value="/placeOrder")
+    public ResponseEntity<String> placeOrder(@RequestBody OrderModel order, @AuthenticationPrincipal UserModel user) {
+        return orderService.placeOrder(order, user.getId());
     }
 }
