@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.examly.springapp.service.ProductService;
+import com.examly.springapp.service.AuditService;
 import com.examly.springapp.model.ProductModel;
 import com.examly.springapp.model.UserModel;
+import com.examly.springapp.model.AuditModel;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import java.util.List;
 
 
@@ -18,6 +21,8 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private AuditService auditService;
 
     //----------------- user- routes ---------------------;
 
@@ -36,9 +41,12 @@ public class ProductController {
     //-------------------  admin-routes ---------------------
 
     @PostMapping("/admin/addProduct")
-    public ProductModel addProduct(@RequestBody ProductModel newProduct)
+    public ProductModel addProduct(@AuthenticationPrincipal UserModel user, @RequestBody ProductModel newProduct)
     {  
-        return productService.addProduct(newProduct);
+        ProductModel product = productService.addProduct(newProduct);
+
+        this.auditService.saveAudit(new AuditModel(user.getId(), "Admin added a new Product with ID: " + product.getProductId()));
+        return product;
     }
 
     @RequestMapping("/admin/delete/{id}")
