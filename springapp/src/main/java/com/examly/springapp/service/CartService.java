@@ -60,7 +60,7 @@ public class CartService {
         cartItem.setPrice(product.getPrice());
         cartRepository.save(cartItem);
         
-        return ResponseEntity.ok(String.format("%s %s added to cart", quantity, product.getName()));
+        return ResponseEntity.ok(String.format("%s %s added to cart", quantity, product.getProductName()));
     }
 
     /* 

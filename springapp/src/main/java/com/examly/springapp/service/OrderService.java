@@ -39,7 +39,7 @@ public class OrderService {
      */
     public ResponseEntity<String> saveProduct(Long id) {
         List<CartModel> cartItems = cartService.showCart(id);
-        List<Long> removeId = new ArrayList<>(cartItem.size());
+        List<Long> removeId = new ArrayList<>(cartItems.size());
         for (CartModel cartItem : cartItems) {
             OrderModel order = getOrder(cartItem);
             placeOrder(order, cartItem.getProductId());
