@@ -69,7 +69,7 @@ public class OrderService {
         product.setQuantity(Integer.toString(newQuantity));
         orderRepository.save(order);
         productService.addProduct(product);
-        auditService.saveAudit(new AuditModel(userId, String.foramt("Placed %s to order", order.getProductName())));
+        auditService.saveAudit(new AuditModel(userId, String.format("Placed %s to order", order.getProductName())));
         return ResponseEntity.ok(String.format("Placed %s to order directly.", order.getProductName()));
     }
 
@@ -84,5 +84,12 @@ public class OrderService {
         order.setStatus("Ordered");
         order.setOrderedDate(Calendar.getInstance().getTime().toString());
         return order;
+    }
+
+    public ResponseEntity<String> updateStatus(String status, Long orderId, Long userId) {
+        OrderModel order = orderRepository.findById(orderId).orElse(null);
+        order.setStatus(status);
+        auditService.saveAudit(new AuditModel(userId, "Admin changed Order Status of Order "+orderId));
+        return ResponseEntity.ok("Updated Status of order "+ orderId);
     }
 }

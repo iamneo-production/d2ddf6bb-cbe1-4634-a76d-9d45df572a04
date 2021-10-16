@@ -40,4 +40,9 @@ public class OrderController {
     public ResponseEntity<String> placeOrder(@RequestBody OrderModel order, @PathVariable String id, @AuthenticationPrincipal UserModel user) {
         return orderService.placeOrder(order, id, user.getId());
     }
+
+    @RequestMapping(method=RequestMethod.POST, value="/orders/{id}/status")
+    public ResponseEntity<String> updateStatus(@RequestBody String newStatus, @PathVariable String id, @AuthenticationPrincipal UserModel user) {
+        return orderService.updateStatus(newStatus, id, user.getId());
+    }
 }
