@@ -6,6 +6,8 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Column;
 
 
 @Entity
@@ -17,6 +19,8 @@ public class ProductModel {
     private String imageUrl;
     private String productName;
     private String price;
+	@Lob
+    @Column
     private String description;
     private String quantity;
 	private String manufacturedDate;
