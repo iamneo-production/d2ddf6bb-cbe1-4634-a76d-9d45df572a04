@@ -69,11 +69,13 @@ public class UserModel implements UserDetails {
 		this.active = true;
 		if (email.equals("admin@store.com")) {
 			this.role = "Admin";
+			this.verified = true;
 		}
 		else {
 			this.role = "User";
+			this.verified = false;
 		}
-		this.verified = false;
+		
 		this.emailVerificationCode = emailVerificationCode;
 	}
 

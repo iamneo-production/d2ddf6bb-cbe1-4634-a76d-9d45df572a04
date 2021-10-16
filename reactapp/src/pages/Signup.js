@@ -56,9 +56,9 @@ function Login() {
         return;
       }
 
-      if(password.length < 6){
+      if(password.length < 5){
         setPasswordError(true);
-        dispatch(openSnackbar('Length of password should be at least 6.', 'error'));
+        dispatch(openSnackbar('Length of password should be at least 5.', 'error'));
         return;
       }
 
