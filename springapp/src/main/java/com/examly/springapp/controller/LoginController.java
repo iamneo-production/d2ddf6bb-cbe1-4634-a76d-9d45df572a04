@@ -45,6 +45,7 @@ public class LoginController {
                     HttpHeaders.AUTHORIZATION,
                     this.jwtTokenUtil.generateAccessToken(user)
                 )
+                .header("User-Role", user.getRole())
                 .body("true");
         } catch (BadCredentialsException ex) {
             return ResponseEntity

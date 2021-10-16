@@ -27,25 +27,12 @@ function Login() {
           dispatch({
             type: actionTypes.SET_USER,
             user: email,
-            userType : 'user'
+            userType : response.headers['user-role'].toLowerCase()
           });
 
           dispatch(openSnackbar('Welcome!', 'success'));
         }
       }).finally(() => setLoading(false));
-      /*
-
-      email !== 'admin' ? dispatch({
-        type: actionTypes.SET_USER,
-        user: email,
-        userType : 'user'
-      }) : 
-      dispatch({
-        type: actionTypes.SET_USER,
-        user: email,
-        userType : 'admin'
-      })
-      */
     }
 
     return(

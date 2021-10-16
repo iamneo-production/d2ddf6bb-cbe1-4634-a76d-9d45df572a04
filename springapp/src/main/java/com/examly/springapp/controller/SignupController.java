@@ -33,7 +33,6 @@ public class SignupController {
         if (!authService.doesUserExist(user.getEmail())){
             String code = UUID.randomUUID().toString();
             user.setEmailVerificationCode(code);
-            authService.saveUser(user);
 
            // sent e-mail verification mail (only for user);
             if(!(user.getEmail().equals("admin@store.com")))
@@ -43,6 +42,8 @@ public class SignupController {
                 String body= "https://8080-abbdbbbadeafdbbfefdfebbbddeeacdffcdafff.examlyiopb.examly.io/verifyEmail/" + code;
                 emailSenderService.sendSimpleEmail(user_mail,body,subject);
             }
+            
+            authService.saveUser(user);
             return ResponseEntity.ok().body("true");
         }
         else {

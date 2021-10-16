@@ -101,6 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         config.addAllowedMethod("*");
         config.addExposedHeader("authorization");
         config.addExposedHeader("Error-Message");
+        config.addExposedHeader("User-Role");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
