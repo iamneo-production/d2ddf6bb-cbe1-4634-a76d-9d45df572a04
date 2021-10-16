@@ -30,6 +30,7 @@ public class UserModel implements UserDetails {
     private String username;
     private String mobileNumber;
     private Boolean active;
+	private Boolean verified;
     private String role;
 	private boolean enabled = true;
 	@OneToMany(mappedBy = "userId")
@@ -43,7 +44,7 @@ public class UserModel implements UserDetails {
 	}
 
 	public UserModel(Long userId, String email, String password, String username, String mobileNumber, Boolean active,
-			String role, List<CartModel> cart, List<OrderModel> orderList) {
+			String role, List<CartModel> cart, List<OrderModel> orderList, Boolean verified) {
 		super();
 		this.userId = userId;
 		this.email = email;
@@ -54,6 +55,7 @@ public class UserModel implements UserDetails {
 		this.role = role;
 		this.cart = cart;
 		this.orderList = orderList;
+		this.verified = verified;
 	}
 
 	public UserModel(String email, String password, String username, String mobileNumber) {
@@ -112,6 +114,13 @@ public class UserModel implements UserDetails {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public Boolean getVerified(){
+		return verified;
+	}
+	public void setVerified(Boolean verified){
+		this.verified = verified;
 	}
 
 	public String getRole() {
