@@ -35,6 +35,7 @@ public class UserModel implements UserDetails {
     private String role;
 	private boolean enabled = true;
 	private String emailVerificationCode;
+	private String passwordResetCode;
 	@OneToMany(mappedBy = "userId")
 	private List<CartModel> cart;
 	
@@ -70,6 +71,7 @@ public class UserModel implements UserDetails {
 		this.role = "User";
 		this.verified = false;
 		this.emailVerificationCode = emailVerificationCode;
+		this.passwordResetCode = "";
 	}
 
 	public Long getId() {
@@ -159,6 +161,17 @@ public class UserModel implements UserDetails {
 	public void setEmailVerificationCode(String code) {
 		this.emailVerificationCode = code;
 	}
+
+    public void setPasswordResetCode(String code)
+	{
+		this.passwordResetCode = code;
+	}
+
+	public String getPasswordResetCode()
+	{
+		return this.passwordResetCode;
+	}
+	
 
 	@Override
     public boolean isAccountNonExpired() {
