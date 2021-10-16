@@ -91,7 +91,7 @@ public class OrderService {
         if (order == null) {
             return ResponseEntity
             .badRequest()
-            .header("Error-Message", oderId + " OrderId does not exist.")
+            .header("Error-Message", orderId + " OrderId does not exist.")
             .body("FALSE");
         }
         order.setStatus(status);
