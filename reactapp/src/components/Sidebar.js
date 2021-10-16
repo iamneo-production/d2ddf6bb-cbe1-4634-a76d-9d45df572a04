@@ -74,16 +74,16 @@ function Sidebar() {
                         size="small"
                         fullWidth={true}
                     >
-                        <ToggleButton value="2 GB RAM">
+                        <ToggleButton value="2GB RAM">
                             2 GB
                         </ToggleButton>
-                        <ToggleButton value="4 GB RAM">
+                        <ToggleButton value="4GB RAM">
                             4 GB
                         </ToggleButton>
-                        <ToggleButton value="6 GB RAM">
+                        <ToggleButton value="6GB RAM">
                             6 GB
                         </ToggleButton>
-                        <ToggleButton value="8 GB RAM">
+                        <ToggleButton value="8GB RAM">
                             8 GB
                         </ToggleButton>
                     </ToggleButtonGroup>
@@ -101,16 +101,16 @@ function Sidebar() {
                         size="small"
                         fullWidth={true}
                     >
-                        <ToggleButton value="32 GB Storage">
+                        <ToggleButton value="32GB storage">
                             32 GB
                         </ToggleButton>
-                        <ToggleButton value="64 GB Storage">
+                        <ToggleButton value="64GB storage">
                             64 GB
                         </ToggleButton>
-                        <ToggleButton value="128 GB Storage">
+                        <ToggleButton value="128GB storage">
                             128 GB
                         </ToggleButton>
-                        <ToggleButton value="256 GB Storage">
+                        <ToggleButton value="256GB storage">
                             256 GB
                         </ToggleButton>
                     </ToggleButtonGroup>

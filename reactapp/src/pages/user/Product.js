@@ -1,22 +1,24 @@
 import Navbar from '../../components/Navbar';
 import ProductCard from '../../components/ProductCard';
+import { openSnackbar } from "../../utils/Reducer";
 import { useStateValue } from '../../utils/StateProvider';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Box, Grid, Stack, Typography, Button } from '@mui/material';
 
 function Product() {
     const { productId } = useParams();
+    const history = useHistory();
     const similarPricedProducts = [];
 
     // get list of products from state
     let [{ products }, dispatch] = useStateValue();
     
     // set product
-    const product = products.find(x => x.productId === parseInt(productId)) ?? {};
+    const product = products.find(x => x.productId === productId) ?? {};
 
-    if (!product.productId) {
-        // didnt find product - show error toast and redirect to products page
-        
+    if (!product.productId) {        
+        dispatch(openSnackbar('This product does not seem to be available anymore!', 'error'));
+        history.push('/');
     }
     else {
         // populate products with similar price
