@@ -42,7 +42,7 @@ public class OrderController {
     }
 
     @RequestMapping(method=RequestMethod.POST, value="/admin/orders/{id}/status")
-    public ResponseEntity<String> updateStatus(@RequestBody String newStatus, @PathVariable String id, @AuthenticationPrincipal UserModel user) {
+    public ResponseEntity<String> updateStatus(@RequestBody String newStatus, @PathVariable Long id, @AuthenticationPrincipal UserModel user) {
         if (!user.getRole().equalsIgnoreCase("admin")) {
             return ResponseEntity
             .badRequest()
