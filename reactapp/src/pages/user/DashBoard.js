@@ -79,6 +79,9 @@ function DashBoard() {
         else if (filter.sort === SortBy.PriceHighToLow) {
             return b.price - a.price;
         }
+        else {
+            return b.manufacturedDate.getTime() - a.manufacturedDate.getTime();
+        }
     });
 
     const history = useHistory();
