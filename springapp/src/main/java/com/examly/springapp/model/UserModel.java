@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.examly.springapp.model.CartModel;
 import com.examly.springapp.model.OrderModel;
+import com.examly.springapp.encrption.Crypto;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -50,7 +51,7 @@ public class UserModel implements UserDetails {
 		this.email = email;
 		this.password = password;
 		this.username = username;
-		this.mobileNumber = mobileNumber;
+		this.mobileNumber = Crypto.encrypt(mobileNumber);
 		this.active = active;
 		this.role = role;
 		this.cart = cart;
@@ -63,7 +64,7 @@ public class UserModel implements UserDetails {
 		this.email = email;
 		this.password = password;
 		this.username = username;
-		this.mobileNumber = mobileNumber;
+		this.mobileNumber = Crypto.encrypt(mobileNumber);
 		this.active = true;
 		this.role = "User";
 		this.verified = false;
