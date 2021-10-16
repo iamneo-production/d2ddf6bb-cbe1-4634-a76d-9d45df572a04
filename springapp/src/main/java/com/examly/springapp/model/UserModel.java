@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.examly.springapp.model.CartModel;
 import com.examly.springapp.model.OrderModel;
-import com.examly.springapp.encrption.Crypto;
+import com.examly.springapp.encryption.Crypto;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
