@@ -1,15 +1,16 @@
 package com.examly.springapp.controller;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.examly.springapp.service.EmailSenderService;
 import javax.mail.MessagingException;
 import com.examly.springapp.model.UserModel;
 import com.examly.springapp.repository.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.BadCredentialsException;
+import java.lang.*;
+import org.springframework.http.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import java.util.*;
 
 @RestController
@@ -21,20 +22,45 @@ public class EmailController {
   private UserRepository userRepository;
 
   @PostMapping("/admin/mail")
-  public String sendMail(@RequestBody String body) throws MessagingException
+  public ResponseEntity<String> sendMail(@AuthenticationPrincipal UserModel user,@RequestBody String body) throws MessagingException
   {
-     var it = userRepository.findAll();
+    try
+    {
+      if(user.getRole().equals("User"))
+      {
+        throw new BadCredentialsException("UnAuthorized Access");
+      }
+      else
+      {
+        var it = userRepository.findAll();
+        var users = new ArrayList<UserModel>();
+        it.forEach(e -> users.add(e));
+        for(int i = 0; i<users.size(); i++)
+        { 
+          emailSenderService.sendSimpleEmail(users.get(i).getEmail(),body,"New mobiles are in the store");
+        }
+         return ResponseEntity.ok()
+         .header("Action", "Emails sent Sucessfully")
+         .body("true");
 
-    var users = new ArrayList<UserModel>();
-    it.forEach(e -> users.add(e));
-   for(int i = 0; i<users.size(); i++)
-   { 
-    emailSenderService.sendSimpleEmail(users.get(i).getEmail(),body,"New mobiles are in the store");
-    System.out.println(users.get(i).getEmail());
-    System.out.println("sent.....");
-   }
-  
-   return("mails sent..");
+      }
+
+    }
+    catch(BadCredentialsException e)
+    {
+      return ResponseEntity
+      .status(HttpStatus.FORBIDDEN)
+      .header("Error message", "UnAuthorized Access")
+      .body("false");
+    }
+    catch(Exception e)
+    {
+      return ResponseEntity
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .header("Error message", "Something went wrong please try again")
+      .body("false");
+    }
+   
   }
 
 }
