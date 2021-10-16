@@ -4,3 +4,10 @@ com/examly/springapp/repository/UserRepository.class
 com/examly/springapp/controller/LoginController.class
 com/examly/springapp/security/JwtTokenFilter.class
 com/examly/springapp/service/AuthService.class
+com/examly/springapp/model/CartModel.class
+com/examly/springapp/service/EmailSenderService.class
+com/examly/springapp/model/OrderModel.class
+com/examly/springapp/controller/OrderController.class
+com/examly/springapp/model/AuditModel.class
+com/examly/springapp/model/UserModel.class
+LoginRepository.class

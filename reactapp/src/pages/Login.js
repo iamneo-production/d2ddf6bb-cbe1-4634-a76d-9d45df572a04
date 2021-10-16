@@ -1,8 +1,11 @@
 import React , {useState} from 'react'
 import { useStateValue } from "../utils/StateProvider";
-import { actionTypes } from "../utils/Reducer";
-import { Button ,Input } from '@mui/material'
-import loginImage from '../assets/login_image.png'
+import { actionTypes, openSnackbar } from "../utils/Reducer";
+import { Input } from '@mui/material'
+import loginImage from '../assets/login_image.png';
+import { useHistory } from 'react-router-dom';
+import { ApiClient, setAuthorizationHeader } from '../utils/ApiClient';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 function Login() {
     
@@ -10,12 +13,27 @@ function Login() {
 
     const [email , setEmail] = useState("")
     const [password , setPassword] = useState("")
+    const [loading, setLoading] = useState(false);
 
-
-
+    const history = useHistory();
 
     const onSubmit = () =>{
-      console.log(email , password)
+      setLoading(true);
+
+      ApiClient.post('/login', { email, password }).then(response => {
+        if (response.data) {
+          // success
+          setAuthorizationHeader(response.headers.authorization);
+          dispatch({
+            type: actionTypes.SET_USER,
+            user: email,
+            userType : 'user'
+          });
+
+          dispatch(openSnackbar('Welcome back!', 'success'));
+        }
+      }).finally(() => setLoading(false));
+      /*
 
       email !== 'admin' ? dispatch({
         type: actionTypes.SET_USER,
@@ -27,6 +45,7 @@ function Login() {
         user: email,
         userType : 'admin'
       })
+      */
     }
 
     return(
@@ -35,8 +54,16 @@ function Login() {
                 <h1 style = {{marginBottom : '10px'}} >LOGIN</h1>
                 <Input id = 'email' placeholder = "Email" type = "email" value = {email} onChange = {(e)=>setEmail(e.target.value)} style ={{margin : '10px'}} />
                 <Input id = 'password' placeholder = "Password" type = "password" value = {password} onChange = {(e) => setPassword(e.target.value)} style = {{margin : '10px'}}/>
-                <Button id = 'submitButton' variant = 'contained' onClick = {onSubmit} style = {{margin : '10px'}} >LOGIN</Button>
-                <div>New to Bookstore? <a id="signupLink" href='/signup'>Click here</a></div>
+                <LoadingButton 
+                  id = 'submitButton' 
+                  variant = 'contained' 
+                  onClick = {onSubmit} 
+                  style = {{margin : '10px'}} 
+                  loading={loading}
+                  loadingIndicator="Logging in...">
+                  LOGIN
+                </LoadingButton>
+                <div>New to Bookstore? <a id="signupLink" href="#" onClick={() => history.push('/signup') }>Click here</a></div>
             </div>
             <div style = {{marginLeft : '40px'}}>
               <img src = {loginImage}/>
