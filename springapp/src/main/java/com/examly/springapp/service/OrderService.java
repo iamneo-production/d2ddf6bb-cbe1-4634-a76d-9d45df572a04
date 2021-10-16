@@ -49,7 +49,7 @@ public class OrderService {
             removeId.add(cartItem.getCartItemId());
         }
         for (Long cartItemId : removeId) {
-            cartService.deleteCartItem(cartItemId);
+            cartService.deleteCartItem(cartItemId, userId);
         }
         auditService.saveAudit(new AuditModel(userId,"Cart Items moved to Order."));
         return ResponseEntity.ok("Cart items added to the Orders list.");
