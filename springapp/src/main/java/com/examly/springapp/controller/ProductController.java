@@ -41,90 +41,112 @@ public class ProductController {
     //-------------------  admin-routes ---------------------
 
     @PostMapping("/admin/addProduct")
-    public ResponseEntity<String> addProduct(@AuthenticationPrincipal UserModel user, @RequestBody ProductModel newProduct)
+    public ResponseEntity<ProductModel> addProduct(@AuthenticationPrincipal UserModel user, @RequestBody ProductModel newProduct)
     {  
         try
         {
             String role = user.getRole();
             if(role.equals("User"))
             {   
-                throw new Exception("UnAuthorized access..");
+                throw new BadCredentialsException("UnAuthorized access..");
             }
             else
             {
                 ProductModel product = productService.addProduct(newProduct);
                 this.auditService.saveAudit(new AuditModel(user.getId(), "Admin added a new Product with ID: " + product.getProductId()));
                 return ResponseEntity.ok()
-                .header("Product added sucessfully..")
-                .body("true");
+                .header("Action","Product added sucessfully..")
+                .body(product);
             }
             
         }
+        catch(BadCredentialsException ex)
+        {
+            return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .header("Error message", "UnAuthorized access")
+            .body(new ProductModel());
+        }
         catch (Exception ex) {
             return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .header("something went wrong... Please try again")
-                .body("false");
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .header("Error message","something went wrong... Please try again")
+                .body(new ProductModel());
         }
 
     }
 
     @RequestMapping("/admin/delete/{id}")
-    public ResponseEntity<String>  deleteProduct(@AuthenticationPrincipal UserModel user, @PathVariable String id)
+    public ResponseEntity<ProductModel>  deleteProduct(@AuthenticationPrincipal UserModel user, @PathVariable String id)
     {
         try
         {
             if(user.getRole().equals("User"))
             {
-               throw new Exception("UnAuthorized Access");
+               throw new  BadCredentialsException("UnAuthorized Access");
             }
             else
             {
+                 ProductModel product = productService.getProduct(id);
                  productService.deleteProduct(id);
                  this.auditService.saveAudit(new AuditModel(user.getId(), "Admin deleted a Product with ID: " + id));
                  return ResponseEntity.ok()
-                 .header("Product deleted..")
-                 .body("true");
+                 .header("Action","Product deleted..")
+                 .body(product);
 
             }
+        }
+        catch( BadCredentialsException e)
+        {
+             return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .header("Error message","UnAuthorized Access")
+            .body(new ProductModel());
         }
         catch(Exception e)
         {
             return ResponseEntity
-            .status(HttpStatus.UNAUTHORIZED)
-            .header("something went wrong... Please try again")
-            .body("false");
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .header("Error message","something went wrong... Please try again")
+            .body(new ProductModel());
         }
     }
 
     @PostMapping("/admin/productEdit/{id}")
-    public ResponseEntity<String> editProduct(@AuthenticationPrincipal UserModel user, @RequestBody ProductModel editedProduct,@PathVariable String id)
+    public ResponseEntity<ProductModel> editProduct(@AuthenticationPrincipal UserModel user, @RequestBody ProductModel editedProduct,@PathVariable String id)
     {
 
         try
         {
             if(user.getRole().equals("User"))
             {
-                throw new Exception("UnAuthorized access");
+                throw new  BadCredentialsException("UnAuthorized access");
             }
             else
             {
-                System.out.println("inside");
+    
                 ProductModel product = productService.getProduct(id);
                 productService.editProduct(product,editedProduct);
                 this.auditService.saveAudit(new AuditModel(user.getId(), "Admin edited the Product with ID: " + id));
-                return ResponseEntity.ok()
-                .header("Product edited..")
-                .body("true");
+                 return ResponseEntity.ok()
+                .header("Action","Product edited..")
+                .body(product);
 
             }
+        }
+        catch(BadCredentialsException e)
+        {
+            return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .header("Error message","UnAuthorized Access")
+            .body(new ProductModel());
         }
         catch(Exception e)
         {
             return ResponseEntity
-            .status(HttpStatus.UNAUTHORIZED)
-            .header("something went wrong... Please try again")
-            .body("false");
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .header("Error message","something went wrong... Please try again")
+            .body(new ProductModel());
         }
     }
 
