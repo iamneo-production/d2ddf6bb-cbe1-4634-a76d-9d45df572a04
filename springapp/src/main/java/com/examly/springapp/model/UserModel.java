@@ -67,7 +67,12 @@ public class UserModel implements UserDetails {
 		this.username = username;
 		this.mobileNumber = Crypto.encrypt(mobileNumber);
 		this.active = true;
-		this.role = "User";
+		if (email.equals("admin@store.com")) {
+			this.role = "Admin";
+		}
+		else {
+			this.role = "User";
+		}
 		this.verified = false;
 		this.emailVerificationCode = emailVerificationCode;
 	}
