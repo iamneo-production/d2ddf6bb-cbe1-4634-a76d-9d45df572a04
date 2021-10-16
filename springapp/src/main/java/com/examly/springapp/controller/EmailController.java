@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.BadCredentialsException;
 import java.lang.*;
 import org.springframework.http.*;
+import com.examly.springapp.model.AuditModel;
+import com.examly.springapp.service.AuditService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import java.util.*;
 
@@ -20,13 +22,14 @@ public class EmailController {
   private EmailSenderService emailSenderService;
   @Autowired
   private UserRepository userRepository;
-
+  @Autowired
+  private AuditService auditService;
   @PostMapping("/admin/mail")
   public ResponseEntity<String> sendMail(@AuthenticationPrincipal UserModel user,@RequestBody String body) throws MessagingException
   {
     try
     {
-      if(user.getRole().equals("User"))
+      if(user.getRole().equals("Usr"))
       {
         throw new BadCredentialsException("UnAuthorized Access");
       }
@@ -39,6 +42,7 @@ public class EmailController {
         { 
           emailSenderService.sendSimpleEmail(users.get(i).getEmail(),body,"New mobiles are in the store");
         }
+        this.auditService.saveAudit(new AuditModel(user.getId(), "Admin sent a e-mail to all the users"));
          return ResponseEntity.ok()
          .header("Action", "Emails sent Sucessfully")
          .body("true");
