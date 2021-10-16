@@ -56,14 +56,14 @@ function Login() {
                 <Input id = 'password' placeholder = "Password" type = "password" value = {password} onChange = {(e) => setPassword(e.target.value)} style = {{margin : '10px'}}/>
                 <LoadingButton 
                   id = 'submitButton' 
-                  variant = 'contained' 
+                  variant = 'contained'
                   onClick = {onSubmit} 
                   style = {{margin : '10px'}} 
                   loading={loading}
                   loadingIndicator="Logging in...">
                   LOGIN
                 </LoadingButton>
-                <div>New to Bookstore? <a id="signupLink" href="#" onClick={() => history.push('/signup') }>Click here</a></div>
+                <div>New to STORE? <a id="signupLink" href="#" onClick={() => history.push('/signup') }>Click here</a></div>
             </div>
             <div style = {{marginLeft : '40px'}}>
               <img src = {loginImage}/>
