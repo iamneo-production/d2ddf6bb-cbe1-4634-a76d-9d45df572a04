@@ -14,6 +14,7 @@ import com.examly.springapp.service.EmailSenderService;
 import javax.mail.MessagingException;
 import com.examly.springapp.repository.UserRepository;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class SignupController {
@@ -28,20 +29,19 @@ public class SignupController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> saveUser(@RequestBody UserModel user) throws MessagingException{
-        // TODO send email verification to email
-
 
         if (!authService.doesUserExist(user.getEmail())){
+            String code = UUID.randomUUID().toString();
+            user.setEmailVerificationCode(code);
             authService.saveUser(user);
-
 
            // sent e-mail verification mail (only for user);
             if(!(user.getEmail().equals("admin@store.com")))
             {
-               String user_mail = user.getEmail();
-               String subject = "Verify yout email";
-               String body= "https://8080-abbdbbbadeafdbbfefdfebbbddeeacdffcdafff.examlyiopb.examly.io/verifyEmail/"+user.getEmail();
-               emailSenderService.sendSimpleEmail(user_mail,body,subject);
+                String user_mail = user.getEmail();
+                String subject = "Verify your email";
+                String body= "https://8080-abbdbbbadeafdbbfefdfebbbddeeacdffcdafff.examlyiopb.examly.io/verifyEmail/" + code;
+                emailSenderService.sendSimpleEmail(user_mail,body,subject);
             }
             return ResponseEntity.ok().body("true");
         }

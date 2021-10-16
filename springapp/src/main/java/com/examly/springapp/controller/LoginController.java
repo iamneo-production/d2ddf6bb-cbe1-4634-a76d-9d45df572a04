@@ -25,7 +25,6 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<String> checkUser(@RequestBody LoginModel request) {
         try {
-            
             Authentication authenticate = authenticationManager
                 .authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -34,6 +33,13 @@ public class LoginController {
                 );
             UserModel user = (UserModel) authenticate.getPrincipal();
             //System.out.println("verified :" + user.getVerified());
+            if (!user.getVerified()) {
+                return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .header("Error-Message", "Please verify your email before logging in.")
+                    .body("false");
+            }
+
             return ResponseEntity.ok()
                 .header(
                     HttpHeaders.AUTHORIZATION,

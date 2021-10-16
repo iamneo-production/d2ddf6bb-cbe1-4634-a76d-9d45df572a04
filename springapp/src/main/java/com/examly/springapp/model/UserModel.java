@@ -34,6 +34,7 @@ public class UserModel implements UserDetails {
 	private Boolean verified;
     private String role;
 	private boolean enabled = true;
+	private String emailVerificationCode;
 	@OneToMany(mappedBy = "userId")
 	private List<CartModel> cart;
 	
@@ -59,7 +60,7 @@ public class UserModel implements UserDetails {
 		this.verified = verified;
 	}
 
-	public UserModel(String email, String password, String username, String mobileNumber) {
+	public UserModel(String email, String password, String username, String mobileNumber, String emailVerificationCode) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -68,6 +69,7 @@ public class UserModel implements UserDetails {
 		this.active = true;
 		this.role = "User";
 		this.verified = false;
+		this.emailVerificationCode = emailVerificationCode;
 	}
 
 	public Long getId() {
@@ -147,6 +149,15 @@ public class UserModel implements UserDetails {
 
 	public void setOrderList(List<OrderModel> orderList) {
 		this.orderList = orderList;
+	}
+
+	
+	public String getEmailVerificationCode() {
+		return this.emailVerificationCode;
+	}
+
+	public void setEmailVerificationCode(String code) {
+		this.emailVerificationCode = code;
 	}
 
 	@Override

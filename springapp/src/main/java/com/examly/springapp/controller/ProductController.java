@@ -55,7 +55,6 @@ public class ProductController {
                 ProductModel product = productService.addProduct(newProduct);
                 this.auditService.saveAudit(new AuditModel(user.getId(), "Admin added a new Product with ID: " + product.getProductId()));
                 return ResponseEntity.ok()
-                .header("Action","Product added sucessfully..")
                 .body(product);
             }
             
@@ -64,13 +63,13 @@ public class ProductController {
         {
             return ResponseEntity
             .status(HttpStatus.FORBIDDEN)
-            .header("Error message", "UnAuthorized access")
+            .header("Error-Message", "UnAuthorized access")
             .body(new ProductModel());
         }
         catch (Exception ex) {
             return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .header("Error message","something went wrong... Please try again")
+                .header("Error-Message","something went wrong... Please try again")
                 .body(new ProductModel());
         }
 
@@ -91,7 +90,6 @@ public class ProductController {
                  productService.deleteProduct(id);
                  this.auditService.saveAudit(new AuditModel(user.getId(), "Admin deleted a Product with ID: " + id));
                  return ResponseEntity.ok()
-                 .header("Action","Product deleted..")
                  .body(product);
 
             }
@@ -100,14 +98,14 @@ public class ProductController {
         {
              return ResponseEntity
             .status(HttpStatus.FORBIDDEN)
-            .header("Error message","UnAuthorized Access")
+            .header("Error-Message","UnAuthorized Access")
             .body(new ProductModel());
         }
         catch(Exception e)
         {
             return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .header("Error message","something went wrong... Please try again")
+            .header("Error-Message","something went wrong... Please try again")
             .body(new ProductModel());
         }
     }
@@ -129,7 +127,6 @@ public class ProductController {
                 productService.editProduct(product,editedProduct);
                 this.auditService.saveAudit(new AuditModel(user.getId(), "Admin edited the Product with ID: " + id));
                  return ResponseEntity.ok()
-                .header("Action","Product edited..")
                 .body(product);
 
             }
@@ -138,14 +135,14 @@ public class ProductController {
         {
             return ResponseEntity
             .status(HttpStatus.FORBIDDEN)
-            .header("Error message","UnAuthorized Access")
+            .header("Error-Message","UnAuthorized Access")
             .body(new ProductModel());
         }
         catch(Exception e)
         {
             return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .header("Error message","something went wrong... Please try again")
+            .header("Error-Message","something went wrong... Please try again")
             .body(new ProductModel());
         }
     }

@@ -74,7 +74,7 @@ function Login() {
       }).then(response => {
         if (response.data) {
           // success
-          dispatch(openSnackbar('Welcome to STORE. Please login using your new credentials.', 'success'));
+          dispatch(openSnackbar('Welcome to STORE. Please check your inbox for the verification email then login using your new credentials.', 'success'));
           history.push('/');
         }
       }).finally(() => setLoading(false));;

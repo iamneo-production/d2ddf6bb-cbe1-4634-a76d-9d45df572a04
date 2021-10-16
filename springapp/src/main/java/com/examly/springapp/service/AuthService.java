@@ -33,7 +33,7 @@ public class AuthService implements UserDetailsService {
     public UserModel saveUser(UserModel rawUser){
         // encrypt password
         UserModel user = new UserModel(rawUser.getEmail(), this.passwordEncoder.encode(rawUser.getPassword()),
-            rawUser.getUsername(), rawUser.getMobileNumber());
+            rawUser.getUsername(), rawUser.getMobileNumber(), rawUser.getEmailVerificationCode());
                     
         return userRepository.save(user);
     }

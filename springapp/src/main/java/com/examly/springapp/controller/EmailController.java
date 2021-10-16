@@ -44,7 +44,6 @@ public class EmailController {
         }
         this.auditService.saveAudit(new AuditModel(user.getId(), "Admin sent a e-mail to all the users"));
          return ResponseEntity.ok()
-         .header("Action", "Emails sent Sucessfully")
          .body("true");
 
       }
@@ -54,14 +53,14 @@ public class EmailController {
     {
       return ResponseEntity
       .status(HttpStatus.FORBIDDEN)
-      .header("Error message", "UnAuthorized Access")
+      .header("Error-Message", "UnAuthorized Access")
       .body("false");
     }
     catch(Exception e)
     {
       return ResponseEntity
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .header("Error message", "Something went wrong please try again")
+      .header("Error-Message", "Something went wrong please try again")
       .body("false");
     }
    
@@ -71,19 +70,22 @@ public class EmailController {
   {
     try
     {
-      UserModel user = userRepository.findByEmail(id).get();
+      UserModel user = userRepository.findByEmailVerificationCode(id).orElseThrow(
+        () -> new Exception(
+            String.format("User not found")
+        )
+      );
       user.setVerified(true);
       userRepository.save(user);
       this.auditService.saveAudit(new AuditModel(user.getId(), "User verified his/her e-mail  " + user.getEmail()));
       return ResponseEntity.ok()
-      .header("Action", "Email verified")
       .body("Your Email verified sucessfully");
     }
     catch(Exception e)
     {
       return ResponseEntity
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .header("Error message", "something went wrong..")
+      .header("Error-Message", "something went wrong..")
       .body("false");
     }
  }
