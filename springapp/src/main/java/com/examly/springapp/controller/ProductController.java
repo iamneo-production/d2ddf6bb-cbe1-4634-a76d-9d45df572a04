@@ -81,7 +81,7 @@ public class ProductController {
     {
         try
         {
-            if(user.getRole().equals("Use"))
+            if(user.getRole().equals("User"))
             {
                throw new  BadCredentialsException("UnAuthorized Access");
             }
