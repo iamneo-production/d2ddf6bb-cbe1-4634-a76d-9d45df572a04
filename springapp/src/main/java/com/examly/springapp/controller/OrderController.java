@@ -40,4 +40,15 @@ public class OrderController {
     public ResponseEntity<String> placeOrder(@RequestBody OrderModel order, @PathVariable String id, @AuthenticationPrincipal UserModel user) {
         return orderService.placeOrder(order, id, user.getId());
     }
+
+    @RequestMapping(method=RequestMethod.POST, value="/admin/orders/{id}/status")
+    public ResponseEntity<String> updateStatus(@RequestBody String newStatus, @PathVariable Long id, @AuthenticationPrincipal UserModel user) {
+        if (!user.getRole().equalsIgnoreCase("admin")) {
+            return ResponseEntity
+            .badRequest()
+            .header("Error-Message", "Only Admin can do this action.")
+            .body("FALSE");
+        }
+        return orderService.updateStatus(newStatus, id, user.getId());
+    }
 }
