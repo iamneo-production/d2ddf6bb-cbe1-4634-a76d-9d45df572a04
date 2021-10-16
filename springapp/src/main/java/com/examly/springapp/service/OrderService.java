@@ -88,6 +88,12 @@ public class OrderService {
 
     public ResponseEntity<String> updateStatus(String status, Long orderId, Long userId) {
         OrderModel order = orderRepository.findById(orderId).orElse(null);
+        if (order == null) {
+            return ResponseEntity
+            .badRequest()
+            .header("Error-Message", oderId + " OrderId does not exist.")
+            .body("FALSE");
+        }
         order.setStatus(status);
         auditService.saveAudit(new AuditModel(userId, "Admin changed Order Status of Order "+orderId));
         return ResponseEntity.ok("Updated Status of order "+ orderId);
