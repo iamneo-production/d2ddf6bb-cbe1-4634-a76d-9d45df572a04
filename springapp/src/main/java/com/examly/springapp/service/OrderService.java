@@ -7,6 +7,7 @@ import java.util.*;
 import com.examly.springapp.model.CartModel;
 import com.examly.springapp.model.OrderModel;
 import com.examly.springapp.model.ProductModel;
+import com.examly.springapp.model.AuditModel;
 import com.examly.springapp.repository.OrderRepository;
 
 @Service
@@ -18,6 +19,8 @@ public class OrderService {
     private CartService cartService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private AuditService auditService;
 
     /*
     i. List<OrderTemp> getUserProducts(String id): This method helps to
@@ -37,21 +40,22 @@ public class OrderService {
     /*
         Assuming the id is userId
      */
-    public ResponseEntity<String> saveProduct(Long id) {
-        List<CartModel> cartItems = cartService.showCart(id);
+    public ResponseEntity<String> saveProduct(Long userId) {
+        List<CartModel> cartItems = cartService.showCart(userId);
         List<Long> removeId = new ArrayList<>(cartItems.size());
         for (CartModel cartItem : cartItems) {
             OrderModel order = getOrder(cartItem);
-            placeOrder(order, cartItem.getProductId());
+            placeOrder(order, cartItem.getProductId(), userId);
             removeId.add(cartItem.getCartItemId());
         }
         for (Long cartItemId : removeId) {
-            cartService.deleteCartItem(cartItemId);
+            cartService.deleteCartItem(cartItemId, userId);
         }
+        auditService.saveAudit(new AuditModel(userId,"Cart Items moved to Order."));
         return ResponseEntity.ok("Cart items added to the Orders list.");
     }
     
-    public ResponseEntity<String> placeOrder(OrderModel order, String productId) {
+    public ResponseEntity<String> placeOrder(OrderModel order, String productId, Long userId) {
         ProductModel product = productService.getProduct(productId);
         int quantity = Integer.parseInt(product.getQuantity());
         int asked = order.getQuantity();
@@ -59,11 +63,13 @@ public class OrderService {
         if (newQuantity < 0) {
             return ResponseEntity
             .badRequest()
-            .body(String.format("Only %d %s left.", quantity, product.getProductName()));
+            .header("Error-Message", String.format("Only %d %s left.", quantity, product.getProductName()))
+            .body("FALSE");
         }
         product.setQuantity(Integer.toString(newQuantity));
         orderRepository.save(order);
         productService.addProduct(product);
+        auditService.saveAudit(new AuditModel(userId, String.foramt("Placed %s to order", order.getProductName())));
         return ResponseEntity.ok(String.format("Placed %s to order directly.", order.getProductName()));
     }
 
@@ -76,7 +82,7 @@ public class OrderService {
         order.setPrice(product.getPrice());
         order.setTotalPrice(Integer.toString(order.getQuantity()*Integer.parseInt(order.getPrice())));
         order.setStatus("Ordered");
-        order.setOrderedDate(Calendar.getInstance().toString());
+        order.setOrderedDate(Calendar.getInstance().getTime().toString());
         return order;
     }
 }

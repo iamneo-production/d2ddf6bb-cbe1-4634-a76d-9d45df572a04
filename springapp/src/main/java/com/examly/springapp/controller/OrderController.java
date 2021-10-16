@@ -37,7 +37,7 @@ public class OrderController {
     }
     
     @RequestMapping(method=RequestMethod.POST, value="/placeOrder/{id}")
-    public ResponseEntity<String> placeOrder(@RequestBody OrderModel order, @PathVariable String id) {
-        return orderService.placeOrder(order, id);
+    public ResponseEntity<String> placeOrder(@RequestBody OrderModel order, @PathVariable String id, @AuthenticationPrincipal UserModel user) {
+        return orderService.placeOrder(order, id, user.getId());
     }
 }
