@@ -1,13 +1,18 @@
 import Navbar from '../../components/Navbar';
 import ProductCard from '../../components/ProductCard';
 import { openSnackbar } from "../../utils/Reducer";
+import { ApiClient, doUrlEncodedRequest } from '../../utils/ApiClient';
 import { useStateValue } from '../../utils/StateProvider';
+import { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Box, Grid, Stack, Typography, Button } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 function Product() {
     const { productId } = useParams();
     const history = useHistory();
+    const [loading, setLoading] = useState(false);
+    const [loading2, setLoading2] = useState(false);
     const similarPricedProducts = [];
 
     // get list of products from state
@@ -28,6 +33,28 @@ function Product() {
                 .filter(x => x.productId !== product.productId)
                 .slice(0, 4)
         );
+    }
+
+    const addToCart = () => {
+        setLoading(true);
+        ApiClient(doUrlEncodedRequest('POST', { quantity: 1 }, `/home/${product.productId}`)).then(response => {
+        if (response.data) {
+          dispatch(openSnackbar(`${product.productName} is now added to cart.`, 'success'));
+        }
+      }).finally(() => setLoading(false));
+    }
+
+    const buyNow = () => {
+        setLoading2(true);
+        ApiClient.post(`/placeOrder/${product.productId}`, {
+            productName: product.productName,
+            quantity: 1,
+            price: product.price
+        }).then(response => {
+        if (response.data) {
+          dispatch(openSnackbar(`An order for ${product.productName} has been placed.`, 'success'));
+        }
+      }).finally(() => setLoading2(false));
     }
 
     return (
@@ -55,13 +82,17 @@ function Product() {
                             ₹{product.price}
                         </Typography>
                         <Stack spacing={2} direction="row">
-                            <Button variant="outlined">Add to Cart</Button>
-                            <Button variant="contained" color="secondary">Buy Now</Button>
+                            <LoadingButton variant="outlined" onClick={addToCart} loading={loading} loadingIndicator="Adding...">
+                                Add to Cart
+                            </LoadingButton>
+                            <LoadingButton variant="contained" color="secondary" onClick={buyNow} loading={loading2} loadingIndicator="Buying...">
+                                Buy Now
+                            </LoadingButton>
                         </Stack>
                     </Stack>
                 </Grid>
             </Grid>
-            <Stack maxWidth="lg" spacing={1} sx={{ mx: 'auto', my: 3, px: 2 }}>
+            <Stack maxWidth="lg" spacing={1} sx={{ mx: 'auto', my: 5, px: 2 }}>
                 <Typography variant="h4" component="div">
                     Similarly Priced Phones
                 </Typography>

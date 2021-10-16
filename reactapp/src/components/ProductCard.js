@@ -1,7 +1,7 @@
 import { Card, CardMedia, CardActions, CardContent, Typography, Button } from '@mui/material';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { ApiClient } from '../utils/ApiClient';
+import { ApiClient, doUrlEncodedRequest } from '../utils/ApiClient';
 import { openSnackbar } from '../utils/Reducer';
 import { useStateValue } from "../utils/StateProvider";
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -14,10 +14,8 @@ function ProductCard(props) {
 
     const addToCart = () => {
         setLoading(true);
-        ApiClient.post(`/home/${props.product.productId}`, { quantity: 1 }).then(response => {
+        ApiClient(doUrlEncodedRequest('POST', { quantity: 1 }, `/home/${props.product.productId}`)).then(response => {
         if (response.data) {
-          console.log(response.data);
-
           dispatch(openSnackbar(`${props.product.productName} is now added to cart.`, 'success'));
         }
       }).finally(() => setLoading(false));

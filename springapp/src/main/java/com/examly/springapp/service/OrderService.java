@@ -56,7 +56,8 @@ public class OrderService {
     }
     
     public ResponseEntity<String> placeOrder(OrderModel order, String productId, Long userId) {
-        ProductModel product = productService.getProduct(productId);
+        ProductModel product = productService.getProduct(productId);        
+
         int quantity = Integer.parseInt(product.getQuantity());
         int asked = order.getQuantity();
         int newQuantity = quantity - asked;
@@ -66,8 +67,18 @@ public class OrderService {
             .header("Error-Message", String.format("Only %d %s left.", quantity, product.getProductName()))
             .body("FALSE");
         }
+
+        // check if product price has changed
+        if (!product.getPrice().equals(order.getPrice())) {
+            return ResponseEntity
+            .badRequest()
+            .header("Error-Message", String.format("The price of %s has changed since you last ordered. Please refresh the page and try again.", product.getProductName()))
+            .body("FALSE");
+        }
+        OrderModel newOrder = new OrderModel(userId, order.getProductName(), order.getQuantity(), order.getPrice());
+
         product.setQuantity(Integer.toString(newQuantity));
-        orderRepository.save(order);
+        orderRepository.save(newOrder);
         productService.addProduct(product);
         auditService.saveAudit(new AuditModel(userId, String.format("Placed %s to order", order.getProductName())));
         return ResponseEntity.ok(String.format("Placed %s to order directly.", order.getProductName()));

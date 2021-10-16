@@ -27,8 +27,9 @@ public class CartController {
         id is probably product id, quantity as requested by user, 
         should only add if that much available
      */
+
     @RequestMapping(method=RequestMethod.POST, value="/home/{id}")
-    public ResponseEntity<String> addToCart(@RequestBody String quantity, @PathVariable String id, @AuthenticationPrincipal UserModel user) {
+    public ResponseEntity<String> addToCart(@RequestParam String quantity, @PathVariable String id, @AuthenticationPrincipal UserModel user) {
         return cartService.addToCart(quantity, id, user.getId());
     }
 
