@@ -32,7 +32,7 @@ public class EmailSenderService {
         mimeMessage.setContent(body, "text/html"); /** Use this or below line **/
         helper.setText(body, true); // Use this or above line.
         helper.setTo(toEmail);
-        helper.setSubject("This is the test message for testing gmail smtp server using spring mail");
+        helper.setSubject(subject);
         helper.setFrom("rakeshardhani@gmail.com");
         mailSender.send(mimeMessage);
         return("email sent...");
