@@ -6,6 +6,17 @@ export const ApiClient = axios.create({
     baseURL: 'https://8080-eadabfabbfefdfebbbddeeacdffcdafff.examlyiopb.examly.io'
 });
 
+export function doUrlEncodedRequest(method, params, url) {
+    const data = Object.keys(params).map((key) => `${key}=${encodeURIComponent(params[key])}`).join('&');
+    
+    return {
+        method,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data,
+        url
+    }
+}
+
 export function setAuthorizationHeader(jwt) {
     console.log(jwt);
     localStorage.setItem(storageKey, jwt);

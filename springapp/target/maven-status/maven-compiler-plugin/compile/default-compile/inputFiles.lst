@@ -14,6 +14,7 @@
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/controller/EmailController.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/repository/OrderRepository.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/service/AuthService.java
+/home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/encryption/Crypto.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/security/SecurityConfig.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/model/OrderModel.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/SpringappApplication.java

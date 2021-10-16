@@ -30,7 +30,7 @@ function Login() {
             userType : 'user'
           });
 
-          dispatch(openSnackbar('Welcome back!', 'success'));
+          dispatch(openSnackbar('Welcome!', 'success'));
         }
       }).finally(() => setLoading(false));
       /*

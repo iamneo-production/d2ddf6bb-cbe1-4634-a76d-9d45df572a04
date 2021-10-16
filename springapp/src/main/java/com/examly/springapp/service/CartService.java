@@ -53,7 +53,7 @@ public class CartService {
         if (totalCartItems > LIMIT - asked) {
             return ResponseEntity
             .badRequest()
-            .header("Error-Message", String.format("Cannot have more than %d items in Cart, You can add %d more items.", LIMIT, (LIMIT-totalCartItems)))
+            .header("Error-Message", String.format("Cannot have more than %d items in Cart.", LIMIT))
             .body("FALSE");
         }
         
