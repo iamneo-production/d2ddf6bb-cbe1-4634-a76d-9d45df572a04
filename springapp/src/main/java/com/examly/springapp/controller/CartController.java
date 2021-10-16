@@ -46,7 +46,7 @@ public class CartController {
          /cart/delete
     */
     @RequestMapping(method=RequestMethod.DELETE, value="/cart/{id}")
-    public ResponseEntity<String> deleteCartItem(@PathVariable Long id) {
-        return cartService.deleteCartItem(id);
+    public ResponseEntity<String> deleteCartItem(@PathVariable Long id, @AuthenticationPrincipal UserModel user) {
+        return cartService.deleteCartItem(id, user.getId());
     }
 }

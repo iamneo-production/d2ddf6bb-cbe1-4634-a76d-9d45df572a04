@@ -17,7 +17,6 @@ public class ProductService {
     {
 
         var it = productRepository.findAll();
-
         var users = new ArrayList<ProductModel>();
         it.forEach(e -> users.add(e));
 
