@@ -29,7 +29,7 @@ public class EmailController {
   {
     try
     {
-      if(user.getRole().equals("Usr"))
+      if(user.getRole().equals("User"))
       {
         throw new BadCredentialsException("UnAuthorized Access");
       }
