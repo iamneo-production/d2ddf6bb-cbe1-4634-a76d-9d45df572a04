@@ -66,5 +66,26 @@ public class EmailController {
     }
    
   }
+  @RequestMapping("/verifyEmail/{id}")
+  public ResponseEntity<String> verifyEmail(@PathVariable String id)
+  {
+    try
+    {
+      UserModel user = userRepository.findByEmail(id).get();
+      user.setVerified(true);
+      userRepository.save(user);
+      this.auditService.saveAudit(new AuditModel(user.getId(), "User verified his/her e-mail  " + user.getEmail()));
+      return ResponseEntity.ok()
+      .header("Action", "Email verified")
+      .body("Your Email verified sucessfully");
+    }
+    catch(Exception e)
+    {
+      return ResponseEntity
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .header("Error message", "something went wrong..")
+      .body("false");
+    }
+ }
 
 }

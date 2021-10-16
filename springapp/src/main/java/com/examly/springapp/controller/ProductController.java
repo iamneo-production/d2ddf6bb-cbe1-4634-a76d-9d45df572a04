@@ -27,7 +27,7 @@ public class ProductController {
     //----------------- user- routes ---------------------;
 
     @RequestMapping("/home")
-    public List<ProductModel>  getAllProducts()
+    public List<ProductModel>  getAllProducts(@AuthenticationPrincipal UserModel user)
     {
         return productService.getAllProducts();
     }

@@ -66,6 +66,7 @@ public class UserModel implements UserDetails {
 		this.mobileNumber = mobileNumber;
 		this.active = true;
 		this.role = "User";
+		this.verified = false;
 	}
 
 	public Long getId() {
