@@ -65,7 +65,7 @@ public class CartService {
         cartItem.setPrice(product.getPrice());
         cartRepository.save(cartItem);
         
-        auditService.saveAudit(new AuditModel(userId, String.format("%s %s added to cart by user %d", quantity, product.getProductName(), userId)));
+        auditService.saveAudit(new AuditModel(userId, String.format("%s %s added to cart by user", quantity, product.getProductName())));
         return ResponseEntity.ok(String.format("%s %s added to cart", quantity, product.getProductName()));
     }
 
@@ -90,7 +90,7 @@ public class CartService {
         }
         CartModel cartItem = cartRepository.findById(id).get();
         cartRepository.deleteById(id);
-        auditService.saveAudit(new AuditModel(userId, String.format("%s removed from cart by user %d", cartItem.getProductId(), userId)));
+        auditService.saveAudit(new AuditModel(userId, String.format("%s removed from cart by user", cartItem.getProductId())));
         return ResponseEntity.ok("Cart Item deleted.");
     }
 }
