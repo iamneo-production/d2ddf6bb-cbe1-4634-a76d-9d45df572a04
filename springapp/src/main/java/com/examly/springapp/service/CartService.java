@@ -7,6 +7,7 @@ import org.springframework.http.*;
 import com.examly.springapp.repository.CartRepository;
 import com.examly.springapp.model.CartModel;
 import com.examly.springapp.model.ProductModel;
+import com.examly.springapp.model.AuditModel;
 import java.util.List;
 import java.util.concurrent.atomic.LongAccumulator;
 
@@ -17,6 +18,8 @@ public class CartService {
     private CartRepository cartRepository;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private AuditService auditService;
 
     /*
     i. addToCart(String Quantity, String id): This method helps the customer
@@ -37,19 +40,21 @@ public class CartService {
         int asked = Integer.parseInt(quantity);
         
         if (available < asked) { // do not have enough items
-             return ResponseEntity.
-             badRequest().
-             body(String.format("Only %d %s left", available, product.getProductName()));
+             return ResponseEntity
+             .badRequest()
+             .header("Error-Message", String.format("Only %d %s left", available, product.getProductName()))
+             .body("FALSE");
         }
 
         int totalCartItems = 0, LIMIT = 5;
         for (CartModel cm : showCart(userId)) { // There should be a maximum of 5 products per cart.
             totalCartItems += cm.getQuantity();
         }
-        if (totalCartItems + asked > LIMIT) {
-            return ResponseEntity.
-             badRequest().
-             body(String.format("Cannot have more than %d items in Cart, You can add %d more items.", LIMIT, (LIMIT-totalCartItems)));
+        if (totalCartItems > LIMIT - asked) {
+            return ResponseEntity
+            .badRequest()
+            .header("Error-Message", String.format("Cannot have more than %d items in Cart, You can add %d more items.", LIMIT, (LIMIT-totalCartItems)))
+            .body("FALSE");
         }
         
         CartModel cartItem = new CartModel();
@@ -60,6 +65,7 @@ public class CartService {
         cartItem.setPrice(product.getPrice());
         cartRepository.save(cartItem);
         
+        auditService.saveAudit(new AuditModel(userId, String.format("%s %s added to cart by user %d", quantity, product.getProductName(), userId)));
         return ResponseEntity.ok(String.format("%s %s added to cart", quantity, product.getProductName()));
     }
 
@@ -75,9 +81,16 @@ public class CartService {
     /*
         id is of CartModel
      */
-    public ResponseEntity<String> deleteCartItem(Long id) {
-        if (!cartRepository.existsById(id)) return ResponseEntity.badRequest().body("Cart Item does not exist.");
+    public ResponseEntity<String> deleteCartItem(Long id, Long userId) {
+        if (!cartRepository.existsById(id)) {
+            return ResponseEntity
+            .badRequest()
+            .header("Error-Message", "Cart Item does not exist.")
+            .body("FALSE");
+        }
+        CartModel cartItem = cartRepository.findById(id).get();
         cartRepository.deleteById(id);
+        auditService.saveAudit(new AuditModel(userId, String.format("%s removed from cart by user %d", cartItem.getProductId(), userId)));
         return ResponseEntity.ok("Cart Item deleted.");
     }
 }

@@ -76,7 +76,7 @@ public class OrderService {
         order.setPrice(product.getPrice());
         order.setTotalPrice(Integer.toString(order.getQuantity()*Integer.parseInt(order.getPrice())));
         order.setStatus("Ordered");
-        order.setOrderedDate(Calendar.getInstance().toString());
+        order.setOrderedDate(Calendar.getInstance().getTime().toString());
         return order;
     }
 }
