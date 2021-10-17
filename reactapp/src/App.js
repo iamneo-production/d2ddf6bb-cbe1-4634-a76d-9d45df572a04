@@ -123,7 +123,7 @@ function App() {
                   <Route path="/editproduct">
                     <EditProduct/>
                   </Route>
-                  <Route path="/adminorders">
+                  <Route path="/admin/orders">
                     <AllOrders/>
                   </Route>
                   <Route path="/admin">

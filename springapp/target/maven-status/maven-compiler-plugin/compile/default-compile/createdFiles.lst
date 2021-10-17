@@ -16,6 +16,7 @@ com/examly/springapp/repository/OrderRepository.class
 com/examly/springapp/security/JwtTokenUtil.class
 com/examly/springapp/repository/UserRepository.class
 com/examly/springapp/service/OrderService.class
+com/examly/springapp/controller/ForgotPasswordController.class
 com/examly/springapp/repository/AuditRepository.class
 com/examly/springapp/controller/SignupController.class
 com/examly/springapp/repository/ProductRepository.class

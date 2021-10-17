@@ -94,7 +94,7 @@ function DashBoard() {
               autoPlay = {true} 
               interval = {5000} 
               infiniteLoop = {true} 
-              onClickItem = {(index , item)=>{history.push('/product/' + item.props.banner.productId);}}>
+              >
                 {
                   banners.map(banner=>{
                     return <BannerCard banner = {banner} key={banner.productId}  />
