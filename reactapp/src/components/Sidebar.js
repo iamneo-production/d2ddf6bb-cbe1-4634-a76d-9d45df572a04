@@ -4,7 +4,7 @@ import { Box, Drawer, Paper, Typography, Stack, Divider, Autocomplete, TextField
 import { InlineIcon } from '@iconify/react';
 
 
-function Sidebar() {
+function Sidebar(props) {
     // get filter state
     let [{ filter, filterToggle, products }, dispatch] = useStateValue();
 
@@ -145,6 +145,9 @@ function Sidebar() {
                         <ToggleButton value={SortBy.PriceHighToLow}>
                             Price: High - Low
                         </ToggleButton>
+                        {props.admin ? <ToggleButton value={SortBy.Quantity}>
+                            Quantity
+                        </ToggleButton> : ''}
                     </ToggleButtonGroup>
                 </Stack>
             </Box>

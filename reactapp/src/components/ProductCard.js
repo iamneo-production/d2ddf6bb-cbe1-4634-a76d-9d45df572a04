@@ -21,8 +21,20 @@ function ProductCard(props) {
       }).finally(() => setLoading(false));
     }
 
+    const deleteItem = () => {
+        setLoading(true);
+        ApiClient.delete(`/admin/delete/${props.product.productId}`).then(response => {
+        if (response.data) {
+          dispatch(openSnackbar(`${props.product.productName} is now deleted!`, 'success'));
+          props.deleteItem();
+        }
+      }).finally(() => setLoading(false));
+    }
+
     return (
-        <Card raised elevation={3}>
+        <Card raised elevation={3} style={
+            props.admin && props.product.quantity <= 10 ?  { backgroundColor: '#d32f2f' } : {}
+        }>
             <CardMedia
                 component="img"
                 height="160"
@@ -36,14 +48,31 @@ function ProductCard(props) {
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     ₹{props.product.price}
-                </Typography>                                 
+                </Typography>
+                {props.admin ? <Typography variant="body2" color="text.secondary">
+                    {props.product.quantity} items left
+                </Typography> : ''}                                 
             </CardContent>
-            <CardActions>
-                <Button size="small" onClick={() => {
-                    history.push('/product/' + props.product.productId);
-                }}>View</Button>
-                <LoadingButton size="small" onClick={addToCart} loading={loading} loadingIndicator="Adding...">Add to Cart</LoadingButton>
-            </CardActions>
+            {
+                props.admin ? 
+                <CardActions>
+                    <CardActions>
+                    <Button size="small" onClick={() => {
+                        history.push('/editproduct/' + props.product.productId);
+                    }} variant="contained">Edit</Button>
+                    <LoadingButton size="small" color="error" variant="contained" onClick={deleteItem} loading={loading} loadingIndicator="Deleting...">
+                        Delete
+                    </LoadingButton>
+                </CardActions>
+                </CardActions> :
+                <CardActions>
+                    <Button size="small" onClick={() => {
+                        history.push('/product/' + props.product.productId);
+                    }}>View</Button>
+                    <LoadingButton size="small" onClick={addToCart} loading={loading} loadingIndicator="Adding...">Add to Cart</LoadingButton>
+                </CardActions>
+            }
+            
         </Card>
     )
 }
