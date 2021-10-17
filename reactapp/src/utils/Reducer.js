@@ -1,7 +1,8 @@
 export const SortBy = {
   NewArrivals: 'New Arrivals',
   PriceLowToHigh: 'Price (Low to High)',
-  PriceHighToLow: 'Price (High to Low)'
+  PriceHighToLow: 'Price (High to Low)',
+  Quantity: 'Quantity'
 }
 
 export const defaultFilterState = {

@@ -37,7 +37,7 @@ function Login() {
 
     return(
         <div style={{display : 'flex' , justifyContent : 'center' , alignItems : 'center' , height : '100vh'}}>
-            <div style={{display : 'flex' , flexDirection : 'column' , marginRight : '40px'}}>
+            <div style={{display : 'flex' , flexDirection : 'column' , marginRight : '40px'}} id="loginBox">
                 <h1 style = {{marginBottom : '10px'}} >LOGIN</h1>
                 <Input id = 'email' placeholder = "Email" type = "email" value = {email} onChange = {(e)=>setEmail(e.target.value)} style ={{margin : '10px'}} />
                 <Input id = 'password' placeholder = "Password" type = "password" value = {password} onChange = {(e) => setPassword(e.target.value)} style = {{margin : '10px'}}/>

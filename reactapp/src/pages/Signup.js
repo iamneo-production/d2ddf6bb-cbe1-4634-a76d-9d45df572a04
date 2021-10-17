@@ -83,7 +83,7 @@ function Login() {
 
     return(
         <div style={{display : 'flex' , justifyContent : 'center' , alignItems : 'center' , height : '100vh'}}>
-            <div style={{display : 'flex' , flexDirection : 'column' , marginRight : '40px'}}>
+            <div style={{display : 'flex' , flexDirection : 'column' , marginRight : '40px'}} id="signupBox">
                 <h1 style = {{marginBottom : '10px'}} >SIGN UP</h1>
                 <Input id = 'email' placeholder = "Enter Email" error = {emailError} type = "email" value = {email} onChange = {(e)=>setEmail(e.target.value)} style ={{margin : '10px'}} />
                 <Input id = 'username' placeholder = "Enter Username" error = {usernameError} type = "text" value = {username} onChange = {(e) => setUsername(e.target.value)} style = {{margin : '10px'}}/>

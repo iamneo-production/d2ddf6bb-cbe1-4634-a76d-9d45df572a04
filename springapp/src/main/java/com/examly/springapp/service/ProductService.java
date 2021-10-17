@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.examly.springapp.repository.ProductRepository;
 import com.examly.springapp.model.ProductModel;
 import java.util.*;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;
 
 @Service
 public class ProductService {
@@ -43,7 +45,9 @@ public class ProductService {
 
     public ProductModel addProduct(ProductModel product)
     {
-
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+   		LocalDateTime now = LocalDateTime.now();  
+        product.setManufacturedDate(dtf.format(now));
         productRepository.save(product);
         return product;    
     }

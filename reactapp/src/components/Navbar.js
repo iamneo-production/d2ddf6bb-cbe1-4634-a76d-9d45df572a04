@@ -48,7 +48,7 @@ function Navbar(){
 
   return (
     <Container>
-      <Wrapper>
+      <Wrapper id="userNavbar">
         <Left>
           <Logo>STORE.</Logo>
           {
@@ -61,7 +61,7 @@ function Navbar(){
             ) : (
               <>
                 <MenuItem id='adminProductButton' onClick={() => history.push('/admin')}>Products</MenuItem>
-                <MenuItem id='adminOrderButton' onClick={() => history.push('/adminorders')}>Orders</MenuItem>
+                <MenuItem id='adminOrderButton' onClick={() => history.push('/admin/orders')}>Orders</MenuItem>
               </>
             )
           }
@@ -90,7 +90,7 @@ function Navbar(){
                 }
 
                 dispatch(openSnackbar('Thank you for visiting!', 'success'));
-            }}>Logout</MenuItem>
+            }} id="logoutButton">Logout</MenuItem>
         </Right>
       </Wrapper>
     </Container>

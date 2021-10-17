@@ -117,13 +117,13 @@ function App() {
             ) : (
               <>
                 <Switch>
-                  <Route path="/addproduct">
+                  <Route path="/addProduct">
                     <AddProduct/>
                   </Route>
-                  <Route path="/editproduct">
+                  <Route path="/editProduct/:productId">
                     <EditProduct/>
                   </Route>
-                  <Route path="/adminorders">
+                  <Route path="/admin/orders">
                     <AllOrders/>
                   </Route>
                   <Route path="/admin">
