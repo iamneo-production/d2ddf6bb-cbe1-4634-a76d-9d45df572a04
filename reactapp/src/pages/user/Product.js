@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Box, Grid, Stack, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { displayRazorpay } from '../../utils/Razorpay';
 
 function Product() {
     const { productId } = useParams();
@@ -51,9 +52,11 @@ function Product() {
             quantity: 1,
             price: product.price
         }).then(response => {
-        if (response.data) {
-          dispatch(openSnackbar(`An order for ${product.productName} has been placed.`, 'success'));
-        }
+            console.log(response.data);
+            if (response.data) {
+                displayRazorpay(response.data, product.price);
+                dispatch(openSnackbar(`An order for ${product.productName} has been placed.`, 'success'));
+            }
       }).finally(() => setLoading2(false));
     }
 

@@ -7,4 +7,5 @@ import java.util.List;
 public interface OrderRepository extends CrudRepository<OrderModel, Long> {
     
     List<OrderModel> findAllByUserId(Long id);
+    OrderModel findByOrderId(Long id);
 }

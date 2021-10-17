@@ -8,6 +8,7 @@ import java.util.*;
 import com.examly.springapp.model.OrderModel;
 import com.examly.springapp.model.UserModel;
 import com.examly.springapp.service.OrderService;
+import org.json.JSONObject;
 
 @RestController
 public class OrderController {
@@ -37,7 +38,7 @@ public class OrderController {
     }
     
     @RequestMapping(method=RequestMethod.POST, value="/placeOrder/{id}")
-    public ResponseEntity<String> placeOrder(@RequestBody OrderModel order, @PathVariable String id, @AuthenticationPrincipal UserModel user) {
+    public ResponseEntity<String> placeOrder(@RequestBody OrderModel order, @PathVariable String id, @AuthenticationPrincipal UserModel user) {        
         return orderService.placeOrder(order, id, user.getId());
     }
 
@@ -50,5 +51,11 @@ public class OrderController {
             .body("FALSE");
         }
         return orderService.updateStatus(newStatus, id, user.getId());
+    }
+
+    @RequestMapping(method=RequestMethod.POST, value="/razorpay/payment")
+    public ResponseEntity<String> processPayment(@RequestBody String inputJson, @AuthenticationPrincipal UserModel user) {
+        JSONObject jsonObj = new JSONObject(inputJson);
+        return orderService.processRazorpayPayment(jsonObj, user.getId());
     }
 }
