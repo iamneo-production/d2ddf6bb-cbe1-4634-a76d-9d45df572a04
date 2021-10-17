@@ -18,7 +18,6 @@ export function doUrlEncodedRequest(method, params, url) {
 }
 
 export function setAuthorizationHeader(jwt) {
-    console.log(jwt);
     localStorage.setItem(storageKey, jwt);
     ApiClient.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
 }

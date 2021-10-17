@@ -38,8 +38,8 @@ public class ForgotPasswordController {
    @Autowired
    private AuditService auditService;
 
-    @PostMapping("/forgotPassword")
-    public ResponseEntity<String> sendEmailToken(@AuthenticationPrincipal UserModel user,@RequestBody String  email) throws MessagingException
+    @PostMapping("/forgotPassword/{email}")
+    public ResponseEntity<String> sendEmailToken(@AuthenticationPrincipal UserModel user, @PathVariable String  email) throws MessagingException
     {
         try
         {

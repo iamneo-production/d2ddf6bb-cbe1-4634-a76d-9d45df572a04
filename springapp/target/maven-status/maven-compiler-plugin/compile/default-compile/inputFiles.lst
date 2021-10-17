@@ -4,6 +4,7 @@
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/controller/OrderController.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/model/UserModel.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/controller/CartController.java
+/home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/controller/ForgotPasswordController.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/repository/UserRepository.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/controller/SignupController.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/repository/CartRepository.java
