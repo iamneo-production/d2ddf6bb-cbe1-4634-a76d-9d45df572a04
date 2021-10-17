@@ -77,7 +77,7 @@ public class OrderService {
                 payment.setSignature(razorPaySignature);
                 paymentRepository.save(payment);
                 OrderModel order = orderRepository.findByOrderId(payment.getOrderId());
-                order.setStatus("Paid");
+                order.setPaid(true);
                 orderRepository.save(order);
                 auditService.saveAudit(new AuditModel(userId, "Payment processed for order id: " + order.getOrderId()));
                 return ResponseEntity.ok("Order Processed successfully.");

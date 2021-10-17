@@ -52,10 +52,12 @@ function Product() {
             quantity: 1,
             price: product.price
         }).then(response => {
-            console.log(response.data);
             if (response.data) {
-                displayRazorpay(response.data, product.price);
-                dispatch(openSnackbar(`An order for ${product.productName} has been placed.`, 'success'));
+                displayRazorpay(response.data, product.price).then(() => {
+                    dispatch(openSnackbar(`The payment for ${product.productName} has been processed.`, 'success'));
+                }).catch(() => {
+                    dispatch(openSnackbar(`There was an error in processing the payment. Any amount deducted will be refunded within 4 days.`, 'error'));
+                });
             }
       }).finally(() => setLoading2(false));
     }
@@ -65,7 +67,7 @@ function Product() {
             <Navbar/>
             <Grid container maxWidth="md" spacing={3} sx={{ m: 'auto' }}>
                 <Grid item xs={12} sm={6} sx={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
-                    <img src={product.imageUrl} alt={product.productName} style={{ maxWidth: '27.5vw' }} />
+                    <img src={product.imageUrl} alt={product.productName} style={{ maxWidth: '27.5vw', maxHeight: '85vh' }} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <Stack spacing={1} sx={{ pt: 3 }}>

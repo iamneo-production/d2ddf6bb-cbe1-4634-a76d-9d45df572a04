@@ -132,6 +132,9 @@ function App() {
                   <Route exact path="/">
                     <Redirect to="/admin" />
                   </Route>
+                  <Route exact path="/home">
+                    <Redirect to="/admin" />
+                  </Route>
                 </Switch>
               </>
             )

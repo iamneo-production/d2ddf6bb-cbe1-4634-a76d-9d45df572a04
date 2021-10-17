@@ -1,4 +1,4 @@
-import { Card, CardMedia, CardActions, CardContent, Typography, Button } from '@mui/material';
+import { Card, CardMedia, CardActions, CardContent, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ApiClient, doUrlEncodedRequest } from '../utils/ApiClient';
@@ -11,6 +11,7 @@ function ProductCard(props) {
 
     let [state, dispatch] = useStateValue();
     const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const addToCart = () => {
         setLoading(true);
@@ -22,6 +23,7 @@ function ProductCard(props) {
     }
 
     const deleteItem = () => {
+        setOpen(false);
         setLoading(true);
         ApiClient.delete(`/admin/delete/${props.product.productId}`).then(response => {
         if (response.data) {
@@ -31,10 +33,12 @@ function ProductCard(props) {
       }).finally(() => setLoading(false));
     }
 
+    const handleClose = () => {
+        setOpen(false);
+    }
+
     return (
-        <Card raised elevation={3} style={
-            props.admin && props.product.quantity <= 10 ?  { backgroundColor: '#d32f2f' } : {}
-        }>
+        <Card raised elevation={3}>
             <CardMedia
                 component="img"
                 height="160"
@@ -49,7 +53,9 @@ function ProductCard(props) {
                 <Typography variant="body2" color="text.secondary">
                     ₹{props.product.price}
                 </Typography>
-                {props.admin ? <Typography variant="body2" color="text.secondary">
+                {props.admin ? <Typography variant="body2" color="text.secondary" style={
+                    props.product.quantity <= 10 ?  { color: '#d32f2f', fontWeight: 'bold' } : {}
+                }>
                     {props.product.quantity} items left
                 </Typography> : ''}                                 
             </CardContent>
@@ -60,7 +66,7 @@ function ProductCard(props) {
                     <Button size="small" onClick={() => {
                         history.push('/editProduct/' + props.product.productId);
                     }} variant="contained">Edit</Button>
-                    <LoadingButton size="small" color="error" variant="contained" onClick={deleteItem} loading={loading} loadingIndicator="Deleting...">
+                    <LoadingButton size="small" color="error" variant="contained" onClick={() => setOpen(true)} loading={loading} loadingIndicator="Deleting...">
                         Delete
                     </LoadingButton>
                 </CardActions>
@@ -72,7 +78,25 @@ function ProductCard(props) {
                     <LoadingButton size="small" onClick={addToCart} loading={loading} loadingIndicator="Adding...">Add to Cart</LoadingButton>
                 </CardActions>
             }
-            
+            <Dialog
+                open={open}
+                onClose={handleClose}
+            >
+                <DialogTitle>
+                    Delete {props.product.productName}?
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        This will permanently delete this product. This action is not undoable.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={deleteItem} autoFocus>
+                    Confirm Deletion
+                </Button>
+                </DialogActions>
+            </Dialog>            
         </Card>
     )
 }

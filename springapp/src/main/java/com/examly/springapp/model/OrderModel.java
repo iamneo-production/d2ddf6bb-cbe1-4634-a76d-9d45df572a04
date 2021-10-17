@@ -28,8 +28,9 @@ public class OrderModel{
     private String status;
     private String price;
 	private String orderedDate;
+	private Boolean paid;
 
-	public OrderModel(){
+	public OrderModel() {
 
 	}
 
@@ -58,6 +59,7 @@ public class OrderModel{
 		this.totalPrice = Integer.toString(Integer.parseInt(price) * quantity);
 		this.productName = productName;
 		this.orderedDate = dtf.format(now);
+		this.paid = false;
 	}
 
 	public Long getOrderId() {
@@ -122,6 +124,14 @@ public class OrderModel{
 
 	public void setOrderedDate(String orderedDate) {
 		this.orderedDate = orderedDate;
+	}
+
+	public Boolean getPaid() {
+		return this.paid;
+	}
+
+	public void setPaid(Boolean paid) {
+		this.paid = paid;
 	}
 
 	@Override
