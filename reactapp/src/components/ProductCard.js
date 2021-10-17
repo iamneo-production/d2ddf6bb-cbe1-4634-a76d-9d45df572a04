@@ -58,7 +58,7 @@ function ProductCard(props) {
                 <CardActions>
                     <CardActions>
                     <Button size="small" onClick={() => {
-                        history.push('/editproduct/' + props.product.productId);
+                        history.push('/editProduct/' + props.product.productId);
                     }} variant="contained">Edit</Button>
                     <LoadingButton size="small" color="error" variant="contained" onClick={deleteItem} loading={loading} loadingIndicator="Deleting...">
                         Delete

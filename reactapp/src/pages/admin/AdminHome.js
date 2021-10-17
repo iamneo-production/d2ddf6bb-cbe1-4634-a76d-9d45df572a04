@@ -2,9 +2,8 @@ import { useStateValue } from '../../utils/StateProvider';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import ProductCard from '../../components/ProductCard';
-import BannerCard from '../../components/BannerCard'
 import { actionTypes, SortBy } from '../../utils/Reducer';
-import { Box, Stack, Grid, Typography, Fab, Skeleton } from '@mui/material';
+import { Box, Stack, Grid, Fab, Skeleton } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -13,7 +12,7 @@ import { ApiClient } from '../../utils/ApiClient';
 function AdminHome() {
     
     // get filter state and products
-    let [{ filter, products, banners }, dispatch] = useStateValue();
+    let [{ filter, products }, dispatch] = useStateValue();
 
     let [productsLoaded, setProductsLoaded] = useState(false);
 
@@ -117,13 +116,18 @@ function AdminHome() {
                 </Box>
             </Stack>
 
-            <Fab color="primary" aria-label="add" sx={{ position: 'fixed', bottom: '2rem', right: '2rem', display: { md: 'none' } }} onClick={() => {
+            <Fab color="primary" sx={{ position: 'fixed', bottom: '2rem', right: '2rem', display: { md: 'none' } }} onClick={() => {
                 dispatch({
                     type: actionTypes.SET_FILTER_TOGGLE,
                     filterToggle: true
                 });
             }}>
                 <Icon icon="fa-solid:filter" />
+            </Fab>
+            <Fab color="primary" variant="extended" sx={{ position: 'fixed', bottom: '2rem', right: '6.5rem', p: 3 }}  onClick={() => {
+                history.push('/addProduct');
+            }}>
+                Add Product
             </Fab>
         </Box>
     );
