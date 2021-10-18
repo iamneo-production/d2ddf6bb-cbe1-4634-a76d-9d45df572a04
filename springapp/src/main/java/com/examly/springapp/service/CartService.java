@@ -63,6 +63,7 @@ public class CartService {
         cartItem.setProductName(product.getProductName());
         cartItem.setQuantity(asked);
         cartItem.setPrice(product.getPrice());
+        cartItem.setimageUrl(product.getimageUrl());
         cartRepository.save(cartItem);
         
         auditService.saveAudit(new AuditModel(userId, String.format("%s %s added to cart by user", quantity, product.getProductName())));
