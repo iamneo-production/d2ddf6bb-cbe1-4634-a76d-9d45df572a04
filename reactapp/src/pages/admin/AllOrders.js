@@ -11,7 +11,7 @@ function AllOrders() {
         <div>
             <Navbar/>
             <Title style={{paddingTop: '75px'}} >All Orders</Title>
-            <Datatable/>
+            <Datatable type="orders" />
         </div>
     )
 }
