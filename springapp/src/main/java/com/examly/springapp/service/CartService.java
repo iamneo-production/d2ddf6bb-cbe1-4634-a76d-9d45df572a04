@@ -56,15 +56,24 @@ public class CartService {
             .header("Error-Message", String.format("Cannot have more than %d items in Cart.", LIMIT))
             .body("FALSE");
         }
+
+        CartModel existing = cartRepository.findByUserIdAndProductId(userId, id);
+
+        if (existing == null) {
+            CartModel cartItem = new CartModel();
+            cartItem.setUserId(userId);
+            cartItem.setProductId(id);
+            cartItem.setProductName(product.getProductName());
+            cartItem.setQuantity(asked);
+            cartItem.setPrice(product.getPrice());
+            cartItem.setImageUrl(product.getImageUrl());
+            cartRepository.save(cartItem);
+        }
+        else {
+            existing.setQuantity(existing.getQuantity() + asked);
+            cartRepository.save(existing);
+        }
         
-        CartModel cartItem = new CartModel();
-        cartItem.setUserId(userId);
-        cartItem.setProductId(id);
-        cartItem.setProductName(product.getProductName());
-        cartItem.setQuantity(asked);
-        cartItem.setPrice(product.getPrice());
-        cartItem.setImageUrl(product.getImageUrl());
-        cartRepository.save(cartItem);
         
         auditService.saveAudit(new AuditModel(userId, String.format("%s %s added to cart by user", quantity, product.getProductName())));
         return ResponseEntity.ok(String.format("%s %s added to cart", quantity, product.getProductName()));

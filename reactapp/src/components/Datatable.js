@@ -12,6 +12,7 @@ import { ApiClient, doUrlEncodedRequest } from '../utils/ApiClient';
 import { displayRazorpay } from '../utils/Razorpay';
 import { openSnackbar } from "../utils/Reducer";
 import { useHistory } from 'react-router-dom';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 
 const customStyles = {
@@ -109,37 +110,21 @@ function Datatable({type, id}) {
                 }).catch(() => {
                     dispatch(openSnackbar(`There was an error in processing the payment. Any amount deducted will be refunded within 4 days.`, 'error'));
                 });
+
+                const index = cartData.findIndex(x => x.cartItemId === product.cartItemId);
+                cartData.splice(index, 1);
+                setCartData([...cartData]);
             }
         });
-        deleteCartItem(product.cartItemId);
     }
     
     const buyAllNow = () => {
-        var totalPrice = 0
-        var responseData
-        cartData.forEach((product, index) => {
-            totalPrice = parseInt(totalPrice) + parseInt(product.price)
-            responseData = product
-        })
-
-        if(totalPrice !== 0){
-            totalPrice = totalPrice * 100
-            ApiClient.post(`/saveOrder`).then(response => {
-                displayRazorpay(responseData, totalPrice).then(() => {
-                    dispatch(openSnackbar(`The payment has been processed.`, 'success'));
-                }).catch(() => {
-                    dispatch(openSnackbar(`There was an error in processing the payment. Any amount deducted will be refunded within 4 days.`, 'error'));
-                });
-            }).finally(() => {
-                cartData.forEach(product => {
-                    deleteCartItem(product.cartItemId)
-                    getCartData()
-                    history.push('/orders')
-                })
-            })
-        }else{
-            buyAllNow()
-        }      
+        setBuyAllLoading(true);
+        ApiClient.post('/saveOrder').then(() => {
+            setCartData([]);
+            dispatch(openSnackbar(`Orders for all cart items have been created.`, 'success'));
+            history.push('/orders');
+        }).finally(() => setBuyAllLoading(false));
     }
 
     const cartHeaders = [
@@ -260,6 +245,8 @@ function Datatable({type, id}) {
     const [adminOrdersData, setAdminOrdersData] = useState([]);
     const [usersData, setUsersData] = useState([]);
     const [loaded, setLoaded] = useState(false);
+    const [buyAllLoading, setBuyAllLoading] = useState(false);
+    const [removeAllLoading, setRemoveAllLoading] = useState(false);
 
     const CartDetails = ({ data }) => 
     <pre>
@@ -272,18 +259,18 @@ function Datatable({type, id}) {
                     <Title>{data.productName}</Title>
                     <Detail>Price: &#8377; {data.price}</Detail>
                     <Detail>Quantity: 
-                        <IconButton color="primary" style={{'margin-right': '7px'}} onClick={() => handleClick('remove', data)}>
+                        <IconButton color="primary" style={{marginRight: '7px'}} onClick={() => handleClick('remove', data)}>
                             <MdRemove/>
                         </IconButton> 
                         {data.quantity} 
-                        <IconButton color="primary" style={{'margin-left': '7px'}} onClick={() => handleClick('add', data)} >
+                        <IconButton color="primary" style={{marginLeft: '7px'}} onClick={() => handleClick('add', data)} >
                             <MdAdd/>
                         </IconButton>
                     </Detail>
                     <Detail>Total Price: &#8377; {parseInt(data.price.replace(/[^0-9]/g, '')) * parseInt(data.quantity)}</Detail>
                     <ButtonContainer>
                         <Button 
-                            style={{"margin-top":"10px", "margin-right":"10px", "padding": "7px 15px", "width": "fit-content"}} 
+                            style={{marginTop:"10px", marginRight:"10px", "padding": "7px 15px", "width": "fit-content"}} 
                             color="primary" 
                             variant="contained"
                             startIcon={<FaBolt />}
@@ -292,7 +279,7 @@ function Datatable({type, id}) {
                             Buy Now
                         </Button>
                         <Button 
-                            style={{"margin-top":"10px", "padding": "7px 15px", "width": "fit-content"}} 
+                            style={{marginTop:"10px", "padding": "7px 15px", "width": "fit-content"}} 
                             color="error" 
                             variant="outlined"
                             startIcon={<MdDelete />}
@@ -339,14 +326,14 @@ function Datatable({type, id}) {
         }).finally(() => setLoaded(true));
     }
 
-    const getCartData = (initialLoad = false) => {
+    const getCartData = () => {
         ApiClient.get('/cart').then(response => {
-            if(response.data.length !== 0){
+            if(response.data.length !== 0){                
                 if(response.data.length !== cartData.length || response.data[0].quantity !== cartData[0].quantity){
                     setCartData(response.data)
                 }
             }
-        }).finally(() => initialLoad && setLoaded(true));
+        }).finally(() => setLoaded(true));
     }
 
     const getOrdersData = () => {
@@ -361,66 +348,70 @@ function Datatable({type, id}) {
         ApiClient.get('/admin/orders').then(response => {
             if(response.data.length !== adminOrdersData.length){
                 setAdminOrdersData(response.data)
-                console.log(response.data)
             }
         }).finally(() => setLoaded(true));
     }
 
     const deleteCartItem = (id) => {
         ApiClient.delete(`/cart/${id}`).then(response => {
-            getCartData()
+            const index = cartData.findIndex(x => x.cartItemId === id);
+            cartData.splice(index, 1);
+            setCartData([...cartData]);
+            dispatch(openSnackbar(`Item removed.`, 'success'));
         });
     }
 
     const deleteAllCartItems = () => {
-        if(cartData.length !== 0){
+        if(cartData.length !== 0) {
+            setRemoveAllLoading(true);
             cartData.forEach(item => {
                 ApiClient.delete(`/cart/${item.cartItemId}`)
             })
-            dispatch(openSnackbar(`All Items removed`, 'success'));
-            history.push('/')
+            dispatch(openSnackbar(`All Items removed.`, 'success'));
+            setCartData([]);
+            history.push('/');
         }
     }
 
     const handleClick =  (type, product)  => {
-        var currQuantity = product.quantity
         if(type === 'add'){
-            if(currQuantity === 5){
-                dispatch(openSnackbar(`Cannot contain more than 5 items`, 'error'));
-            }else{
-                try{
-                    ApiClient(doUrlEncodedRequest('POST', { quantity: currQuantity + 1 }, `/home/${product.productId}`)).then(response => {
-                        if (response.data) {
-                            dispatch(openSnackbar(`Item added`, 'success'));
-                            deleteCartItem(product.cartItemId)
-                        }
-                    });                    
-                    getCartData()
+            ApiClient(doUrlEncodedRequest('POST', { quantity: 1 }, `/home/${product.productId}`)).then(response => {
+                if (response.data) {
+                    dispatch(openSnackbar(`Item added.`, 'success'));
+                    const index = cartData.findIndex(x => x.cartItemId === product.cartItemId);
+                    cartData[index].quantity += 1;
+                    setCartData([...cartData]);
                 }
-                catch(err){
-                    console.log(err)
-                    ApiClient(doUrlEncodedRequest('POST', { quantity: currQuantity }, `/home/${product.productId}`))
-                }
+            });
+        }
+        else{
+            if (product.quantity === 1){
+                ApiClient.delete(`/cart/${product.cartItemId}`).then(response => {
+                    const index = cartData.findIndex(x => x.cartItemId === product.cartItemId);
+                    cartData.splice(index, 1);
+                    setCartData([...cartData]);
+                    dispatch(openSnackbar(`Item removed.`, 'success'));
+                });
             }
-        }else{
-            if(currQuantity === 1){
-                deleteCartItem(product.cartItemId)
-                getCartData()
-            }else{                
-                ApiClient(doUrlEncodedRequest('POST', { quantity: currQuantity - 1 }, `/home/${product.productId}`)).then(response => {
+            else {                
+                ApiClient(doUrlEncodedRequest('POST', { quantity: -1 }, `/home/${product.productId}`)).then(response => {
                     if (response.data) {
-                        dispatch(openSnackbar(`Item removed`, 'success'));
-                        deleteCartItem(product.cartItemId)
+                        const index = cartData.findIndex(x => x.cartItemId === product.cartItemId);
+                        cartData[index] = {
+                            ...cartData[index],
+                            quantity: cartData[index].quantity - 1
+                        }
+                        setCartData([...cartData]);            
+                        dispatch(openSnackbar(`Item removed.`, 'success'));            
                     }
                 });
-                getCartData()
             }
         }
     }
 
     useEffect(() => {
         if(userType === 'user') {            
-            getCartData(true)
+            getCartData()
             getOrdersData()
         }
         else{
@@ -431,7 +422,7 @@ function Datatable({type, id}) {
                 getAdminOrdersData();
             }
         }        
-    }, [cartData, ordersData, adminOrdersData, usersData])
+    }, [])
 
     return (
         <Container id={id}>
@@ -465,7 +456,7 @@ function Datatable({type, id}) {
                                     customStyles={customStyles}
                                 />
                                 <ButtonContainer>
-                                    <Button 
+                                    <LoadingButton loading={buyAllLoading} loadingIndicator="Buying..."
                                         style={{height: '40px', marginTop: '10px'}} 
                                         variant="contained" 
                                         theme={theme} 
@@ -473,8 +464,8 @@ function Datatable({type, id}) {
                                         onClick={() => buyAllNow()}
                                     >
                                         Buy All
-                                    </Button>
-                                    <Button 
+                                    </LoadingButton>
+                                    <LoadingButton loading={removeAllLoading} loadingIndicator="Removing..."
                                         style={{height: '42px', marginLeft: '10px', marginTop: '10px'}} 
                                         color="error" 
                                         variant="outlined"
@@ -482,7 +473,7 @@ function Datatable({type, id}) {
                                         onClick={() => deleteAllCartItems()}
                                     >
                                         Remove All
-                                    </Button>
+                                    </LoadingButton>
                                 </ButtonContainer>
                             </> 
                         )
