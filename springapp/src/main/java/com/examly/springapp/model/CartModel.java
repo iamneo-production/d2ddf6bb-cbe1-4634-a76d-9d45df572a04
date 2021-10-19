@@ -23,12 +23,13 @@ public class CartModel{
     private String productName;
     private int quantity;
     private String price;
+	private String imageUrl;
     
     public CartModel(){
         
     }
 
-	public CartModel(Long cartItemId, Long userId, String productId, String productName, int quantity, String price) {
+	public CartModel(Long cartItemId, Long userId, String productId, String productName, int quantity, String price, String imageUrl) {
 		super();
 		this.cartItemId = cartItemId;
 		this.userId = userId;
@@ -36,6 +37,8 @@ public class CartModel{
 		this.productName = productName;
 		this.quantity = quantity;
 		this.price = price;
+		this.imageUrl = imageUrl;
+		
 	}
 	
 	public Long getCartItemId() {
@@ -73,6 +76,14 @@ public class CartModel{
 	}
 	public void setPrice(String price) {
 		this.price = price;
+	}
+	public void setImageUrl(String imageUrl)
+	{
+		this.imageUrl = imageUrl;
+	}
+	public String getImageUrl()
+	{
+		return imageUrl;
 	}
 	@Override
 	public int hashCode() {

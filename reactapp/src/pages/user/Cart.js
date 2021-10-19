@@ -10,7 +10,7 @@ function Cart() {
     return (
         <div>
             <Navbar/>
-            <Title>Cart</Title>
+            <Title style={{paddingTop: '75px'}} >Cart</Title>
             <br/>
             <Datatable type="cart" id="mobileCartBody" />
         </div>

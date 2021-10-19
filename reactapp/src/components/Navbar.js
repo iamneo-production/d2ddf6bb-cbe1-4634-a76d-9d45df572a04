@@ -7,8 +7,12 @@ import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
   height: 60px;
+  width: 100%;
   background: #00BFA6;
-  color: #fff
+  color: #fff;
+  position: fixed;
+  top: 0;
+  z-index: 999999;
 `;
 
 const Wrapper = styled.div`

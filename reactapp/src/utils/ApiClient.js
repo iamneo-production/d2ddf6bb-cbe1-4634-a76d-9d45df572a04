@@ -2,8 +2,20 @@ import axios from 'axios';
 
 const storageKey = 'jwt';
 
+String.prototype.replaceAt = function(index, replacement) {
+    if (index >= this.length) {
+        return this.valueOf();
+    }
+ 
+    var chars = this.split('');
+    chars[index] = replacement;
+    var final = chars.join('');
+    return final.substring(0, final.lastIndexOf('/'))
+}
+var url = window.location.href
+url = url.replaceAt(11, '0')
 export const ApiClient = axios.create({
-    baseURL: 'https://8080-eadabfabbfefdfebbbddeeacdffcdafff.examlyiopb.examly.io'
+    baseURL: url
 });
 
 export function doUrlEncodedRequest(method, params, url) {

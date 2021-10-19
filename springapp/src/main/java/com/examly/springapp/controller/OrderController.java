@@ -42,20 +42,21 @@ public class OrderController {
         return orderService.placeOrder(order, id, user.getId());
     }
 
-    @RequestMapping(method=RequestMethod.POST, value="/admin/orders/{id}/status")
-    public ResponseEntity<String> updateStatus(@RequestBody String newStatus, @PathVariable Long id, @AuthenticationPrincipal UserModel user) {
-        if (!user.getRole().equalsIgnoreCase("admin")) {
-            return ResponseEntity
-            .badRequest()
-            .header("Error-Message", "Only Admin can do this action.")
-            .body("FALSE");
-        }
-        return orderService.updateStatus(newStatus, id, user.getId());
-    }
-
     @RequestMapping(method=RequestMethod.POST, value="/razorpay/payment")
     public ResponseEntity<String> processPayment(@RequestBody String inputJson, @AuthenticationPrincipal UserModel user) {
         JSONObject jsonObj = new JSONObject(inputJson);
         return orderService.processRazorpayPayment(jsonObj, user.getId());
+    }
+
+    // admin methods
+
+    @RequestMapping(method=RequestMethod.POST, value="/admin/orders/{id}/status")
+    public ResponseEntity<String> updateStatus(@RequestBody String newStatus, @PathVariable Long id, @AuthenticationPrincipal UserModel user) {
+        return orderService.updateStatus(newStatus, id, user);
+    }
+
+    @RequestMapping(method=RequestMethod.GET, value="/admin/orders")
+    public ResponseEntity<List<OrderModel>> getAllOrders(@AuthenticationPrincipal UserModel user) {
+        return orderService.getAllOrders(user);
     }
 }

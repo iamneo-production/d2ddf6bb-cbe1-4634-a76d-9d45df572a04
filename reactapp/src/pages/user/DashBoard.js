@@ -88,6 +88,7 @@ function DashBoard() {
             <Navbar />
 
             <Carousel 
+              style={{paddingTop: '75px'}}
               autoPlay = {true} 
               interval = {5000} 
               infiniteLoop = {true} 

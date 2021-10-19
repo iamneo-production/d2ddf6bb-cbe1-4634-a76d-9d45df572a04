@@ -117,7 +117,7 @@ function EditProduct() {
     return (
         <Box>
             <Navbar/>
-            <Stack maxWidth="sm" spacing={2} sx={{ m: '2rem auto', textAlign: 'left' }} id="editMobileBody">
+            <Stack style={{paddingTop: '75px'}} maxWidth="sm" spacing={2} sx={{ m: '2rem auto', textAlign: 'left' }} id="editMobileBody">
                 <h2 style={{ padding: '0rem 0.6rem' }}>Edit Product</h2>
                 <TextField id='mobileName' label="Product Name" placeholder="Enter Name" error={nameError} type="text" value={name} onChange={(e)=>setName(e.target.value)} style={{margin : '10px'}} />
                 <TextField id='mobilePrice' label="Price" placeholder="Enter Price" error={priceError} type="number" value={price} onChange={(e) => setPrice(e.target.value)} style={{margin : '10px'}}/>
