@@ -57,6 +57,6 @@ public class OrderController {
 
     @RequestMapping(method=RequestMethod.GET, value="/admin/orders")
     public ResponseEntity<List<OrderModel>> getAllOrders(@AuthenticationPrincipal UserModel user) {
-        return orderService.getAllOrders();
+        return orderService.getAllOrders(user);
     }
 }

@@ -8,6 +8,7 @@ import com.examly.springapp.model.CartModel;
 import com.examly.springapp.model.OrderModel;
 import com.examly.springapp.model.ProductModel;
 import com.examly.springapp.model.AuditModel;
+import com.examly.springapp.model.UserModel;
 import com.examly.springapp.model.PaymentModel;
 import com.examly.springapp.repository.PaymentRepository;
 import com.examly.springapp.repository.OrderRepository;
@@ -191,7 +192,7 @@ public class OrderService {
             return ResponseEntity
             .badRequest()
             .header("Error-Message", "Only Admin can see All Orders.")
-            .body(List.of());
+            .body(List.copyOf(new ArrayList<OrderModel>(0)));
         }
         return ResponseEntity.ok(orderRepository.findAll());
     }
