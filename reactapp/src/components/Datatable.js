@@ -34,12 +34,18 @@ const customStyles = {
 const Container = styled.div`
     width: 70%;
     margin: 0 auto;
+    @media(max-width:780px){
+        width: 100%;
+    }
 `
 const ExpanderContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     padding: 20px;
+    @media(max-width: 780px){
+        flex-direction: column;
+    }
 `
 const Left = styled.div`
     flex: 1;
@@ -140,6 +146,7 @@ function Datatable({type, id}) {
             name: 'Product Name',
             selector: row => row.productName,
             sortable: true,
+            grow: 3,
         },
         {
             name: 'Price',
@@ -153,10 +160,22 @@ function Datatable({type, id}) {
             name: 'Product Name',
             selector: row => row.productName,
             sortable: true,
+            grow: 3,
         },
         {
             name: 'Status',
             selector: row => row.status,
+            sortable: true,
+        },
+        {
+            name: 'Payment',
+            selector: row => {
+                if(row.paid){
+                    return "Completed"
+                }else{
+                    return "Pending"
+                }
+            },                
             sortable: true,
         },
     ];
@@ -272,6 +291,7 @@ function Datatable({type, id}) {
                     <Detail>Ordered on: {new Date(data.orderedDate).toDateString()}</Detail>
                     <Detail>Total Price: &#8377; {parseInt(data.price.replace(/[^0-9]/g, '')) * parseInt(data.quantity) }</Detail>
                     <Detail>Status: {data.status}</Detail>
+                    <Detail>Payment: {data.paid ? "Completed" : "Pending" }</Detail>
                 </Wrapper>
             </Right>
 
@@ -309,7 +329,6 @@ function Datatable({type, id}) {
     const deleteCartItem = (id) => {
         ApiClient.delete(`/cart/${id}`).then(response => {
             getCartData()
-            dispatch(openSnackbar(`Item removed`, 'success'));
         });
     }
 
@@ -326,24 +345,34 @@ function Datatable({type, id}) {
     const handleClick =  (type, product)  => {
         var currQuantity = product.quantity
         if(type === 'add'){
-            ApiClient(doUrlEncodedRequest('POST', { quantity: currQuantity + 1 }, `/home/${product.productId}`)).then(response => {
-                if (response.data) {
-                    dispatch(openSnackbar(`Item added`, 'success'));
+            if(currQuantity === 5){
+                dispatch(openSnackbar(`Cannot contain more than 5 items`, 'error'));
+            }else{
+                try{
+                    ApiClient(doUrlEncodedRequest('POST', { quantity: currQuantity + 1 }, `/home/${product.productId}`)).then(response => {
+                        if (response.data) {
+                            dispatch(openSnackbar(`Item added`, 'success'));
+                            deleteCartItem(product.cartItemId)
+                        }
+                    });                    
+                    getCartData()
                 }
-            });
-            deleteCartItem(product.cartItemId)
-            getCartData()
+                catch(err){
+                    console.log(err)
+                    ApiClient(doUrlEncodedRequest('POST', { quantity: currQuantity }, `/home/${product.productId}`))
+                }
+            }
         }else{
             if(currQuantity === 1){
                 deleteCartItem(product.cartItemId)
                 getCartData()
-            }else{
+            }else{                
                 ApiClient(doUrlEncodedRequest('POST', { quantity: currQuantity - 1 }, `/home/${product.productId}`)).then(response => {
                     if (response.data) {
                         dispatch(openSnackbar(`Item removed`, 'success'));
+                        deleteCartItem(product.cartItemId)
                     }
                 });
-                deleteCartItem(product.cartItemId)
                 getCartData()
             }
         }
