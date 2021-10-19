@@ -19,6 +19,8 @@
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/encryption/Crypto.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/model/PaymentModel.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/security/SecurityConfig.java
+/home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/controller/AuditController.java
+/home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/model/OrderModel.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/SpringappApplication.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/model/OrderModel.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/service/AuditService.java
@@ -27,6 +29,7 @@
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/security/JwtTokenUtil.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/model/LoginModel.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/repository/ProductRepository.java
+/home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/security/SafeUserData.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/model/ProductModel.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/controller/LoginController.java
 /home/coder/project/workspace/springapp/src/main/java/com/examly/springapp/model/CartModel.java
