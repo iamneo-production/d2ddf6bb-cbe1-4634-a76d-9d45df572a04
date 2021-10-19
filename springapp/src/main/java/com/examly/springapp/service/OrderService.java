@@ -164,6 +164,8 @@ public class OrderService {
         return order;
     }
 
+    // admin methods
+
     public ResponseEntity<String> updateStatus(String status, Long orderId, UserModel user) {
         if (!user.getRole().equalsIgnoreCase("admin")) {
             return ResponseEntity
