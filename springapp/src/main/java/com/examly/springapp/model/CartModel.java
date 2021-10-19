@@ -29,7 +29,7 @@ public class CartModel{
         
     }
 
-	public CartModel(Long cartItemId, Long userId, String productId, String productName, int quantity, String price,String imageUrl) {
+	public CartModel(Long cartItemId, Long userId, String productId, String productName, int quantity, String price, String imageUrl) {
 		super();
 		this.cartItemId = cartItemId;
 		this.userId = userId;
@@ -77,11 +77,11 @@ public class CartModel{
 	public void setPrice(String price) {
 		this.price = price;
 	}
-	public void setimageUrl(String imageUrl)
+	public void setImageUrl(String imageUrl)
 	{
 		this.imageUrl = imageUrl;
 	}
-	public String getimageUrl()
+	public String getImageUrl()
 	{
 		return imageUrl;
 	}

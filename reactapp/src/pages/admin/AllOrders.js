@@ -10,7 +10,7 @@ function AllOrders() {
     return (
         <div>
             <Navbar/>
-            <Title>All Orders</Title>
+            <Title style={{paddingTop: '75px'}} >All Orders</Title>
             <Datatable/>
         </div>
     )

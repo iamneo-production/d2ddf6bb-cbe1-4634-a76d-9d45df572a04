@@ -65,7 +65,7 @@ function Product() {
     return (
         <Box sx={{ textAlign: 'left' }}>
             <Navbar/>
-            <Grid container maxWidth="md" spacing={3} sx={{ m: 'auto' }}>
+            <Grid style={{paddingTop: '75px'}} container maxWidth="md" spacing={3} sx={{ m: 'auto' }}>
                 <Grid item xs={12} sm={6} sx={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
                     <img src={product.imageUrl} alt={product.productName} style={{ maxWidth: '27.5vw', maxHeight: '85vh' }} />
                 </Grid>

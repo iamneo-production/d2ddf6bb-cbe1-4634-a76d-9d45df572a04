@@ -90,7 +90,7 @@ function AdminHome() {
     return (
         <Box sx={{ textAlign: 'left' }}>
             <Navbar />
-            <Stack direction="row" spacing={{ xs: 0, md: 2 }} sx={{ pt: 3 }}>
+            <Stack style={{paddingTop: '75px'}} direction="row" spacing={{ xs: 0, md: 2 }} sx={{ pt: 3 }}>
                 <Sidebar admin={true} />
                 <Box component="main" sx={{ px: 2, width: '100%' }}>
                     <Grid id = "mobileHomeBody" container spacing={3}>
