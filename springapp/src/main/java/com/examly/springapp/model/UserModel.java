@@ -114,7 +114,7 @@ public class UserModel implements UserDetails {
 	}
 
 	public String getMobileNumber() {
-		return mobileNumber;
+		return Crypto.decrypt(mobileNumber);
 	}
 
 	public void setMobileNumber(String mobileNumber) {

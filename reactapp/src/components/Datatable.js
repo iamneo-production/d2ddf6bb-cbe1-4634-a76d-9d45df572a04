@@ -6,6 +6,7 @@ import { MdRemove, MdAdd, MdDelete, MdDone, MdBolt } from "react-icons/md";
 import { FaBolt } from "react-icons/fa";
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button'
+import Skeleton from '@mui/material/Skeleton';
 import { createTheme } from '@mui/material/styles';
 import { ApiClient, doUrlEncodedRequest } from '../utils/ApiClient';
 import { displayRazorpay } from '../utils/Razorpay';
@@ -206,10 +207,40 @@ function Datatable({type, id}) {
         },
     ];
 
+    const adminUsersHeaders = [
+        {
+            name: 'User ID',
+            selector: row => parseInt(row.id),
+            sortable: true
+        },
+        {
+            name: 'Username',
+            selector: row => row.username,
+            sortable: true
+        },
+        {
+            name: 'Email',
+            selector: row => row.email,
+            sortable: true
+        },
+        {
+            name: 'Mobile Number',
+            selector: row => row.mobileNumber,
+            sortable: true
+        },
+        {
+            name: 'Role',
+            selector: row => row.role,
+            sortable: true
+        }
+    ];
+
     
     const [cartData, setCartData]  = useState([]);
     const [ordersData, setOrdersData]  = useState([]);
     const [adminOrdersData, setAdminOrdersData] = useState([]);
+    const [usersData, setUsersData] = useState([]);
+    const [loaded, setLoaded] = useState(false);
 
     const CartDetails = ({ data }) => 
     <pre>
@@ -278,15 +309,24 @@ function Datatable({type, id}) {
         </ExpanderContainer>
     </pre>;
 
+    const getAdminUsersData = () => {
+        ApiClient.get('/admin/users').then(response => {
+            if (response.data.length !== 0) {
+                if (response.data.length !== usersData.length) {
+                    setUsersData(response.data);
+                }
+            }
+        }).finally(() => setLoaded(true));
+    }
 
-    const getCartData = () => {
+    const getCartData = (initialLoad = false) => {
         ApiClient.get('/cart').then(response => {
             if(response.data.length !== 0){
                 if(response.data.length !== cartData.length || response.data[0].quantity !== cartData[0].quantity){
                     setCartData(response.data)
                 }
             }
-        });
+        }).finally(() => initialLoad && setLoaded(true));
     }
 
     const getOrdersData = () => {
@@ -294,7 +334,7 @@ function Datatable({type, id}) {
             if(response.data.length !== ordersData.length){
                 setOrdersData(response.data)
             }
-        });
+        }).finally(() => setLoaded(true));
     }
 
     const getAdminOrdersData = () => {
@@ -303,7 +343,7 @@ function Datatable({type, id}) {
                 setAdminOrdersData(response.data)
                 console.log(response.data)
             }
-        });
+        }).finally(() => setLoaded(true));
     }
 
     const deleteCartItem = (id) => {
@@ -350,79 +390,103 @@ function Datatable({type, id}) {
     }
 
     useEffect(() => {
-        if(userType === 'user'){
-            getCartData()
+        if(userType === 'user') {            
+            getCartData(true)
             getOrdersData()
-        }else{
-            getAdminOrdersData()
+        }
+        else{
+            if (type === 'users') {
+                getAdminUsersData();
+            }
+            else {
+                getAdminOrdersData();
+            }
         }        
-    }, [cartData, ordersData, adminOrdersData])
+    }, [cartData, ordersData, adminOrdersData, usersData])
 
     return (
         <Container id={id}>
         {
-            userType === 'user' ? ( 
-                type === 'orders' ? (
-                    ordersData.length === 0 ? (
-                        <p>Orders is empty</p>
-                    ) : (
-                        <Table
-                        columns={ordersHeaders}
-                        data={ordersData}
-                        expandableRows
-                        expandableRowsComponent={OrderDetails}
-                        customStyles={customStyles}
-                        pagination
-                        />
-                    )
-                    
-                ) : (
-                    cartData.length === 0 ? (
-                        <p>Cart is empty</p>
-                    ) : (
-                        <>
+            loaded ? (
+                userType === 'user' ? ( 
+                    type === 'orders' ? (
+                        ordersData.length === 0 ? (
+                            <p>Orders is empty</p>
+                        ) : (
                             <Table
-                                columns={cartHeaders}
-                                data={cartData}
-                                expandableRows
-                                expandableRowsComponent={CartDetails}
-                                customStyles={customStyles}
+                            columns={ordersHeaders}
+                            data={ordersData}
+                            expandableRows
+                            expandableRowsComponent={OrderDetails}
+                            customStyles={customStyles}
+                            pagination
                             />
-                            <ButtonContainer>
-                                <Button 
-                                    style={{height: '40px', marginTop: '10px'}} 
-                                    variant="contained" 
-                                    theme={theme} 
-                                    startIcon={<MdDone />}
-                                    onClick={() => buyAllNow()}
-                                >
-                                    Buy All
-                                </Button>
-                                <Button 
-                                    style={{height: '42px', marginLeft: '10px', marginTop: '10px'}} 
-                                    color="error" 
-                                    variant="outlined"
-                                    startIcon={<MdDelete />}
-                                    onClick={() => deleteAllCartItems()}
-                                >
-                                    Remove All
-                                </Button>
-                            </ButtonContainer>
-                        </> 
+                        )
+                        
+                    ) : (
+                        cartData.length === 0 ? (
+                            <p>Cart is empty</p>
+                        ) : (
+                            <>
+                                <Table
+                                    columns={cartHeaders}
+                                    data={cartData}
+                                    expandableRows
+                                    expandableRowsComponent={CartDetails}
+                                    customStyles={customStyles}
+                                />
+                                <ButtonContainer>
+                                    <Button 
+                                        style={{height: '40px', marginTop: '10px'}} 
+                                        variant="contained" 
+                                        theme={theme} 
+                                        startIcon={<MdDone />}
+                                        onClick={() => buyAllNow()}
+                                    >
+                                        Buy All
+                                    </Button>
+                                    <Button 
+                                        style={{height: '42px', marginLeft: '10px', marginTop: '10px'}} 
+                                        color="error" 
+                                        variant="outlined"
+                                        startIcon={<MdDelete />}
+                                        onClick={() => deleteAllCartItems()}
+                                    >
+                                        Remove All
+                                    </Button>
+                                </ButtonContainer>
+                            </> 
+                        )
                     )
                 )
-            )
-            : ( 
-                adminOrdersData.length === 0 ? (
-                    <p>Orders is empty</p>
-                ) : (
-                    <Table
-                        columns={adminOrdersHeaders}
-                        data={adminOrdersData}
-                        customStyles={customStyles}
-                        pagination
-                    /> 
-                ) 
+                : (
+                    type !== 'users' ?
+                    ( 
+                        adminOrdersData.length === 0 ? (
+                            <p>Orders is empty</p>
+                        ) : (
+                            <Table
+                                columns={adminOrdersHeaders}
+                                data={adminOrdersData}
+                                customStyles={customStyles}
+                                pagination
+                            /> 
+                        ) 
+                    ) : (
+                        usersData.length === 0 ? (
+                            <p>Users are empty</p>
+                        ) : (
+                            <Table
+                                columns={adminUsersHeaders}
+                                data={usersData}
+                                customStyles={customStyles}
+                                pagination
+                            /> 
+                        ) 
+                    )
+                )
+            ) : (
+                <Skeleton variant="rectangular" height={400} animation="wave" /> 
             )
         }
         </Container>
