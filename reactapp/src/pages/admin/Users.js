@@ -7,7 +7,7 @@ function Users() {
     return (
         <div>
             <Navbar/>
-            <h2 style={{ marginTop: '10px', paddingTop: '75px' }} type="users">All Users</h2>
+            <h2 style={{ marginTop: '10px', paddingTop: '75px' }}>All Users</h2>
             <Datatable type="users" />
         </div>
     )

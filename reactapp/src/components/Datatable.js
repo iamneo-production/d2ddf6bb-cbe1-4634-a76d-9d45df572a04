@@ -13,6 +13,7 @@ import { displayRazorpay } from '../utils/Razorpay';
 import { openSnackbar } from "../utils/Reducer";
 import { useHistory } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
+import AuditLog from './AuditLog';
 
 
 const customStyles = {
@@ -34,7 +35,6 @@ const customStyles = {
 
 
 const Container = styled.div`
-    width: 70%;
     margin: 0 auto;
     @media(max-width:780px){
         width: 100%;
@@ -92,10 +92,19 @@ const theme = createTheme({
     },
 });
 
-function Datatable({type, id}) {
+function Datatable({type, id, userId}) {
 
     const [{userType}, dispatch] = useStateValue();
     const history = useHistory();
+    const [logsData, setLogsData]  = useState([]);
+    const [cartData, setCartData]  = useState([]);
+    const [ordersData, setOrdersData]  = useState([]);
+    const [adminOrdersData, setAdminOrdersData] = useState([]);
+    const [usersData, setUsersData] = useState([]);
+    const [loaded, setLoaded] = useState(false);
+    const [buyAllLoading, setBuyAllLoading] = useState(false);
+    const [removeAllLoading, setRemoveAllLoading] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
 
     const buyNow = (product) => {
         ApiClient.post(`/placeOrder/${product.productId}`, {
@@ -126,6 +135,7 @@ function Datatable({type, id}) {
             history.push('/orders');
         }).finally(() => setBuyAllLoading(false));
     }
+    
 
     const cartHeaders = [
         {
@@ -211,6 +221,18 @@ function Datatable({type, id}) {
         },
     ];
 
+    const adminUserLogHeaders = [
+        {
+            name: 'Occured on',
+            selector: row => row.createdAt,
+            sortable: true
+        },
+        {
+            name: 'Action',
+            selector: row => row.action
+        }
+    ];
+
     const adminUsersHeaders = [
         {
             name: 'User ID',
@@ -236,17 +258,19 @@ function Datatable({type, id}) {
             name: 'Role',
             selector: row => row.role,
             sortable: true
+        },
+        {
+            name: 'Audit Log',
+            button: true,
+            cell: row => (
+                <Button size="small" onClick={() => {
+                    setSelectedUser(row);
+                }}>
+                    View
+                </Button>
+            )
         }
     ];
-
-    
-    const [cartData, setCartData]  = useState([]);
-    const [ordersData, setOrdersData]  = useState([]);
-    const [adminOrdersData, setAdminOrdersData] = useState([]);
-    const [usersData, setUsersData] = useState([]);
-    const [loaded, setLoaded] = useState(false);
-    const [buyAllLoading, setBuyAllLoading] = useState(false);
-    const [removeAllLoading, setRemoveAllLoading] = useState(false);
 
     const CartDetails = ({ data }) => 
     <pre>
@@ -352,6 +376,14 @@ function Datatable({type, id}) {
         }).finally(() => setLoaded(true));
     }
 
+    const getLogsData = () => {
+        ApiClient.get(`/admin/users/${userId}/logs`).then(response => {
+            if(response.data.length !== logsData.length){
+                setLogsData(response.data)
+            }
+        }).finally(() => setLoaded(true));
+    }
+
     const deleteCartItem = (id) => {
         ApiClient.delete(`/cart/${id}`).then(response => {
             const index = cartData.findIndex(x => x.cartItemId === id);
@@ -410,6 +442,7 @@ function Datatable({type, id}) {
     }
 
     useEffect(() => {
+        setLoaded(false);
         if(userType === 'user') {            
             getCartData()
             getOrdersData()
@@ -418,14 +451,17 @@ function Datatable({type, id}) {
             if (type === 'users') {
                 getAdminUsersData();
             }
+            else if (type === 'logs') {
+                getLogsData();
+            }
             else {
                 getAdminOrdersData();
             }
         }        
-    }, [])
+    }, [userId])
 
     return (
-        <Container id={id}>
+        <Container id={id} style={{ width: type === 'logs' ? '100%' : '70%' }}>
         {
             loaded ? (
                 userType === 'user' ? ( 
@@ -480,7 +516,7 @@ function Datatable({type, id}) {
                     )
                 )
                 : (
-                    type !== 'users' ?
+                    type === 'orders' ?
                     ( 
                         adminOrdersData.length === 0 ? (
                             <p>Orders is empty</p>
@@ -492,17 +528,33 @@ function Datatable({type, id}) {
                                 pagination
                             /> 
                         ) 
-                    ) : (
+                    ) : type === 'users' ? (
                         usersData.length === 0 ? (
                             <p>Users are empty</p>
                         ) : (
-                            <Table
-                                columns={adminUsersHeaders}
-                                data={usersData}
-                                customStyles={customStyles}
-                                pagination
-                            /> 
+                            <>
+                                <Table
+                                    columns={adminUsersHeaders}
+                                    data={usersData}
+                                    customStyles={customStyles}
+                                    pagination
+                                /> 
+                                <AuditLog user={selectedUser} />
+                            </>
                         ) 
+                    ) : (
+                        logsData.length === 0 ? (
+                            <p>No actions taken so far.</p>
+                        ) : (
+                            <>
+                                <Table
+                                    columns={adminUserLogHeaders}
+                                    data={logsData}
+                                    customStyles={customStyles}
+                                    pagination
+                                /> 
+                            </>
+                        )
                     )
                 )
             ) : (
@@ -513,4 +565,4 @@ function Datatable({type, id}) {
     );
 };
 
-export default Datatable
+export default Datatable;

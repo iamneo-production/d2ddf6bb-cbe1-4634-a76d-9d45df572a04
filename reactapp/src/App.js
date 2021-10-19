@@ -16,6 +16,7 @@ import EditProduct from './pages/admin/EditProduct';
 import Product from './pages/user/Product';
 import DashBoard from './pages/user/DashBoard';
 import Users from './pages/admin/Users';
+import Email from './pages/admin/Email';
 import { loadAuthorizationHeaderFromStorage, ApiClient } from './utils/ApiClient';
 import { Snackbar, Alert } from '@mui/material';
 
@@ -129,6 +130,9 @@ function App() {
                   </Route>
                   <Route path="/admin/users">
                     <Users />
+                  </Route>
+                  <Route path="/admin/email">
+                    <Email />
                   </Route>
                   <Route path="/admin">
                     <AdminHome/>
