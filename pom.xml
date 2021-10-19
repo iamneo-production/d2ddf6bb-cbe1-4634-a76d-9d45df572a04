@@ -10,19 +10,15 @@
 	</parent>
 	<groupId>com.examly</groupId>
 	<artifactId>demo</artifactId>
-	<groupId>com.houari</groupId>
-    	<artifactId>iamneo-production_d2ddf6bb-cbe1-4634-a76d-9d45df572a04</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<maven.compiler.source>11</maven.compiler.source>
-        	<maven.compiler.target>11</maven.compiler.target>
-       		<sonar.organization>iamneo-production</sonar.organization>
-        	<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.sources>reactapp/src,springapp/src/main</sonar.sources>
-		<sonar.tests>springapp/src/test</sonar.tests>
-		<sonar.java.binaries>target</sonar.java.binaries>
+	<maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+	<sonar.sources>reactapp/src,springapp/src/main</sonar.sources>
+	<sonar.tests>springapp/src/test</sonar.tests>
+	<sonar.java.binaries>target</sonar.java.binaries>
 	</properties>
 	<dependencies>
 		<dependency>
