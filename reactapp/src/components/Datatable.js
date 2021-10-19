@@ -30,8 +30,9 @@ const customStyles = {
 	},
 };
 
+
 const Container = styled.div`
-    width: 60%;
+    width: 70%;
     margin: 0 auto;
 `
 const ExpanderContainer = styled.div`
@@ -163,18 +164,19 @@ function Datatable({type, id}) {
     const adminOrdersHeaders = [
         {
             name: 'Order ID',
-            selector: row => row.id,
+            selector: row => row.orderId,
             sortable: true,
         },
         {
             name: 'User ID',
-            selector: row => row.id,
+            selector: row => row.userId,
             sortable: true,
         },
         {
-            name: 'Mobile',
-            selector: row => row.name,
+            name: 'Mobile Name',
+            selector: row => row.productName,
             sortable: true, 
+            grow: 4,
         },
         {
             name: 'Price',
@@ -185,6 +187,22 @@ function Datatable({type, id}) {
             name: 'Quantity',
             selector: row => row.quantity,
             sortable: true, 
+        },
+        {
+            name: 'Status',
+            selector: row => row.status,
+            sortable: true, 
+        },
+        {
+            name: 'Payment',
+            selector: row => {
+                if(row.paid){
+                    return "Completed"
+                }else{
+                    return "Pending"
+                }
+            },                
+            sortable: true,
         },
     ];
 
@@ -197,7 +215,7 @@ function Datatable({type, id}) {
     <pre>
         <ExpanderContainer>
             <Left>
-                
+                <ComponentImg src={data.imageUrl}/>
             </Left>
             <Right>
                 <Wrapper>
@@ -243,7 +261,7 @@ function Datatable({type, id}) {
     <pre>
         <ExpanderContainer>
             <Left>
-                <ComponentImg src={data.url}/>
+                <ComponentImg src={data.imageUrl}/>
             </Left>
             <Right>
                 <Wrapper>
@@ -275,14 +293,12 @@ function Datatable({type, id}) {
         ApiClient.get('/orders').then(response => {
             if(response.data.length !== ordersData.length){
                 setOrdersData(response.data)
-                console.log(response.data)
             }
         });
     }
 
     const getAdminOrdersData = () => {
-        ApiClient.get('/orders').then(response => {
-            console.log(response)
+        ApiClient.get('/admin/orders').then(response => {
             if(response.data.length !== adminOrdersData.length){
                 setAdminOrdersData(response.data)
                 console.log(response.data)
@@ -302,12 +318,8 @@ function Datatable({type, id}) {
             cartData.forEach(item => {
                 ApiClient.delete(`/cart/${item.cartItemId}`)
             })
-            if (cartData.length === 0){
-                getCartData()
-                dispatch(openSnackbar(`All Items removed`, 'success'));
-            }else{
-                deleteAllCartItems()
-            }
+            dispatch(openSnackbar(`All Items removed`, 'success'));
+            history.push('/')
         }
     }
 
@@ -338,9 +350,12 @@ function Datatable({type, id}) {
     }
 
     useEffect(() => {
-        getCartData()
-        getOrdersData()
-        getAdminOrdersData()
+        if(userType === 'user'){
+            getCartData()
+            getOrdersData()
+        }else{
+            getAdminOrdersData()
+        }        
     }, [cartData, ordersData, adminOrdersData])
 
     return (
@@ -398,13 +413,16 @@ function Datatable({type, id}) {
                 )
             )
             : ( 
-                // <Table
-                //     columns={adminOrdersHeaders}
-                //     data={adminOrdersData}
-                //     customStyles={customStyles}
-                //     pagination
-                // /> 
-                <></>
+                adminOrdersData.length === 0 ? (
+                    <p>Orders is empty</p>
+                ) : (
+                    <Table
+                        columns={adminOrdersHeaders}
+                        data={adminOrdersData}
+                        customStyles={customStyles}
+                        pagination
+                    /> 
+                ) 
             )
         }
         </Container>
