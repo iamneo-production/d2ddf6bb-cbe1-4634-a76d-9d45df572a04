@@ -192,8 +192,10 @@ public class OrderService {
             return ResponseEntity
             .badRequest()
             .header("Error-Message", "Only Admin can see All Orders.")
-            .body(List.copyOf(new ArrayList<OrderModel>(0)));
+            .body(new ArrayList<OrderModel>(0));
         }
-        return ResponseEntity.ok(orderRepository.findAll());
+        List<OrderModel> orders = new ArrayList<OrderModel>();
+        orderRepository.findAll().forEach(orders::add);
+        return ResponseEntity.ok(orders);
     }
 }
