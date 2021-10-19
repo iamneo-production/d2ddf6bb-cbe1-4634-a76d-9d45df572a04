@@ -2,23 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.5</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.examly</groupId>
-	<artifactId>demo</artifactId>
+	<groupId>com.houari</groupId>
+    	<artifactId>iamneo-production_d2ddf6bb-cbe1-4634-a76d-9d45df572a04</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-	<sonar.sources>reactapp/src,springapp/src/main</sonar.sources>
-	<sonar.tests>springapp/src/test</sonar.tests>
-	<sonar.java.binaries>target</sonar.java.binaries>
+		<maven.compiler.source>8</maven.compiler.source>
+        	<maven.compiler.target>8</maven.compiler.target>
+       		<sonar.organization>iamneo-production</sonar.organization>
+        	<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.sources>reactapp/src,springapp/src/main</sonar.sources>
+		<sonar.tests>springapp/src/test</sonar.tests>
+		<sonar.java.binaries>target</sonar.java.binaries>
 	</properties>
 	<dependencies>
 		<dependency>
