@@ -25,7 +25,7 @@ public class EmailController {
   @Autowired
   private AuditService auditService;
   @PostMapping("/admin/mail")
-  public ResponseEntity<String> sendMail(@AuthenticationPrincipal UserModel user,@RequestBody String body) throws MessagingException
+  public ResponseEntity<String> sendMail(@AuthenticationPrincipal UserModel user, @RequestParam String body) throws MessagingException
   {
     try
     {
