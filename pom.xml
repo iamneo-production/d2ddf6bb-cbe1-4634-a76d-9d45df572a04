@@ -17,6 +17,7 @@
 		<maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 	<sonar.sources>reactapp/src,springapp/src/main</sonar.sources>
+	<sonar.tests>springapp/src/test</sonar.tests>
 	<sonar.java.binaries>target</sonar.java.binaries>
 	</properties>
 	<dependencies>
