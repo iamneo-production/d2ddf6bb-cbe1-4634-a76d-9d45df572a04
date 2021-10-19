@@ -62,6 +62,7 @@ function Navbar(){
               <>
                 <MenuItem id='adminProductButton' onClick={() => history.push('/admin')}>Products</MenuItem>
                 <MenuItem id='adminOrderButton' onClick={() => history.push('/admin/orders')}>Orders</MenuItem>
+                <MenuItem id='adminUserButton' onClick={() => history.push('/admin/users')}>Users</MenuItem>
               </>
             )
           }
