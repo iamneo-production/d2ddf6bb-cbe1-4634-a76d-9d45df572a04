@@ -164,7 +164,13 @@ public class OrderService {
         return order;
     }
 
-    public ResponseEntity<String> updateStatus(String status, Long orderId, Long userId) {
+    public ResponseEntity<String> updateStatus(String status, Long orderId, UserModel user) {
+        if (!user.getRole().equalsIgnoreCase("admin")) {
+            return ResponseEntity
+            .badRequest()
+            .header("Error-Message", "Only Admin can change an order's status.")
+            .body("FALSE");
+        }
         OrderModel order = orderRepository.findById(orderId).orElse(null);
         if (order == null) {
             return ResponseEntity
@@ -172,12 +178,19 @@ public class OrderService {
             .header("Error-Message", orderId + " OrderId does not exist.")
             .body("FALSE");
         }
+        Long userId = user.getId();
         order.setStatus(status);
         auditService.saveAudit(new AuditModel(userId, "Admin changed Order Status of Order "+orderId));
         return ResponseEntity.ok("Updated Status of order "+ orderId);
     }
 
-    public List<OrderModel> getAllOrders() {
-        return orderRepository.findAll();
+    public ResponseEntity<List<OrderModel>> getAllOrders(UserModel user) {
+        if (!user.getRole().equalsIgnoreCase("admin")) {
+            return ResponseEntity
+            .badRequest()
+            .header("Error-Message", "Only Admin can see All Orders.")
+            .body(List.of());
+        }
+        return ResponseEntity.ok(orderRepository.findAll());
     }
 }

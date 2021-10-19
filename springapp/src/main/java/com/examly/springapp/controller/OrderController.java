@@ -44,13 +44,7 @@ public class OrderController {
 
     @RequestMapping(method=RequestMethod.POST, value="/admin/orders/{id}/status")
     public ResponseEntity<String> updateStatus(@RequestBody String newStatus, @PathVariable Long id, @AuthenticationPrincipal UserModel user) {
-        if (!user.getRole().equalsIgnoreCase("admin")) {
-            return ResponseEntity
-            .badRequest()
-            .header("Error-Message", "Only Admin can change an order's status.")
-            .body("FALSE");
-        }
-        return orderService.updateStatus(newStatus, id, user.getId());
+        return orderService.updateStatus(newStatus, id, user);
     }
 
     @RequestMapping(method=RequestMethod.POST, value="/razorpay/payment")
@@ -60,13 +54,7 @@ public class OrderController {
     }
 
     @RequestMapping(method=RequestMethod.GET, value="/admin/orders")
-    public List<OrderModel> getAllOrders(@AuthenticationPrincipal UserModel user) {
-        if (!user.getRole().equalsIgnoreCase("admin")) {
-            return ResponseEntity
-            .badRequest()
-            .header("Error-Message", "Only Admin can see All Orders.")
-            .body("FALSE");
-        }
+    public ResponseEntity<List<OrderModel>> getAllOrders(@AuthenticationPrincipal UserModel user) {
         return orderService.getAllOrders();
     }
 }
