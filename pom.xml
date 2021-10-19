@@ -9,20 +9,18 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.examly</groupId>
-	<artifactId>demo</artifactId>
-	<groupId>com.houari</groupId>
-    	<artifactId>iamneo-production_d2ddf6bb-cbe1-4634-a76d-9d45df572a04</artifactId>
+	<artifactId>iamneo-production_d2ddf6bb-cbe1-4634-a76d-9d45df572a04</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
+	<name>iamneo-production_d2ddf6bb-cbe1-4634-a76d-9d45df572a04</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<maven.compiler.source>8</maven.compiler.source>
-        	<maven.compiler.target>8</maven.compiler.target>
-       		<sonar.organization>iamneo-production</sonar.organization>
-        	<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<maven.compiler.source>11</maven.compiler.source>
+       		<maven.compiler.target>11</maven.compiler.target>
 		<sonar.sources>reactapp/src,springapp/src/main</sonar.sources>
 		<sonar.tests>springapp/src/test</sonar.tests>
 		<sonar.java.binaries>target</sonar.java.binaries>
+		<sonar.organization>iamneo-production</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -66,12 +64,19 @@
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
+				<plugin>
+				    <groupId>org.sonarsource.scanner.maven</groupId>
+				    <artifactId>sonar-maven-plugin</artifactId>
+				    <version>3.7.0.1746</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 </project>
