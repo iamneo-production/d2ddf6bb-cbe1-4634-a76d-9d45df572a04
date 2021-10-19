@@ -176,4 +176,8 @@ public class OrderService {
         auditService.saveAudit(new AuditModel(userId, "Admin changed Order Status of Order "+orderId));
         return ResponseEntity.ok("Updated Status of order "+ orderId);
     }
+
+    public List<OrderModel> getAllOrders() {
+        return orderRepository.findAll();
+    }
 }
