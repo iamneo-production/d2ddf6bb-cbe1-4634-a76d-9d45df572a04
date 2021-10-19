@@ -47,7 +47,7 @@ public class OrderController {
         if (!user.getRole().equalsIgnoreCase("admin")) {
             return ResponseEntity
             .badRequest()
-            .header("Error-Message", "Only Admin can do this action.")
+            .header("Error-Message", "Only Admin can change an order's status.")
             .body("FALSE");
         }
         return orderService.updateStatus(newStatus, id, user.getId());
@@ -57,5 +57,16 @@ public class OrderController {
     public ResponseEntity<String> processPayment(@RequestBody String inputJson, @AuthenticationPrincipal UserModel user) {
         JSONObject jsonObj = new JSONObject(inputJson);
         return orderService.processRazorpayPayment(jsonObj, user.getId());
+    }
+
+    @RequestMapping(method=RequestMethod.GET, value="/admin/orders")
+    public List<OrderModel> getAllOrders(@AuthenticationPrincipal UserModel user) {
+        if (!user.getRole().equalsIgnoreCase("admin")) {
+            return ResponseEntity
+            .badRequest()
+            .header("Error-Message", "Only Admin can see All Orders.")
+            .body("FALSE");
+        }
+        return orderService.getAllOrders();
     }
 }
