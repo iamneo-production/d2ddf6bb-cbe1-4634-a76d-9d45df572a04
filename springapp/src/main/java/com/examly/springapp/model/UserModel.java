@@ -34,6 +34,8 @@ public class UserModel implements UserDetails {
 	private Boolean verified;
     private String role;
 	private boolean enabled = true;
+	private String emailVerificationCode;
+	private String passwordResetCode;
 	@OneToMany(mappedBy = "userId")
 	private List<CartModel> cart;
 	
@@ -59,15 +61,24 @@ public class UserModel implements UserDetails {
 		this.verified = verified;
 	}
 
-	public UserModel(String email, String password, String username, String mobileNumber) {
+	public UserModel(String email, String password, String username, String mobileNumber, String emailVerificationCode) {
 		super();
 		this.email = Crypto.encrypt(email);
 		this.password = password;
 		this.username = Crypto.encrypt(username);
 		this.mobileNumber = Crypto.encrypt(mobileNumber);
 		this.active = true;
-		this.role = "User";
-		this.verified = false;
+		if (email.equals("admin@store.com")) {
+			this.role = "Admin";
+			this.verified = true;
+		}
+		else {
+			this.role = "User";
+			this.verified = false;
+		}
+		
+		this.emailVerificationCode = emailVerificationCode;
+		this.passwordResetCode = "";
 	}
 
 	public Long getId() {
@@ -148,6 +159,26 @@ public class UserModel implements UserDetails {
 	public void setOrderList(List<OrderModel> orderList) {
 		this.orderList = orderList;
 	}
+
+	
+	public String getEmailVerificationCode() {
+		return this.emailVerificationCode;
+	}
+
+	public void setEmailVerificationCode(String code) {
+		this.emailVerificationCode = code;
+	}
+
+    public void setPasswordResetCode(String code)
+	{
+		this.passwordResetCode = code;
+	}
+
+	public String getPasswordResetCode()
+	{
+		return this.passwordResetCode;
+	}
+	
 
 	@Override
     public boolean isAccountNonExpired() {

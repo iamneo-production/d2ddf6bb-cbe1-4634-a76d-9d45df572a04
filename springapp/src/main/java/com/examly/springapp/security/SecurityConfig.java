@@ -79,6 +79,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.POST, "/login").permitAll()
             .antMatchers(HttpMethod.POST, "/signup").permitAll()
             .antMatchers(HttpMethod.GET, "/verifyEmail/{id}").permitAll()
+            .antMatchers(HttpMethod.POST, "/forgotPassword/{email}").permitAll()
+            .antMatchers(HttpMethod.POST, "/resetPassword").permitAll()
             //.antMatchers(HttpMethod.POST, "/api/book/search").permitAll()
             // Our private endpoints
             .anyRequest().authenticated();
@@ -101,6 +103,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         config.addAllowedMethod("*");
         config.addExposedHeader("authorization");
         config.addExposedHeader("Error-Message");
+        config.addExposedHeader("User-Role");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }

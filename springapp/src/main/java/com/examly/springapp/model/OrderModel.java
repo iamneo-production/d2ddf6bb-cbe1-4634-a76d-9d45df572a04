@@ -6,8 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orderModel")
@@ -17,7 +20,7 @@ public class OrderModel{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long orderId;
 
-	@ManyToOne(targetEntity = UserModel.class)
+	
     private Long userId;
     private String productName;
     private int quantity;
@@ -25,8 +28,9 @@ public class OrderModel{
     private String status;
     private String price;
 	private String orderedDate;
+	private Boolean paid;
 
-	public OrderModel(){
+	public OrderModel() {
 
 	}
 
@@ -41,6 +45,21 @@ public class OrderModel{
 		this.status = status;
 		this.price = price;
 		this.orderedDate = orderedDate;
+	}
+
+	public OrderModel(Long userId, String productName, int quantity, String price) {
+		super();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+   		LocalDateTime now = LocalDateTime.now();
+		
+		this.userId = userId;
+		this.quantity = quantity;
+		this.status = "Ordered";
+		this.price = price;
+		this.totalPrice = Integer.toString(Integer.parseInt(price) * quantity);
+		this.productName = productName;
+		this.orderedDate = dtf.format(now);
+		this.paid = false;
 	}
 
 	public Long getOrderId() {
@@ -105,6 +124,14 @@ public class OrderModel{
 
 	public void setOrderedDate(String orderedDate) {
 		this.orderedDate = orderedDate;
+	}
+
+	public Boolean getPaid() {
+		return this.paid;
+	}
+
+	public void setPaid(Boolean paid) {
+		this.paid = paid;
 	}
 
 	@Override

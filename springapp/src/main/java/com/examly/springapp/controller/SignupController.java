@@ -14,6 +14,8 @@ import com.examly.springapp.service.EmailSenderService;
 import javax.mail.MessagingException;
 import com.examly.springapp.repository.UserRepository;
 import java.util.List;
+import java.util.UUID;
+import java.net.InetAddress;
 
 @RestController
 public class SignupController {
@@ -28,22 +30,33 @@ public class SignupController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> saveUser(@RequestBody UserModel user) throws MessagingException{
-        // TODO send email verification to email
-
 
         if (!authService.doesUserExist(user.getEmail())){
-            authService.saveUser(user);
+            try {
+                String code = UUID.randomUUID().toString();
+                user.setEmailVerificationCode(code);
 
-
-           // sent e-mail verification mail (only for user);
-            if(!(user.getEmail().equals("admin@store.com")))
-            {
-               String user_mail = user.getEmail();
-               String subject = "Verify yout email";
-               String body= "https://8080-abbdbbbadeafdbbfefdfebbbddeeacdffcdafff.examlyiopb.examly.io/verifyEmail/"+user.getEmail();
-               emailSenderService.sendSimpleEmail(user_mail,body,subject);
+                // sent e-mail verification mail (only for user);
+                if(!(user.getEmail().equals("admin@store.com")))
+                {
+                    String user_mail = user.getEmail();
+                    String subject = "Verify your email";
+                    String body = "https://8080-" + InetAddress.getLocalHost().getHostName().replace("-0", ".examlyiopb.examly.io") + "/verifyEmail/" + code;
+                    emailSenderService.sendSimpleEmail(user_mail,body,subject);
+                }
+                
+                authService.saveUser(user);
+                return ResponseEntity.ok().body("true");
             }
-            return ResponseEntity.ok().body("true");
+            catch(Exception e)
+            {
+                System.out.println(e);
+                return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .header("Error-Message", "Something went wrong")
+                .body("false");
+            }
+            
         }
         else {
             return ResponseEntity

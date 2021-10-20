@@ -10,7 +10,7 @@ function Orders() {
     return (
         <div>
             <Navbar/>
-            <Title>Your Orders</Title>   
+            <Title style={{paddingTop: '75px'}} >Your Orders</Title>   
             <br/>
             <Datatable type="orders" id="mobileOrderBody"/>         
         </div>

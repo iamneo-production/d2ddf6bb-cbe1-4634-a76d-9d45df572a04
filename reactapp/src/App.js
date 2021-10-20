@@ -15,8 +15,12 @@ import AllOrders from './pages/admin/AllOrders';
 import EditProduct from './pages/admin/EditProduct';
 import Product from './pages/user/Product';
 import DashBoard from './pages/user/DashBoard';
+import Users from './pages/admin/Users';
+import Email from './pages/admin/Email';
 import { loadAuthorizationHeaderFromStorage, ApiClient } from './utils/ApiClient';
 import { Snackbar, Alert } from '@mui/material';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
 
@@ -83,6 +87,12 @@ function App() {
           <Switch>
             <Route exact path = "/signup">
               <Signup/>
+            </Route>            
+            <Route exact path = "/forgot-password">
+              <ForgotPassword />
+            </Route>
+            <Route exact path = "/reset-password/:code">
+              <ResetPassword />
             </Route>
             <Route path="/">
               <Login/>
@@ -117,19 +127,28 @@ function App() {
             ) : (
               <>
                 <Switch>
-                  <Route path="/addproduct">
+                  <Route path="/addProduct">
                     <AddProduct/>
                   </Route>
-                  <Route path="/editproduct">
+                  <Route path="/editProduct/:productId">
                     <EditProduct/>
                   </Route>
-                  <Route path="/adminorders">
+                  <Route path="/admin/orders">
                     <AllOrders/>
+                  </Route>
+                  <Route path="/admin/users">
+                    <Users />
+                  </Route>
+                  <Route path="/admin/email">
+                    <Email />
                   </Route>
                   <Route path="/admin">
                     <AdminHome/>
                   </Route>
                   <Route exact path="/">
+                    <Redirect to="/admin" />
+                  </Route>
+                  <Route exact path="/home">
                     <Redirect to="/admin" />
                   </Route>
                 </Switch>

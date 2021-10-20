@@ -4,10 +4,9 @@ import Sidebar from '../../components/Sidebar';
 import ProductCard from '../../components/ProductCard';
 import BannerCard from '../../components/BannerCard'
 import { actionTypes, SortBy } from '../../utils/Reducer';
-import { Box, Stack, Grid, Typography, Fab, Skeleton } from '@mui/material';
+import { Box, Stack, Grid, Fab, Skeleton } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import { ApiClient } from '../../utils/ApiClient';
@@ -79,19 +78,21 @@ function DashBoard() {
         else if (filter.sort === SortBy.PriceHighToLow) {
             return b.price - a.price;
         }
+        else {
+            return b.manufacturedDate.getTime() - a.manufacturedDate.getTime();
+        }
     });
-
-    const history = useHistory();
 
     return (
         <Box sx={{ textAlign: 'left' }}>
             <Navbar />
 
             <Carousel 
+              style={{paddingTop: '75px'}}
               autoPlay = {true} 
               interval = {5000} 
               infiniteLoop = {true} 
-              onClickItem = {(index , item)=>{history.push('/product/' + item.props.banner.productId);}}>
+              >
                 {
                   banners.map(banner=>{
                     return <BannerCard banner = {banner} key={banner.productId}  />

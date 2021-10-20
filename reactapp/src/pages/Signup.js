@@ -1,8 +1,7 @@
 import React , {useState} from 'react'
 import { useStateValue } from "../utils/StateProvider";
 import { openSnackbar } from "../utils/Reducer";
-import { Input } from '@mui/material'
-import singupImage from '../assets/signup_image.png'
+import { Input, Grid } from '@mui/material'
 import { useHistory } from 'react-router-dom';
 import { ApiClient } from '../utils/ApiClient';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -56,9 +55,9 @@ function Login() {
         return;
       }
 
-      if(password.length < 6){
+      if(password.length < 5){
         setPasswordError(true);
-        dispatch(openSnackbar('Length of password should be at least 6.', 'error'));
+        dispatch(openSnackbar('Length of password should be at least 5.', 'error'));
         return;
       }
 
@@ -74,39 +73,38 @@ function Login() {
       }).then(response => {
         if (response.data) {
           // success
-          dispatch(openSnackbar('Welcome to STORE. Please login using your new credentials.', 'success'));
+          dispatch(openSnackbar('Welcome to STORE. Please check your inbox for the verification email then login using your new credentials.', 'success'));
           history.push('/');
         }
       }).finally(() => setLoading(false));;
 
     }
 
-    return(
-        <div style={{display : 'flex' , justifyContent : 'center' , alignItems : 'center' , height : '100vh'}}>
-            <div style={{display : 'flex' , flexDirection : 'column' , marginRight : '40px'}}>
-                <h1 style = {{marginBottom : '10px'}} >SIGN UP</h1>
-                <Input id = 'email' placeholder = "Enter Email" error = {emailError} type = "email" value = {email} onChange = {(e)=>setEmail(e.target.value)} style ={{margin : '10px'}} />
-                <Input id = 'username' placeholder = "Enter Username" error = {usernameError} type = "text" value = {username} onChange = {(e) => setUsername(e.target.value)} style = {{margin : '10px'}}/>
-                <Input id = 'mobilenumber' placeholder = "Enter Mobile Number" error = {mobError} type = "text" value = {mobile} onChange = {(e) => setMobile(e.target.value)} style = {{margin : '10px'}}/>
-                <Input id = 'password' placeholder = "Enter Password" error = {passwordError} type = "password" value = {password} onChange = {(e) => setPassword(e.target.value)} style = {{margin : '10px'}}/>
-                <Input id = 'confirmpassword' placeholder = "Confirm Password" error = {confirmPasswordError} type = "password" value = {confirmPassword} onChange = {(e) => setConfirmPassword(e.target.value)} style = {{margin : '10px'}}/>
-                <LoadingButton 
-                  id = 'submitButton' 
-                  variant = 'contained' 
-                  onClick = {onSubmit} 
-                  style = {{margin : '10px'}} 
-                  loading={loading}
-                  loadingIndicator="Signing up...">
-                  SIGN UP
-                </LoadingButton>
-                <div>Already a member? <a id='signinLink'  href="#" onClick={() => history.push('/') }>Click here</a></div>
-            </div>
-            <div style = {{marginLeft : '40px'}}>
-              <img src = {singupImage}/>
-            </div>
-
-        </div>
-    )
+    return (
+      <Grid container maxWidth="md" style={{height : '100vh', justifyContent: 'center', alignItems: 'center', margin: 'auto' }}>
+        <Grid item lg={6} id="signupBox" sx={{ display: 'flex', flexDirection: 'column' }} style={{maxWidth: '20rem'}}>
+          <h1 style = {{marginBottom : '10px'}} >SIGN UP</h1>
+          <Input id = 'email' placeholder = "Enter Email" error = {emailError} type = "email" value = {email} onChange = {(e)=>setEmail(e.target.value)} style ={{margin : '10px'}} />
+          <Input id = 'username' placeholder = "Enter Username" error = {usernameError} type = "text" value = {username} onChange = {(e) => setUsername(e.target.value)} style = {{margin : '10px'}}/>
+          <Input id = 'mobilenumber' placeholder = "Enter Mobile Number" error = {mobError} type = "text" value = {mobile} onChange = {(e) => setMobile(e.target.value)} style = {{margin : '10px'}}/>
+          <Input id = 'password' placeholder = "Enter Password" error = {passwordError} type = "password" value = {password} onChange = {(e) => setPassword(e.target.value)} style = {{margin : '10px'}}/>
+          <Input id = 'confirmpassword' placeholder = "Confirm Password" error = {confirmPasswordError} type = "password" value = {confirmPassword} onChange = {(e) => setConfirmPassword(e.target.value)} style = {{margin : '10px'}}/>
+          <LoadingButton 
+            id = 'submitButton' 
+            variant = 'contained' 
+            onClick = {onSubmit} 
+            style = {{margin : '10px'}} 
+            loading={loading}
+            loadingIndicator="Signing up...">
+            SIGN UP
+          </LoadingButton>
+          <div>Already a member? <a id='signinLink'  href="#" onClick={() => history.push('/') }>Click here</a></div>
+        </Grid>
+        <Grid item lg={6} style={{maxWidth: '20rem'}} sx={{ display: { xs: 'none', md: 'block' } }}>
+          <img src="/images/signup_image.png" />
+        </Grid>
+      </Grid>
+    );
 }
 
 export default Login;

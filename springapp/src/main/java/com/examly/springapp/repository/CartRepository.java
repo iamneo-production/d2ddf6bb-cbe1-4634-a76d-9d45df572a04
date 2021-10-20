@@ -10,5 +10,6 @@ public interface CartRepository extends CrudRepository<CartModel, Long> {
     //findBy__
     List<CartModel> findAllByUserId(Long userId);
 
+    CartModel findByUserIdAndProductId(Long userId, String productId);
 
 }

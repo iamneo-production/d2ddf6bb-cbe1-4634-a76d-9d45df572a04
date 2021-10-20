@@ -7,8 +7,12 @@ import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
   height: 60px;
+  width: 100%;
   background: #00BFA6;
-  color: #fff
+  color: #fff;
+  position: fixed;
+  top: 0;
+  z-index: 999999;
 `;
 
 const Wrapper = styled.div`
@@ -48,7 +52,7 @@ function Navbar(){
 
   return (
     <Container>
-      <Wrapper>
+      <Wrapper id="userNavbar">
         <Left>
           <Logo>STORE.</Logo>
           {
@@ -61,7 +65,9 @@ function Navbar(){
             ) : (
               <>
                 <MenuItem id='adminProductButton' onClick={() => history.push('/admin')}>Products</MenuItem>
-                <MenuItem id='adminOrderButton' onClick={() => history.push('/adminorders')}>Orders</MenuItem>
+                <MenuItem id='adminOrderButton' onClick={() => history.push('/admin/orders')}>Orders</MenuItem>
+                <MenuItem id='adminUserButton' onClick={() => history.push('/admin/users')}>Users</MenuItem>
+                <MenuItem id='adminEmailButton' onClick={() => history.push('/admin/email')}>Email</MenuItem>
               </>
             )
           }
@@ -90,7 +96,7 @@ function Navbar(){
                 }
 
                 dispatch(openSnackbar('Thank you for visiting!', 'success'));
-            }}>Logout</MenuItem>
+            }} id="logoutButton">Logout</MenuItem>
         </Right>
       </Wrapper>
     </Container>

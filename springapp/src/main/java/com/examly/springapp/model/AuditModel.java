@@ -43,6 +43,14 @@ public class AuditModel{
         this.createdAt = dtf.format(now);
 	}
 
+	public String getAction() {
+		return this.action;
+	}
+
+	public String getCreatedAt() {
+		return this.createdAt;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(auditId);

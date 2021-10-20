@@ -10,8 +10,8 @@ function AllOrders() {
     return (
         <div>
             <Navbar/>
-            <Title>All Orders</Title>
-            <Datatable/>
+            <Title style={{paddingTop: '75px'}} >All Orders</Title>
+            <Datatable type="orders" />
         </div>
     )
 }
