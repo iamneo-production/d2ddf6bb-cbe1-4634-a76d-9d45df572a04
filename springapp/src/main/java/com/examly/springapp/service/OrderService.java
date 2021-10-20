@@ -12,6 +12,7 @@ import com.examly.springapp.model.UserModel;
 import com.examly.springapp.model.PaymentModel;
 import com.examly.springapp.repository.PaymentRepository;
 import com.examly.springapp.repository.OrderRepository;
+import com.examly.springapp.repository.CartRepository;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import com.razorpay.Order;
@@ -26,6 +27,8 @@ public class OrderService {
     private OrderRepository orderRepository;
     @Autowired
     private PaymentRepository paymentRepository;
+    @Autowired
+    private CartRepository cartRepository;
     @Autowired
     private CartService cartService;
     @Autowired
@@ -149,6 +152,8 @@ public class OrderService {
         orderRepository.save(newOrder);
         productService.addProduct(product);
         auditService.saveAudit(new AuditModel(userId, String.format("Placed %s to order", order.getProductName())));
+
+        cartRepository.deleteByUserIdAndProductId(userId, productId);
         
         return this.makeRazorpayOrder(newOrder.getTotalPrice(), newOrder.getOrderId(), userId);
     }
