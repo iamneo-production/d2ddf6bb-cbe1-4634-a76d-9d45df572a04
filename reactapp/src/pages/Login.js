@@ -50,6 +50,7 @@ function Login() {
               LOGIN
             </LoadingButton>
             <div>New to STORE? <a id="signupLink" href="#" onClick={() => history.push('/signup') }>Click here</a></div>
+            <div>Forgot Password? <a href="#" onClick={() => history.push('/forgot-password') }>Click here</a></div>
           </Grid>
           <Grid item lg={6} style={{maxWidth: '20rem'}} sx={{ display: { xs: 'none', md: 'block' } }}>
             <img src="/images/login_image.png" />

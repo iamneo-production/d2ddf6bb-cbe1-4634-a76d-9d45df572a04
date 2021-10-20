@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface UserRepository extends CrudRepository<UserModel, String> {
     Optional<UserModel> findByEmail(String email);
     Optional<UserModel> findByEmailVerificationCode(String code);
+    Optional<UserModel> findByPasswordResetCode(String code);
     Boolean existsByEmail(String email);
     
     @Query("SELECT u FROM UserModel u")

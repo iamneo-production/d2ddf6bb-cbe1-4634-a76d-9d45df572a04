@@ -19,6 +19,8 @@ import Users from './pages/admin/Users';
 import Email from './pages/admin/Email';
 import { loadAuthorizationHeaderFromStorage, ApiClient } from './utils/ApiClient';
 import { Snackbar, Alert } from '@mui/material';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
 
@@ -85,6 +87,12 @@ function App() {
           <Switch>
             <Route exact path = "/signup">
               <Signup/>
+            </Route>            
+            <Route exact path = "/forgot-password">
+              <ForgotPassword />
+            </Route>
+            <Route exact path = "/reset-password/:code">
+              <ResetPassword />
             </Route>
             <Route path="/">
               <Login/>
