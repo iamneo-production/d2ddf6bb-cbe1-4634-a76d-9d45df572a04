@@ -50,9 +50,9 @@ public class UserModel implements UserDetails {
 			String role, List<CartModel> cart, List<OrderModel> orderList, Boolean verified) {
 		super();
 		this.userId = userId;
-		this.email = email;
+		this.email = Crypto.encrypt(email);
 		this.password = password;
-		this.username = username;
+		this.username = Crypto.encrypt(username);
 		this.mobileNumber = Crypto.encrypt(mobileNumber);
 		this.active = active;
 		this.role = role;
@@ -63,9 +63,9 @@ public class UserModel implements UserDetails {
 
 	public UserModel(String email, String password, String username, String mobileNumber, String emailVerificationCode) {
 		super();
-		this.email = email;
+		this.email = Crypto.encrypt(email);
 		this.password = password;
-		this.username = username;
+		this.username = Crypto.encrypt(username);
 		this.mobileNumber = Crypto.encrypt(mobileNumber);
 		this.active = true;
 		if (email.equals("admin@store.com")) {
@@ -90,11 +90,11 @@ public class UserModel implements UserDetails {
 	}
 
 	public String getEmail() {
-		return email;
+		return Crypto.decrypt(email);
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = Crypto.encrypt(email);
 	}
 
 	public String getPassword() {
@@ -106,11 +106,11 @@ public class UserModel implements UserDetails {
 	}
 
 	public String getUsername() {
-		return username;
+		return Crypto.decrypt(username);
 	}
 
 	public void setUsername(String username) {
-		this.username = username;
+		this.username = Crypto.encrypt(username);
 	}
 
 	public String getMobileNumber() {
@@ -118,7 +118,7 @@ public class UserModel implements UserDetails {
 	}
 
 	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
+		this.mobileNumber = Crypto.encrypt(mobileNumber);
 	}
 
 	public Boolean getActive() {
