@@ -143,6 +143,7 @@ public class OrderService {
             .body("FALSE");
         }
         OrderModel newOrder = new OrderModel(userId, order.getProductName(), order.getQuantity(), order.getPrice());
+        newOrder.setImageUrl(product.getImageUrl());
 
         product.setQuantity(Integer.toString(newQuantity));
         orderRepository.save(newOrder);
@@ -162,6 +163,7 @@ public class OrderService {
         order.setTotalPrice(Integer.toString(order.getQuantity()*Integer.parseInt(order.getPrice())));
         order.setStatus("Ordered");
         order.setOrderedDate(Calendar.getInstance().getTime().toString());
+        order.setImageUrl(cartItem.getImageUrl());
         return order;
     }
 

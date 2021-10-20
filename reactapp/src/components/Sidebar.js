@@ -35,6 +35,7 @@ function Sidebar(props) {
                                 filter: { ...filter, productName }
                             });
                         }}
+                        value={filter.productName}
                     />
                     <Typography variant="body1">
                         Price Range

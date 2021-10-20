@@ -29,6 +29,7 @@ public class OrderModel{
     private String price;
 	private String orderedDate;
 	private Boolean paid;
+	private String imageUrl;
 
 	public OrderModel() {
 
@@ -116,6 +117,14 @@ public class OrderModel{
 
 	public void setPrice(String price) {
 		this.price = price;
+	}
+
+	public void setImageUrl(String url) {
+		this.imageUrl = url;
+	}
+
+	public String getImageUrl() {
+		return this.imageUrl;
 	}
 
 	public String getOrderedDate() {

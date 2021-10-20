@@ -32,7 +32,7 @@ function DashBoard() {
             setProductsLoaded(true);
         });
     }, []);
-    
+
     products = products.filter(product => {
         if (filter.productName !== '' && product.productName.indexOf(filter.productName) === -1) {
             return false;
@@ -82,6 +82,8 @@ function DashBoard() {
             return b.manufacturedDate.getTime() - a.manufacturedDate.getTime();
         }
     });
+    
+    
 
     return (
         <Box sx={{ textAlign: 'left' }}>

@@ -1,7 +1,6 @@
 com/examly/springapp/controller/CartController.class
 com/examly/springapp/service/ProductService.class
 com/examly/springapp/service/EmailSenderService.class
-com/examly/springapp/model/OrderModel.class
 com/examly/springapp/SpringappApplication.class
 com/examly/springapp/security/SecurityConfig.class
 com/examly/springapp/model/OrderModel.class
