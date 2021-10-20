@@ -18,6 +18,7 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.http.HttpMethod;
 import com.examly.springapp.service.AuthService;
 import com.examly.springapp.repository.UserRepository;
+import com.examly.springapp.encryption.Crypto;
 import java.util.Arrays;
 
 @EnableWebSecurity
@@ -43,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(email -> this.userRepository.findByEmail(email).orElseThrow(
+        auth.userDetailsService(email -> this.userRepository.findByEmail(Crypto.encrypt(email)).orElseThrow(
             () -> new UsernameNotFoundException(
                 String.format("User: %s, not found", email)
             )

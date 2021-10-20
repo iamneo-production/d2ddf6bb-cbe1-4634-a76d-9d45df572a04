@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.examly.springapp.model.UserModel;
 import com.examly.springapp.repository.UserRepository;
+import com.examly.springapp.encryption.Crypto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
@@ -18,7 +19,7 @@ public class AuthService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserDetails user = userRepository.findByEmail(email).orElseThrow(
+        UserDetails user = userRepository.findByEmail(Crypto.encrypt(email)).orElseThrow(
             () -> new UsernameNotFoundException(
                 String.format("User: %s, not found", email)
             )

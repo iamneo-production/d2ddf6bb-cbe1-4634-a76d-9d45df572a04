@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import com.examly.springapp.encryption.Crypto;
 
 import static java.util.Optional.ofNullable;
 import static org.springframework.util.StringUtils.isEmpty;
@@ -47,7 +48,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
 
         // Get user identity and set it on the spring security context
-        UserModel userModel = this.userRepo.findByEmail(jwtTokenUtil.getEmail(token)).orElse(null);;
+        UserModel userModel = this.userRepo.findByEmail(Crypto.encrypt(jwtTokenUtil.getEmail(token))).orElse(null);;
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userModel, null, List.of()

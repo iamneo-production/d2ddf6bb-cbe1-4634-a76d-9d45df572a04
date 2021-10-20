@@ -20,6 +20,7 @@ import com.examly.springapp.repository.UserRepository;
 import com.examly.springapp.service.EmailSenderService;
 import javax.mail.MessagingException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.examly.springapp.encryption.Crypto;
 import java.net.InetAddress;
 
 
@@ -46,7 +47,7 @@ public class ForgotPasswordController {
     {
         try
         {
-            UserModel user = userRepository.findByEmail(email).orElseThrow(
+            UserModel user = userRepository.findByEmail(Crypto.encrypt(email)).orElseThrow(
                 () -> new Exception(
                     String.format("User: %s, not found", email)
                 )

@@ -16,6 +16,7 @@ import com.examly.springapp.repository.UserRepository;
 import java.util.List;
 import java.util.UUID;
 import java.net.InetAddress;
+import com.examly.springapp.encryption.Crypto;
 
 @RestController
 public class SignupController {
@@ -31,7 +32,7 @@ public class SignupController {
     @PostMapping("/signup")
     public ResponseEntity<String> saveUser(@RequestBody UserModel user) throws MessagingException{
 
-        if (!authService.doesUserExist(user.getEmail())){
+        if (!authService.doesUserExist(Crypto.encrypt(user.getEmail()))){
             try {
                 String code = UUID.randomUUID().toString();
                 user.setEmailVerificationCode(code);
